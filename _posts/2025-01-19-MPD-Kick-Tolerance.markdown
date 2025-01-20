@@ -6,7 +6,7 @@ categories: well_control
 ---
 
 ![Flaring]({{ site.baseurl }}/images/flaring.jpg "Well Control")
-*<small>Well control on a drilling rig, Permian Basin, West Texas, US. <br></br>
+*<small>Well control on a drilling rig, Permian Basin, West Texas, US. <br />
 Source: https://news.oilandgaswatch.org/post/study-air-pollution-from-oil-and-gas-flares-severely-underestimated</small>*
 
 ## MPD Dynamic Well Control
