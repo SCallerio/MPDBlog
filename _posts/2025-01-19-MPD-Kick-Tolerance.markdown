@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "MPD Well Control and Kick Tolerance"
+title:  "MPD Dynamic Well Control, and the birth of the Influx Management Envelope (IME)"
 date:   2025-01-19 18:58:51 -0600
 categories: well_control
 ---
-# MPD Dynamic Well Control, and the birth of the Influx Management Envelope (IME)
+
 ![Flaring]({{ site.baseurl }}/images/flaring.jpg "Well Control")
 *<small>Well control on a drilling rig, Permian Basin, West Texas, US. <br />
 Source: [Oil & Gas Watch](https://news.oilandgaswatch.org/post/study-air-pollution-from-oil-and-gas-flares-severely-underestimated)</small>*
@@ -16,8 +16,8 @@ MPD influx management and dynamic well control offer tangible benefits to limit 
    - In deep-water (DW) wells, the choke line friction can be eliminated and the reduction in mud column hydrostatic is reduced when the kick is circulated rather than the low-capacity the choke line ([Bacon et al. (2016)](https://doi.org/10.2118/179185-MS)).
 
 |                                                                                                                                ![Downhole Influx Volume]({{ site.baseurl }}/images/bacon_downhole_volume.svg "Downhole Influx Volume")                                                                                                                                 |
-|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| *<small>Figure 1.1: Downhole influx volume for a 10 bbl. surface pit gain ([Bacon et al. (2016)](https://doi.org/10.2118/179185-MS)). The purple line (10 bbl – Conventional legend) represents the conventional shut-in method for a 10 bbl. kick, which displays the effect of after-flow with the downhole influx volume increasing after the well shut-in at 30 minutes.</small>* |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *<small>Figure 1.1: Downhole influx volume for a 10 bbl. surface pit gain ([Bacon et al. (2016)](https://doi.org/10.2118/179185-MS)). The blue line (10 bbl – Conventional legend) represents the conventional shut-in method for a 10 bbl. kick, which displays the effect of after-flow with the downhole influx volume increasing after the well shut-in at 30 minutes.</small>* |
 
 
 ## MPD Kick Tolerance
@@ -41,7 +41,7 @@ The development of an MPD Well Control Matrix, the predecessor of the Influx Man
 The second step is to model and identify the kicks that can be safely circulated out of the well without exceeding any of the pre-defined limits ([[#Table 1.1 MPD Dynamic Well Control Limits]]) using the MPD dynamic well control procedure. Each kick is identified as a combination of kick volume (reflected as the initial pit gain in Figure 1.1) and kick intensity (reflected as the initial surface back pressure in Figure 1.1, required to suppress the kick). 
 
 |                                                                                                                                                                                                                           ![MPD Dynamic Well Control]({{ site.baseurl }}/images/bacon_2016_RDFM_MPD_Dynamic_Well_Control_for_IME.png)                                                                                                                                                                                                                           |
-|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | *<small>Figure 1.2: MPD Dynamic Well Control results, using a reduced drft-flux model (RDFM) ([Gu et al. (2022)](https://doi.org/10.1016/j.applthermaleng.2022.118077)) for the [Bacon et al. (2016)](https://doi.org/10.2118/179185-MS) Standard Well Case. The upper plot shows the surface back pressure results, highlighting the Initial SBP value, when the kick is controlled, and the Max. SBP value, when the kick is at surface. The lower plot shows the Pit Volume values, highlighting the Initial Pit Gain, when the kick is controlled.</small>* |
 
 The kick combinations that reach the limit values are then registered in an Initial Surface Back Pressure (also called Post-Influx Surface Pressure) versus Initial Influx Volume plot (Figure 1.2):
@@ -52,7 +52,7 @@ The kick combinations that reach the limit values are then registered in an Init
 - The red area represents the influx combinations that cannot be safely circulated out of the well, since they exceed either the equipment or weak point limit
 
 |                                                                                                                                                               ![Single-Bubble IME]({{ site.baseurl }}/images/IME_SB.svg)                                                                                                                                                               |
-|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | *<small>Figure 1.3: MPD Influx Management Envelope (IME), built using the Single-Bubble<br>method derived by [Culen et al. (2016)](https://doi.org/10.2118/179191-MS). The equipment limit curve represents the<br>kick combinations that exceed surface equipment limits, the weak point limit curve<br>represents the combinations that exceed downhole environment limits.</small>* |
 
 
