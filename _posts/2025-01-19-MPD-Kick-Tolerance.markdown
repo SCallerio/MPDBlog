@@ -64,7 +64,7 @@ Altogether, this methodology encompasses the framework for MPD Dynamic Influx Co
 
 API. *API RP 92M - Managed Pressure Drilling Operations with Surface Backpressure*. American Petroleum Institute, 1st, addendum 1 edition, 4 2023.
 
-W. Bacon. An improved dynamic well control response to a gas influx in managed pressure drilling operations. In *IADC/SPE Drilling Conference and Exhibition*, number SPE-151392-MS, 3 2012. doi: [https://doi.org/10.2118/151392-MS].
+W. Bacon. An improved dynamic well control response to a gas influx in managed pressure drilling operations. In *IADC/SPE Drilling Conference and Exhibition*, number SPE-151392-MS, 3 2012. doi: [https://doi.org/10.2118/151392-MS](https://doi.org/10.2118/151392-MS).
 
 W. Bacon, C. Sugden, and O. Gabaldon. From influx management to well control; revisiting the mpd operations matrix. In *SPE/IADC Drilling Conference and Exhibition*, number SPE/IADC-173174-MS, 3 2015. doi: [https://doi.org/10.2118/173174-MS].
 
