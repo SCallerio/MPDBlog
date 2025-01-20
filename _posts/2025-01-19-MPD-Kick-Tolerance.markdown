@@ -26,11 +26,15 @@ The development of an MPD Well Control Matrix, the predecessor of the Influx Man
 
 ###### Table 1.1: MPD Dynamic Well Control Limits
 
-| Classification                 | Parameter                                                                                                                                                                                                                                         |
-| ------------------------------ |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Surface Equipment Pressures    | RCD Max. Static Working Pressure <br/>$$(P_{MSWP})$$<br><br>RCD Max. Dynamic Working Pressure ($P_{MDWP}$)<br><br>MPD PRVs Setting ($P_{P RV}$)<br><br>Riser Max. Working Pressure ($P_{RMWP}$)<br><br>Max. Stand Pipe Pressure ($P_{SPP_{max}}$) |
-| Surface Equipment Flowrate     | MGS Liquid Handling Capacity ($Q_{LMGS_{max}}$)<br><br>MGS Gas Handling Capacity ($Q_{gMGS_{max}}$)                                                                                                                                               |
-| Downhole Environment Pressures | Formation Integrity Limit ($\rho_{LOT},\ \rho_{FIT}$)<br><br>Max. Allowable Annular Surface Pressure ($P_{MAASP}$ )                                                                                                                               |
+| Classification                 | Parameter                                                                                                                                                                                                                                                    |
+| ------------------------------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Surface Equipment Pressures    | RCD Max. Static Working Pressure <br/>{% raw %} $$(P_{MSWP})$$ {% endraw %}<br><br>RCD Max. Dynamic Working Pressure ($P_{MDWP}$)<br><br>MPD PRVs Setting ($P_{P RV}$)<br><br>Riser Max. Working Pressure ($P_{RMWP}$)<br><br>Max. Stand Pipe Pressure ($P_{SPP_{max}}$) |
+| Surface Equipment Flowrate     | MGS Liquid Handling Capacity ($Q_{LMGS_{max}}$)<br><br>MGS Gas Handling Capacity ($Q_{gMGS_{max}}$)                                                                                                                                                          |
+| Downhole Environment Pressures | Formation Integrity Limit ($\rho_{LOT},\ \rho_{FIT}$)<br><br>Max. Allowable Annular Surface Pressure ($P_{MAASP}$ )                                                                                                                                          |
+
+{% raw %} 
+$$ P_{MSWP} $$ 
+{% endraw %}
 
 [^1]: The Riser Max. Working Pressure (\(P_{RMWP})\ is based on marine riser max. burst pressure, and differential pressure evaluated at Lower Marine Riser Package (LMRP). The Riser Max. Working Pressure ($P_{RMWP}$) is determined after Equations 1.1 and 1.2, where $P_{PRV_{Riser}}$ corresponds to the marine riser PRV setting. $P_{RMWP_1} = P_{RMWP_{lim}} − (\rho_{SMW} + \Delta{\rho_{PT_{mudline}}} − \rho_{seawater})\ Z_{mudline}\ g$ (1.1), $P_{RMWP} = min(P_{RMWP_1}, P_{PRV_{Riser}})$ (1.2)
 
