@@ -28,7 +28,7 @@ The development of an MPD Well Control Matrix, the predecessor of the Influx Man
 
 | Classification                 | Parameter                                                                                                                                                                                                                                    |
 | ------------------------------ |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Surface Equipment Pressures    | RCD Max. Static Working Pressure ($$P_{MSWP}$$)<br><br>RCD Max. Dynamic Working Pressure ($P_{MDWP}$)<br><br>MPD PRVs Setting ($P_{P RV}$)<br><br>Riser Max. Working Pressure ($P_{RMWP}$)<br><br>Max. Stand Pipe Pressure ($P_{SPP_{max}}$) |
+| Surface Equipment Pressures    | RCD Max. Static Working Pressure (\(P_{MSWP})\)<br><br>RCD Max. Dynamic Working Pressure ($P_{MDWP}$)<br><br>MPD PRVs Setting ($P_{P RV}$)<br><br>Riser Max. Working Pressure ($P_{RMWP}$)<br><br>Max. Stand Pipe Pressure ($P_{SPP_{max}}$) |
 | Surface Equipment Flowrate     | MGS Liquid Handling Capacity ($Q_{LMGS_{max}}$)<br><br>MGS Gas Handling Capacity ($Q_{gMGS_{max}}$)                                                                                                                                          |
 | Downhole Environment Pressures | Formation Integrity Limit ($\rho_{LOT},\ \rho_{FIT}$)<br><br>Max. Allowable Annular Surface Pressure ($P_{MAASP}$ )                                                                                                                          |
 
