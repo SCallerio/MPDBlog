@@ -13,6 +13,8 @@ MPD influx management and dynamic well control offer tangible benefits to limit 
 
 ![Downhole Influx Volume]({{ site.baseurl }}/images/bacon_downhole_volume.svg "Downhole Influx Volume")
 
+{% include image.html url="{{ site.baseurl }}/images/bacon_downhole_volume.svg" description="Downhole Influx Volume" %}
+
 ## MPD Kick Tolerance
 
 The increasing field adoption of MPD Dynamic Well Control ([Bacon et al., 2012](https://doi.org/10.2118/151392-MS); [Davoudi et al., 2011](https://doi.org/10.2118/128424-PA)), pushed the growing need to update the MPD Operations Matrix ([API, 2023](https://store.accuristech.com/standards/api-rp-92m?product_id=1993607&srsltid=AfmBOoqx9RuyDzS0klhgXnTM7_Yt_rPLvs2jYys1q6N2yfpFNJ_26BJf)) operating limits to consider additional fields for MPD Dynamic Well Control. This addressed the need of identifying a priori which well influxes could be safely circulated using the MPD equipment.
