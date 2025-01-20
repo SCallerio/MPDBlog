@@ -26,9 +26,9 @@ The increasing field adoption of MPD Dynamic Well Control ([Bacon et al., 2012](
 
 >e.g. since surface pressures increase as the influx is circulated to surface, the drilling crew needs to know a priori based on the initial pressure and volume conditions, if that influx circulation will exceed surface equipment limits once it reaches the surface - otherwise, secondary well control needs to be engaged
 
-The development of an MPD Well Control Matrix, the predecessor of the Influx Management Envelope (IME), was first proposed by [Rajabi et al. (2014)](https://doi.org/10.2118/170684-MS), later continued by [Bacon et al. (2015)](https://doi.org/10.2118/173174-MS); [Hollman et al. (2015)](https://doi.org/10.2118/173094-MS). This requires first identifying the pressure and flow limits imposed by the surface equipment and downhole environment, as detailed in [[#Table 1.1 MPD Dynamic Well Control Limits]] [^1]. 
+The development of an MPD Well Control Matrix, the predecessor of the Influx Management Envelope (IME), was first proposed by [Rajabi et al. (2014)](https://doi.org/10.2118/170684-MS), later continued by [Bacon et al. (2015)](https://doi.org/10.2118/173174-MS); [Hollman et al. (2015)](https://doi.org/10.2118/173094-MS). This requires first identifying the pressure and flow limits imposed by the surface equipment and downhole environment, as detailed in [Table 1.1 MPD Dynamic Well Control Limits](#Table-1.1:-MPD-Dynamic-Well-Control-Limits) [^1]. 
 
-###### Table 1.1: MPD Dynamic Well Control Limits
+######Table 1.1: MPD Dynamic Well Control Limits
 
 | Classification                 | Parameter                                                                                                                                                                                                                                                   |
 | ------------------------------ |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
