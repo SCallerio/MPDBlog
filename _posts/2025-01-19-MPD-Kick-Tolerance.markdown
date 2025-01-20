@@ -11,7 +11,7 @@ MPD influx management and dynamic well control offer tangible benefits to limit 
    - Since pressure is actively applied from surface to suppress the influx, it eliminates the after-flow effect observed in conventional well control, even in the assisted shut-in case. Thus, kick size is reduced.
    - In deep-water (DW) wells, the choke line friction can be eliminated and the reduction in mud column hydrostatic is reduced when the kick is circulated rather than the low-capacity the choke line ([Bacon et al. (2016)](https://doi.org/10.2118/179185-MS)).
 
-![Downhole Influx Volume](https://github.com/SCallerio/MPDBlog/_posts/images/bacon_downhole_volume.svg "Downhole Influx Volume")
+![Downhole Influx Volume]({{ site.baseurl }}/_posts/images/bacon_downhole_volume.svg "Downhole Influx Volume")
 
 ## MPD Kick Tolerance
 
