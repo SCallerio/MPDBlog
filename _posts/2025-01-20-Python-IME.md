@@ -3,7 +3,6 @@ layout: post
 title:  "A python code based Influx Management Envelope (IME)"
 date:   2025-01-19 18:58:51 -0600
 categories: well_control
-published: false
 ---
 
 ## MPD Dynamic Well Control
@@ -13,3 +12,6 @@ MPD influx management and dynamic well control offer tangible benefits to limit 
    - In deep-water (DW) wells, the choke line friction can be eliminated and the reduction in mud column hydrostatic is reduced when the kick is circulated rather than the low-capacity the choke line ([Bacon et al. (2016)](https://doi.org/10.2118/179185-MS)).
 
 ![Downhole]({{ site.baseurl }}/images/bacon_downhole_volume.svg)
+
+$$(P_{MSWP})$$
+$$ x = y^2 $$
