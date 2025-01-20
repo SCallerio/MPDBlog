@@ -5,8 +5,8 @@ date:   2025-01-19 18:58:51 -0600
 categories: well_control
 ---
 
-![Flaring]({{ site.baseurl }}/images/flaring.jpg "Well Control")
-*<small>Well control on a drilling rig, Permian Basin, West Texas, US. <br />
+![Well Control Flaring]({{ site.baseurl }}/images/flaring.jpg "Well Control Flaring")
+*<small>Well control on a drilling rig, Bakken field, North Dakota, US. <br />
 Source: [Oil & Gas Watch](https://news.oilandgaswatch.org/post/study-air-pollution-from-oil-and-gas-flares-severely-underestimated)</small>*
 
 ## MPD Dynamic Well Control
@@ -66,24 +66,24 @@ API. *API RP 92M - Managed Pressure Drilling Operations with Surface Backpressur
 
 W. Bacon. An improved dynamic well control response to a gas influx in managed pressure drilling operations. In *IADC/SPE Drilling Conference and Exhibition*, number SPE-151392-MS, 3 2012. doi: [https://doi.org/10.2118/151392-MS](https://doi.org/10.2118/151392-MS).
 
-W. Bacon, C. Sugden, and O. Gabaldon. From influx management to well control; revisiting the mpd operations matrix. In *SPE/IADC Drilling Conference and Exhibition*, number SPE/IADC-173174-MS, 3 2015. doi: [https://doi.org/10.2118/173174-MS].
+W. Bacon, C. Sugden, and O. Gabaldon. From influx management to well control; revisiting the mpd operations matrix. In *SPE/IADC Drilling Conference and Exhibition*, number SPE/IADC-173174-MS, 3 2015. doi: [https://doi.org/10.2118/173174-MS](https://doi.org/10.2118/173174-MS).
 
-W. Bacon, C. Sugden, P. Brand, O. Gabaldon, and M. Culen. Mpd dynamic influx control mitigates conventional well control pitfalls. In *SPE/IADC Managed Pressure Drilling and Underbalanced Operations Conference and Exhibition*, number SPE/IADC-179185-MS. Society of Petroleum Engineers, 4 2016. doi: [https://doi.org/10.2118/179185-MS].
+W. Bacon, C. Sugden, P. Brand, O. Gabaldon, and M. Culen. Mpd dynamic influx control mitigates conventional well control pitfalls. In *SPE/IADC Managed Pressure Drilling and Underbalanced Operations Conference and Exhibition*, number SPE/IADC-179185-MS. Society of Petroleum Engineers, 4 2016. doi: [https://doi.org/10.2118/179185-MS](https://doi.org/10.2118/179185-MS).
 
-C. Berg, W. Bacon, T. Rinde, L. Solli, G. A. Evjen, and M. Clen. The influx management envelope, sensitivity of model choice. In *SPE/IADC Managed Pressure Drilling and Underbalanced Operations Conference and Exhibition*, number SPE/IADC-200510-MS, 4 2020. doi: [https://doi.org/10.2118/200510-MS].
+C. Berg, W. Bacon, T. Rinde, L. Solli, G. A. Evjen, and M. Clen. The influx management envelope, sensitivity of model choice. In *SPE/IADC Managed Pressure Drilling and Underbalanced Operations Conference and Exhibition*, number SPE/IADC-200510-MS, 4 2020. doi: [https://doi.org/10.2118/200510-MS](https://doi.org/10.2118/200510-MS).
 
-M. S. Culen, P. R. Brand, W. Bacon, and O. R. Gabaldon. Evolution of the mpd operations matrix: The influx management envelope. In *SPE/IADC Managed Pressure Drilling and Underbalanced Operations Conference and Exhibition*, number SPE/IADC-179191-MS, 4 2016. doi: [https://doi.org/10.2118/179191-MS].
+M. S. Culen, P. R. Brand, W. Bacon, and O. R. Gabaldon. Evolution of the mpd operations matrix: The influx management envelope. In *SPE/IADC Managed Pressure Drilling and Underbalanced Operations Conference and Exhibition*, number SPE/IADC-179191-MS, 4 2016. doi: [https://doi.org/10.2118/179191-MS](https://doi.org/10.2118/179191-MS).
 
-M. Davoudi, J. R. Smith, B. M. Patel, and J. E. Chirinos. Evaluation of alternative initial responses to kicks taken during managed-pressure drilling. *SPE Drilling and Completion*, 26(SPE-128424-PA):169–181, 5 2011. ISSN 10646671. doi: [https://doi.org/10.2118/128424-PA].
+M. Davoudi, J. R. Smith, B. M. Patel, and J. E. Chirinos. Evaluation of alternative initial responses to kicks taken during managed-pressure drilling. *SPE Drilling and Completion*, 26(SPE-128424-PA):169–181, 5 2011. ISSN 10646671. doi: [https://doi.org/10.2118/128424-PA](https://doi.org/10.2118/128424-PA).
 
-Q. Gu, A. H. Fallah, A. Ambrus, T. Feng, D. Chen, P. Ashok, and E. van Oort. Computationally efficient simulation of non-isothermal two-phase flow during well construction using a new reduced drift-flux model. *Applied Thermal Engineering*, 206, 2022. ISSN 13594311. doi: [https://doi.org/10.1016/j.applthermaleng.2022.118077].
+Q. Gu, A. H. Fallah, A. Ambrus, T. Feng, D. Chen, P. Ashok, and E. van Oort. Computationally efficient simulation of non-isothermal two-phase flow during well construction using a new reduced drift-flux model. *Applied Thermal Engineering*, 206, 2022. ISSN 13594311. doi: [https://doi.org/10.1016/j.applthermaleng.2022.118077](https://doi.org/10.1016/j.applthermaleng.2022.118077).
 
-L. Hollman, I. Haq, C. Christenson, T. P. D. Silva, M. Idris, B. Fayed, N. Thorn, W. Geldof, and B. G. Egypt. Developing a mpd operation matrix-case history. In *SPE/IADC Drilling Conference and Exhibition*, number SPE/IADC-173094- MS, 3 2015. doi: [https://doi.org/10.2118/173094-MS].
+L. Hollman, I. Haq, C. Christenson, T. P. D. Silva, M. Idris, B. Fayed, N. Thorn, W. Geldof, and B. G. Egypt. Developing a mpd operation matrix-case history. In *SPE/IADC Drilling Conference and Exhibition*, number SPE/IADC-173094- MS, 3 2015. doi: [https://doi.org/10.2118/173094-MS](https://doi.org/10.2118/173094-MS).
 
-H. Patil, T. L. Ponder, C. Retired, M. Arnone, D. Hannegan, and W. Retired. Advancing the mpd influx management envelope ime: A comprehensive approach to assess the factors that affect the shape of the ime. In *SPE/IADC Managed Pressure Drilling Underbalanced Operations Conference Exhibition*, number SPE/IADC-189995-MS, 4 2018b. doi: [https://doi.org/10.2118/189995-MS].
+H. Patil, T. L. Ponder, C. Retired, M. Arnone, D. Hannegan, and W. Retired. Advancing the mpd influx management envelope ime: A comprehensive approach to assess the factors that affect the shape of the ime. In *SPE/IADC Managed Pressure Drilling Underbalanced Operations Conference Exhibition*, number SPE/IADC-189995-MS, 4 2018b. doi: [https://doi.org/10.2118/189995-MS](https://doi.org/10.2118/189995-MS).
 
-D. Peng and D. B. Robinson. A new two-constant equation of state. *Industrial Engineering Chemistry Fundamentals*, 11:1469, 2 1976. doi: [https://doi.org/10.1021/i160057a011].
+D. Peng and D. B. Robinson. A new two-constant equation of state. *Industrial Engineering Chemistry Fundamentals*, 11:1469, 2 1976. doi: [https://doi.org/10.1021/i160057a011](https://doi.org/10.1021/i160057a011).
 
-M. M. Rajabi, D. Hannegan, and D. Moore. The mpd well control matrix: What is actually happening. In *SPE Annual Technical Conference and Exhibition*, number SPE-170684-MS, 10 2014. doi: [https://doi.org/10.2118/170684-MS].
+M. M. Rajabi, D. Hannegan, and D. Moore. The mpd well control matrix: What is actually happening. In *SPE Annual Technical Conference and Exhibition*, number SPE-170684-MS, 10 2014. doi: [https://doi.org/10.2118/170684-MS](https://doi.org/10.2118/170684-MS).
 
-G. Soave. Equilibrium constants from a modified redlich-kwong equation of state. *Chemical Engineering Science*, 27:1197–1203, 6 1972. ISSN 0009-2509. doi: [https://doi.org/10.1016/0009-2509(72)80096-4].
+G. Soave. Equilibrium constants from a modified redlich-kwong equation of state. *Chemical Engineering Science*, 27:1197–1203, 6 1972. ISSN 0009-2509. doi: [https://doi.org/10.1016/0009-2509(72)80096-4](https://doi.org/10.1016/0009-2509(72)80096-4).
