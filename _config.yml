@@ -1,28 +1,31 @@
-title: Your awesome title
-author:
-  name: GitHub User
-  email: your-email@domain.com
+title: Under Pressure, a Managed Pressure Drilling (MPD) blog
+author: "Santiago Callerio"
+github_username: SCallerio
+email: santiagocallerio@gmail.com
 
 # The `>` after `description:` means to ignore line-breaks until next key.
 # If you want to omit the line-break after the end of text, use `>-` instead.
 description: >
-  Write an awesome description for your new site here. You can edit this line
-  in _config.yml. It will appear in your document head meta (for Google search
-  results) and in your feed.xml site description.
+  This is a site dedicated to the discussion and diffusion of Managed Pressure Drilling (MPD) technical topics.
+#  Write an awesome description for your new site here. You can edit this line
+#  in _config.yml. It will appear in your document head meta (for Google search
+#  results) and in your feed.xml site description.
 
 # Build settings
 
 # If you clone the Minima repo and build locally, use this setting.
 theme: minima
+#remote_theme: jekyll/minima
 
-# As of November 2023, GitHub Pages still uses Minima 2.5.1 (https://pages.github.com/versions/). 
-# If you want to use the latest Minima version on GitHub Pages, use the following setting and 
+# As of November 2023, GitHub Pages still uses Minima 2.5.1 (https://pages.github.com/versions/).
+# If you want to use the latest Minima version on GitHub Pages, use the following setting and
 # add a line comment on "theme: minima" above.
 #remote_theme: jekyll/minima
 
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+#  - jekyll-remote-theme
 
 # Theme-specific settings
 
@@ -44,22 +47,22 @@ minima:
   # solarized-light	   Light variant of solarized color scheme.
   # solarized-dark	   Dark variant of solarized color scheme.
   # solarized	         Adaptive skin for solarized color scheme skins.
-  skin: classic
-  
+  skin: auto #classic
+
   # Minima date format.
-  # The default value is "%b %d, %Y" (e.g. Nov 14, 2023) 
+  # The default value is "%b %d, %Y" (e.g. Nov 14, 2023)
   # Refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this.
   #date_format: "%b-%d-%Y"
 
   # Generate social links in footer.
-  #social_links:
+  social_links:
   #  - { platform: devto,          user_url: "https://dev.to/jekyll" }
   #  - { platform: dribbble,       user_url: "https://dribbble.com/jekyll" }
   #  - { platform: facebook,       user_url: "https://www.facebook.com/jekyll" }
   #  - { platform: flickr,         user_url: "https://www.flickr.com/photos/jekyll" }
-  #  - { platform: github,         user_url: "https://github.com/jekyll/minima" }
+    - { platform: github,         user_url: "https://github.com/SCallerio" }
   #  - { platform: gitlab,         user_url: "https://gitlab.com/jekyll" }
-  #  - { platform: google_scholar, user_url: "https://scholar.google.com/citations?user=qc6CJjYAAAAJ" }
+    - { platform: google_scholar, user_url: "https://scholar.google.com/citations?user=246ef6YAAAAJ&hl=en" }
   #  - { platform: instagram,      user_url: "https://www.instagram.com/jekyll" }
   #  - { platform: keybase,        user_url: "https://keybase.io/jekyll" }
   #  - { platform: linkedin,       user_url: "https://www.linkedin.com/in/jekyll" }
