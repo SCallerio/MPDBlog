@@ -4,10 +4,10 @@ title:  "MPD Well Control and Kick Tolerance"
 date:   2025-01-19 18:58:51 -0600
 categories: well_control
 ---
-
+# MPD Dynamic Well Control, and the birth of the Influx Management Envelope (IME)
 ![Flaring]({{ site.baseurl }}/images/flaring.jpg "Well Control")
 *<small>Well control on a drilling rig, Permian Basin, West Texas, US. <br />
-Source: https://news.oilandgaswatch.org/post/study-air-pollution-from-oil-and-gas-flares-severely-underestimated</small>*
+Source: [Oil & Gas Watch](https://news.oilandgaswatch.org/post/study-air-pollution-from-oil-and-gas-flares-severely-underestimated)</small>*
 
 ## MPD Dynamic Well Control
 The use of Managed Pressure Drilling (MPD) combined with mass flowmeters (i.e. Coriolis flowmeters) enhances the kick detection capability, reducing both detection time and reaction time ([Bacon et al., 2012](https://doi.org/10.2118/151392-MS)). This is clearly reflected in the resulting Influx Management Envelope (IME) designs, which downsize the MPD manageable kick limit from 25 bbl. down to 15 or 10 bbl. However, the origin or basis for these reference kick volume limits is not explicitly delineated, and is often referred to as the “customary limit” or “agreed volume limit” ([Gabaldon et al., 2019](https://doi.org/10.2118/194537-MS)).
