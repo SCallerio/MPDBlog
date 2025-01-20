@@ -12,8 +12,7 @@ MPD influx management and dynamic well control offer tangible benefits to limit 
    - In deep-water (DW) wells, the choke line friction can be eliminated and the reduction in mud column hydrostatic is reduced when the kick is circulated rather than the low-capacity the choke line ([Bacon et al. (2016)](https://doi.org/10.2118/179185-MS)).
 
 ![Downhole Influx Volume]({{ site.baseurl }}/images/bacon_downhole_volume.svg "Downhole Influx Volume")
-
-{% include image.html url="{{ site.baseurl }}/images/bacon_downhole_volume.svg" description="Downhole Influx Volume" %}
+*<small>Downhole Influx Volume</small>*
 
 ## MPD Kick Tolerance
 
