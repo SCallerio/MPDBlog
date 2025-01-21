@@ -17,6 +17,7 @@
   letter-spacing: -1px;
   margin-bottom: 0;
   float: left;
+  line-height: 1;
 
   @include media-query($on-palm) {
     padding-right: 45px;
@@ -26,6 +27,13 @@
   &:visited {
     color: $site-title-color;
   }
+}
+
+.site-subtitle{
+  display: block;
+  font-size: x-large;
+  margin-top: 0;
+  line-height: normal;
 }
 
 .site-nav {
