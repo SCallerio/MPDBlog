@@ -1,9 +1,13 @@
 ---
 layout: post
-title:  "A python code based Influx Management Envelope (IME)"
+title:  "A Python based Influx Management Envelope (IME) generator"
 date:   2025-01-19 18:58:51 -0600
 categories: well_control
+tags: python IME
 ---
+![Influx Management Envelope]({{ site.baseurl }}/images/IME_SB.svg "Influx Management Envelope")<br>
+*<small>Influx Management Envelope (IME)</small>*
+
 Developing an Influx Management Envelope (IME) traditionally requires running several instances of a transient multi-phase model (e.g. a drift-flux model [Gu et al. (2022)](https://doi.org/10.1016/j.applthermaleng.2022.118077), Drillbench, etc.) to determine which influx combinations surpass the pre-established limits for pressure and flowrate. This can be a time intensive process that requires fine tuning and repetition. An analytical IME, although it disregards part of the multi-phase dynamics such as gas distribution and phase mixture (i.e. using single-bubble equations where $$\alpha_g = 1$$), and gas dilution, it represents an accurate first approximation to an IME and a fast-drafting tool in case an IME needs to be updated.
 
 This article will dive into the development of an IME generator tool in Python, using single-bubble equations and the aid of a gas equation of state to estimate the gas phase parameters in the well.
