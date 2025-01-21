@@ -14,7 +14,7 @@ Developing an Influx Management Envelope (IME) traditionally requires running se
 This article will dive into the development of an IME generator tool in Python, using single-bubble equations and the aid of a gas equation of state to estimate the gas phase parameters in the well.
 
 ## IME Analytical Development
-The equations required to compute an IME are devived below, based on the work by [Culen et al. (2016)](https://doi.org/10.2118/179191-MS) and [Berg et al. (2020)](https://doi.org/10.2118/200510-MS). Essentially, what we need to determine is which downhole influx combinations will exceed the established surface limits for pressure and flowrate, during the circulation process to surface. For this, we characterize every influx combination a pair of influx volume ($$V_K$$) and kick intensity ($$KI$$) or initial surface back pressure required to supress the kick ($$P_{SBP_{2}$$).
+The equations required to compute an IME are devived below, based on the work by [Culen et al. (2016)](https://doi.org/10.2118/179191-MS) and [Berg et al. (2020)](https://doi.org/10.2118/200510-MS). Essentially, what we need to determine is which downhole influx combinations will exceed the established surface limits for pressure and flowrate, during the circulation process to surface. For this, we characterize every influx combination a pair of influx volume ($$V_K$$) and kick intensity ($$KI$$) or initial surface back pressure required to supress the kick ($$P_{SBP_{2}}$$).
 
 The post-influx bottom-hole pressure ($$P_{BH_{2}}$$), once the influx is suppressed (i.e. $$P_{BH} = P_{Reservoir}$$), is defined after [equation 1](#equation-1-p-bh2).<br>
 <a name="equation-1-p-bh2"></a>
