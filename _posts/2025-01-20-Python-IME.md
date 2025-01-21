@@ -4,6 +4,10 @@ title:  "A python code based Influx Management Envelope (IME)"
 date:   2025-01-19 18:58:51 -0600
 categories: well_control
 ---
+Developing an Influx Management Envelope (IME) traditionally requires running several instances of a transient multi-phase model (e.g. a drift-flux model [Gu et al. (2022)](https://doi.org/10.1016/j.applthermaleng.2022.118077), Drillbench, etc.) to determine which influx combinations surpass the pre-established limits for pressure and flowrate. This can be a time intensive process that requires fine tuning and repetition. An analytical IME, although it disregards part of the multi-phase dynamics such as gas distribution and phase mixture (i.e. using single-bubble equations where $$\alpha_g = 1$$), and gas dilution, it represents an accurate first approximation to an IME and a fast-drafting tool in case an IME needs to be updated.
+
+This article will dive into the development of an IME generator tool in Python, using single-bubble equations and the aid of a gas equation of state to estimate the gas phase parameters in the well.
+
 ## IME Analytical Development
 The equations required to compute an IME are devived below, based on the work by [Culen et al. (2016)](https://doi.org/10.2118/179191-MS) and [Berg et al. (2020)](https://doi.org/10.2118/200510-MS). Essentially, what we need to determine is which downhole influx combinations will exceed the established surface limits for pressure and flowrate, during the circulation process to surface. For this, we characterize every influx combination a pair of influx volume ($$V_K$$) and kick intensity ($$KI$$) or initial surface back pressure required to supress the kick ($$P_{SBP_{2}$$).
 
@@ -44,16 +48,16 @@ TD_TVD = 21325 #ft - Total Depth TVD
 MW = 11.2 # ppg - Surface Mud Weight
 P_AFL = 600 #psi - Annular Friction Losses at TD
 P_SBP = 230 # psi - Drilling SBP
-ECD = MW+(P_AFL+P_SBP)/(TD_TVD*.052)#11.86   ppg - Drilling ECD at TD
+ECD = MW+(P_AFL+P_SBP)/(TD_TVD*.052)# ppg - Drilling ECD at TD
 print(f'ECD {ECD:.2f} ppg')
 ```
 ```python
 [Out:] 'ECD 11.95 ppg'
 ```
 
-The reservoir or influx pressure is defined with respect to the Drilling ECD with a given Kick Intensity ($$\rho_{KI}$$) value after equation (1):
-$$\rho_{BH_{2}}=\rho_{ECD}+\rho_{KI}\ (1)$$
-$$P_{BH_{2}}=\rho_{BH_{2}}\ Z_{TD}\ g\ (2)$$
+The reservoir or influx pressure is defined with respect to the Drilling ECD with a given Kick Intensity ($$\rho_{KI}$$) value after equation (1):<br>
+$$\rho_{BH_{2}}=\rho_{ECD}+\rho_{KI}\ (1)$$<br>
+$$P_{BH_{2}}=\rho_{BH_{2}}\ Z_{TD}\ g\ (2)$$<br>
 
 ```python
 # Influx Pressure Definition
