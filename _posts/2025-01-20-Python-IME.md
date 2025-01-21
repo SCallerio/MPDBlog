@@ -18,7 +18,7 @@ $$P_{H_2}=g\ [\rho_{MW}\ d_{TD}+L_2\ \cos(\theta)\ (\rho_K -\rho_{MW})]$$
 ## Code Development 
 First we import the required Python libraries, where `matplotlib.pyplot` is used for generating the plots, and`numpy` to define array operations. `matplotlib.style.use` sets predefined parameters from a style sheet that set the plots appareance.
 
-```Python
+```python
 # Import required libraries
 import matplotlib.pyplot as plt
 import numpy as np
@@ -33,7 +33,7 @@ colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
 Based on the available well data, the IME inputs are then defined as follows.
 
-```Python
+```python
 # IME DEFINITION
 TD_TVD=21325 #ft - Total Depth TVD
 MW=11.2 # ppg - Surface Mud Weight
@@ -41,7 +41,6 @@ P_AFL= 600 #psi - Annular Friction Losses at TD
 P_SBP=230 # psi - Drilling SBP
 ECD= MW+(P_AFL+P_SBP)/(TD_TVD*.052)#11.86   ppg - Drilling ECD at TD
 print(f'ECD {ECD:.2f} ppg')
-
 ```
 
 The reservoir or influx pressure is defined with respect to the Drilling ECD with a given Kick Intensity ($$\rho_{KI}$$) value after equation (1):
