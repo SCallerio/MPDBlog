@@ -34,11 +34,11 @@ Based on the available well data, the IME inputs are then defined as follows.
 
 ```python
 # IME Input Parameters
-TD_TVD=21325 #ft - Total Depth TVD
-MW=11.2 # ppg - Surface Mud Weight
-P_AFL= 600 #psi - Annular Friction Losses at TD
-P_SBP=230 # psi - Drilling SBP
-ECD= MW+(P_AFL+P_SBP)/(TD_TVD*.052)#11.86   ppg - Drilling ECD at TD
+TD_TVD = 21325 #ft - Total Depth TVD
+MW = 11.2 # ppg - Surface Mud Weight
+P_AFL = 600 #psi - Annular Friction Losses at TD
+P_SBP = 230 # psi - Drilling SBP
+ECD = MW+(P_AFL+P_SBP)/(TD_TVD*.052)#11.86   ppg - Drilling ECD at TD
 print(f'ECD {ECD:.2f} ppg')
 ```
 ```python
@@ -51,15 +51,15 @@ $$P_{BH_{2}}=\rho_{BH_{2}}\ Z_{TD}\ g\ (2)$$
 
 ```python
 # Influx Pressure Definition
-KI=500 #psi - Kick Intensity
-P_BH_2=ECD+KI/(TD_TVD*.052)# 12.31 ppg - Reservoir/Kick EMW at TD
-P_BH_2_psi=P_BH_2*TD_TVD*.052#13648.235 psi - Reservoir/Kick Pressure at TD
+KI = 500 #psi - Kick Intensity
+P_BH_2 = ECD+KI/(TD_TVD*.052)# ppg - Reservoir/Kick EMW at TD
+P_BH_2_psi = P_BH_2*TD_TVD*.052# psi - Reservoir/Kick Pressure at TD
 print(f'PP+KI {P_BH_2:.2f} ppg')
 print(f'PP+KI {P_BH_2_psi:.0f} psi')
 ```
 ```python
-[Out:] PP+KI 12.40 ppg
-[Out:] PP+KI 13750 psi
+[Out:] 'PP+KI 12.40 ppg'
+[Out:] 'PP+KI 13750 psi'
 ```
 
 ## MPD Dynamic Well Control
