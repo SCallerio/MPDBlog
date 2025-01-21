@@ -41,6 +41,8 @@ P_AFL= 600 #psi - Annular Friction Losses at TD
 P_SBP=230 # psi - Drilling SBP
 ECD= MW+(P_AFL+P_SBP)/(TD_TVD*.052)#11.86   ppg - Drilling ECD at TD
 print(f'ECD {ECD:.2f} ppg')
+
+Out: ECD 11.95 ppg
 ```
 
 The reservoir or influx pressure is defined with respect to the Drilling ECD with a given Kick Intensity ($$\rho_{KI}$$) value after equation (1):
@@ -53,6 +55,9 @@ P_BH_2=ECD+KI/(TD_TVD*.052)# 12.31 ppg - Reservoir/Kick EMW at TD
 P_BH_2_psi=P_BH_2*TD_TVD*.052#13648.235 psi - Reservoir/Kick Pressure at TD
 print(f'PP+KI {P_BH_2:.2f} ppg')
 print(f'PP+KI {P_BH_2_psi:.0f} psi
+
+Out: PP+KI 12.40 ppg
+Out: PP+KI 13750 psi
 ```
 
 
