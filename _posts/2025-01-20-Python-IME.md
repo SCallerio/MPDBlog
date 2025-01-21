@@ -4,11 +4,17 @@ title:  "A python code based Influx Management Envelope (IME)"
 date:   2025-01-19 18:58:51 -0600
 categories: well_control
 ---
-## Formulae Derivation
+## IME Analytical Development
+The equations required to compute an IME are devived below, based on the work by [Culen et al. (2016)](https://doi.org/10.2118/179191-MS) and [Berg et al. (2020)](https://doi.org/10.2118/200510-MS). Essentially, what we need to determine is which downhole influx combinations will exceed the established surface limits for pressure and flowrate, during the circulation process to surface. For this, we characterize every influx combination a pair of influx volume ($$V_K$$) and kick intensity ($$KI$$) or initial surface back pressure required to supress the kick ($$P_{SBP_{2}$$).
 
+The post-influx bottom-hole pressure ($$P_{BH_{2}}$$), once the influx is suppressed (i.e. $$P_{BH} = P_{Reservoir}$$), is defined after [equation 1](#equation-1-p-bh2).
+<a name="equation-1-p-bh2"></a>
 $$P_{BH_2}=P_{H_2}+P_{AFL_2}+P_{SBP_2}\ (1)$$
-
 $$P_{H_2}=P_{H_{MW}}+P_{H_K}$$
+
+| <div style="text-align:center"><a name="wellbore-reference"></a><img src="{{ site.baseurl }}/images/wellbore_reference.png" alt="Wellbore Reference" width="200"/></div>        |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *<small>Figure 1.1: Wellbore reference, showing the defined references for influx height ($$h_{K_2}$$), mud column height ($$d_2$$), and total depth TVD ($$d_{TD}$$).</small>* |
 
 $$P_{H_2}=\rho_{MW}×g×d_2+\rho_K×g×h_{K_2}$$
 $$P_{H_2}=\rho_{MW}×g×(d_{TD}-h_{K_{2}})+\rho_K×g×h_{K_2}$$
