@@ -79,29 +79,60 @@ print(f'PP+KI {P_BH_2_psi:.0f} psi')
 ### Geometric Inputs
 Next, a function to compute the tubular squared diameter difference, and another function to compute the tubular capacity are defined. This will provide required inputs to compute $$V_2$$ and $$P_{SBP_{2}}$$.
 
+PEP-8 and PEP-257 are followed to defined the functions Docstrings.
+
 ```python
 def D_func(OD, ID):
-    Returns squared diameter difference.
-    Inputs:
-    OD: Outside Diameter [inches]
-    ID: Inside Diameter [inches]
-    Outputs:
-    D: Squared diameter difference [inches$$^2$$]
+    """Returns squared diameter difference.
+    Parameters
+    ----------
+    OD: float
+        Outside Diameter [inches]
+    ID: float
+        Inside Diameter [inches]
+    Returns
+    -------
+    D: float
+       Squared diameter difference [sq. inches]"""
 
     D=(OD**2)-(ID**2)
     return D
 
 def Cap_func(OD,ID):
-    Returns tubular capacity.
-    Inputs:
-    OD: Outside Diameter [inches]
-    ID: Inside Diameter [inches]
-    Outputs:
-    Cap: Tubular capacity [bbl/ft$$^2$$]
+    """Returns tubular capacity.
+    Parameters
+    ----------
+    OD: float
+        Outside Diameter [inches]
+    ID: float
+        Inside Diameter [inches]
+    Returns
+    -------
+    Cap: Tubular capacity [bbl/ft]"""
 
     D=D_func(OD, ID)
     Cap=D/1029.4
     return Cap
+```
+
+Then the geometric inputs are computed, using the previously defined functions.
+
+```python
+# Geometry Input
+OD3=10.711 # in - Annular ID at Surface
+ID3=5.875  # in - Drill Pipe OD at Surface
+D3=D_func(OD3,ID3)
+print(f' D3 {D3:.2f} in2')#80  in2
+
+OD2=8.5 # in - Annular ID at TD
+ID2=6.75 # in - Drill Pipe OD at TD
+D2=D_func(OD2,ID2)
+#D2  27  in2
+print(f' D2 {D2:.2f} in2')#80  in2
+```
+```python
+[Out:] 'D3 80.21 in2'
+[Out:] 'D2 26.69 in2'
 ```
 
 ## MPD Dynamic Well Control
