@@ -76,6 +76,33 @@ print(f'PP+KI {P_BH_2_psi:.0f} psi')
 [Out:] 'PP+KI 12.40 ppg'
 [Out:] 'PP+KI 13750 psi'
 ```
+### Geometric Inputs
+Next, a function to compute the tubular squared diameter difference, and another function to compute the tubular capacity are defined. This will provide required inputs to compute $$V_2$$ and $$P_{SBP_{2}}$$.
+
+```python
+def D_func(OD, ID):
+    Returns squared diameter difference.
+    Inputs:
+    OD: Outside Diameter [inches]
+    ID: Inside Diameter [inches]
+    Outputs:
+    D: Squared diameter difference [inches$$^2$$]
+
+    D=(OD**2)-(ID**2)
+    return D
+
+def Cap_func(OD,ID):
+    Returns tubular capacity.
+    Inputs:
+    OD: Outside Diameter [inches]
+    ID: Inside Diameter [inches]
+    Outputs:
+    Cap: Tubular capacity [bbl/ft$$^2$$]
+
+    D=D_func(OD, ID)
+    Cap=D/1029.4
+    return Cap
+```
 
 ## MPD Dynamic Well Control
 The use of Managed Pressure Drilling (MPD) combined with mass flowmeters (i.e. Coriolis flowmeters) enhances the kick detection capability, reducing both detection time and reaction time ([Bacon et al., 2012](https://doi.org/10.2118/151392-MS)). This is clearly reflected in the resulting Influx Management Envelope (IME) designs, which downsize the MPD manageable kick limit from 25 bbl. down to 15 or 10 bbl. However, the origin or basis for these reference kick volume limits is not explicitly delineated, and is often referred to as the “customary limit” or “agreed volume limit” ([Gabaldon et al., 2019](https://doi.org/10.2118/194537-MS)).
