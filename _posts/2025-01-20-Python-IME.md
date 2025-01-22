@@ -79,40 +79,38 @@ print(f'PP+KI {P_BH_2_psi:.0f} psi')
 ### Geometric Inputs
 Next, a function to compute the tubular squared diameter difference, and another function to compute the tubular capacity are defined. This will provide required inputs to compute $$V_2$$ and $$P_{SBP_{2}}$$.
 
-PEP-8 and PEP-257 are followed to defined the functions Docstrings.
+The functions docstrings are defined as per [PEP-8](https://peps.python.org/pep-0008/), [PEP-257](https://peps.python.org/pep-0257/) and [PEP 287](https://peps.python.org/pep-0287/).
 
 ```python
-def D_func(OD, ID):
-    """Returns squared diameter difference.
-    Parameters
-    ----------
-    OD: float
-        Outside Diameter [inches]
-    ID: float
-        Inside Diameter [inches]
-    Returns
-    -------
-    D: float
-       Squared diameter difference [sq. inches]"""
+def d_func(OD: float, ID: float):
+    """
+    Returns squared diameter difference.
+    :param OD: Outside Diameter [inches]
+    :type OD: float
+    :param ID: Inside Diameter [inches]
+    :type ID: float
+    :return: squared diameter difference [sq. inches]
+    :rtype: float
+    """
+  
+    d = (OD ** 2) - (ID ** 2)
+    return d
 
-    D=(OD**2)-(ID**2)
-    return D
 
-def Cap_func(OD,ID):
-    """Returns tubular capacity.
-    Parameters
-    ----------
-    OD: float
-        Outside Diameter [inches]
-    ID: float
-        Inside Diameter [inches]
-    Returns
-    -------
-    Cap: Tubular capacity [bbl/ft]"""
-
-    D=D_func(OD, ID)
-    Cap=D/1029.4
-    return Cap
+def cap_func(OD: float, ID: float):
+    """
+    Returns tubular capacity.
+    :param OD: Outside Diameter [inches]
+    :type OD: float
+    :param ID: Inside Diameter [inches]
+    :type ID: float
+    :return: Tubular capacity [bbl/ft]
+    :rtype: float
+    """
+  
+    d = d_func(OD, ID)
+    cap = d / 1029.4
+    return cap
 ```
 
 Then the geometric inputs are computed, using the previously defined functions.
@@ -121,14 +119,13 @@ Then the geometric inputs are computed, using the previously defined functions.
 # Geometry Input
 OD3=10.711 # in - Annular ID at Surface
 ID3=5.875  # in - Drill Pipe OD at Surface
-D3=D_func(OD3,ID3)
-print(f' D3 {D3:.2f} in2')#80  in2
+D3=d_func(OD3,ID3)
+print(f' D3 {D3:.2f} in2')
 
 OD2=8.5 # in - Annular ID at TD
 ID2=6.75 # in - Drill Pipe OD at TD
-D2=D_func(OD2,ID2)
-#D2  27  in2
-print(f' D2 {D2:.2f} in2')#80  in2
+D2=d_func(OD2,ID2)
+print(f' D2 {D2:.2f} in2')
 ```
 ```python
 [Out:] 'D3 80.21 in2'
