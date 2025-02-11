@@ -6,7 +6,6 @@ author: Santiago Callerio, Carlos Sanguinetti
 categories: tripping
 tags: tripping
 ---
-# Managed Pressure Tripping on extended-reach (ERD) wells
 This work focuses on planning and execution of Managed Pressure Tripping operations in  high-pressure extended reach (ERD) wells in Argentina’s Vaca Muerta play. Increased complexity is presented by over-pressurized naturally fractured shales in the Quintuco-Vaca Muerta system. Managed Pressure Drilling (MPD) with hydrostatically underbalanced muds has proven effective in managing pore pressure and mud loss risk, but tripping can be quite challenging. The paper details a new, field-proven tripping methodology.
 
 ## Anchor point and kill depth selection
