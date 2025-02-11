@@ -14,7 +14,8 @@ This work focuses on planning and execution of Managed Pressure Tripping operati
 - Show required volume and time for rollover
 - Show tripping time
 
-![esd_vs_rollover_depth](../images/esd_vs_rollover_depth.png)
+![esd_vs_rollover_depth]({{ site.baseurl }}/images/esd_vs_rollover_depth.png "ECD vs. Rollover Depth")
+*<small>ECD vs. Rollover Depth</small>*
 
 ## Swab/Surge - where's our anchor depth?
 - Useful S&S models
@@ -23,13 +24,16 @@ This work focuses on planning and execution of Managed Pressure Tripping operati
 	- [Burkhardt, 1961, Wellbore Pressure Surges Produced by Pipe Movement, SPE-1546-G-PA](https://doi.org/10.2118/1546-G-PA)
 
 - Swab Speed and Anchor Depth
-![swab_speed_anchor_depth](../images/swab_speed_anchor_depth.png)
+![swab_speed_anchor_depth]({{ site.baseurl }}/images/swab_speed_anchor_depth.png "Swab speed and anchor point")
+*<small>Swab speed and anchor point</small>*
 - Temperature effect on static mud
-![temp_effect_static_mud](../images/temp_effect_static_mud.png)
+![temp_effect_static_mud]({{ site.baseurl }}/images/temp_effect_static_mud.png "Temperature effect on static mud")
+*<small>Temperature effect on static mud</small>*
 
 ## Pill design - do we include kill mud to optimize?
 - Types of pills, and combinations to optimize rollover time
-![trip_pill_configuration](../images/trip_pill_configuration.png)
+![trip_pill_configuration]({{ site.baseurl }}/images/trip_pill_configuration.png "Tripping slug configuration")
+*<small>Tripping slug configuration</small>*
 
 ## Kill Top - when is it feasible?
 - Show main equations
