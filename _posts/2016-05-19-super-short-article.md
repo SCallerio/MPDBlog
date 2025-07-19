@@ -7,7 +7,7 @@ categories: conference content
 
 > The landscape of well control is constantly evolving, with **Managed Pressure Drilling (MPD)** shifting from a specialized solution to a cornerstone of modern drilling operations.
 
-This was more evident than ever at the recent *2025 IADC Well Control Conference of the Americas & Exhibition*, where a significant portion of the conversation centered on the technologies, procedures, and regulations shaping the future of MPD.
+This was more evident than ever at the recent *2025 IADC Well Control Conference of the Americas & Exhibition* (which took place during August 19th to 20th, in New Orleans), where a significant portion of the conversation centered on the technologies, procedures, and regulations shaping the future of MPD.
 
 The conference provided a wealth of knowledge, confirming that as our industry drills more complex wells, the precision and safety offered by MPD are indispensable. For those who couldn't attend or want a refresher, we've summarized some of the most relevant presentations for the MPD community.
 ## Advancing the Science: From Foundational Models to Full-Scale Testing
