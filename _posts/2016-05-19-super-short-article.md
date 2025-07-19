@@ -41,7 +41,7 @@ The message from the IADC conference was clear: **MPD is integral to the present
 > MPD is integral to the present and future of well control
 
 We highly encourage you to dive deeper into these topics. The full papers offer detailed data, analysis, and insights that can benefit your own operations.
-___
+***
 ### Referenced Conference Papers:
 1. Comprehensive Kick Tolerance Review: Comparing the Single Bubble model, Multi-phase Model and Influx Management Envelope (IME): Tom Barbato, Technical Lead – Western Hemisphere, Helio Santos, SafeKick, Daddy Sutansyah, Pertamina Internasional EP, Rony Siregar, Harbour Energy, Rama Aditya Reza, Pertamina Internasional EP, Muhammad Taufiq Fathaddin, University of Trisakti
 2. Well Integrity: Current Challenges and Future Solutions: John Hatteberg, Senior Well Control Engineer, Cudd Well Control
