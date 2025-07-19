@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "MPD in the Spotlight: Key Takeaways from the 2025 IADC Well Control Conference"
+subtitle: "Key Takeaways from the 2025 IADC Well Control Conference"
 categories: conference content
 ---
 
