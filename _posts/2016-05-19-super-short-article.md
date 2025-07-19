@@ -5,10 +5,15 @@ subtitle: "Key Takeaways from the 2025 IADC Well Control Conference"
 categories: conference content
 ---
 
-The landscape of well control is constantly evolving, with **Managed Pressure Drilling (MPD)** shifting from a specialized solution to a cornerstone of modern drilling operations. This was more evident than ever at the recent *2025 IADC Well Control Conference of the Americas & Exhibition*, where a significant portion of the conversation centered on the technologies, procedures, and regulations shaping the future of MPD.
+> The landscape of well control is constantly evolving, with **Managed Pressure Drilling (MPD)** shifting from a specialized solution to a cornerstone of modern drilling operations.
+
+This was more evident than ever at the recent *2025 IADC Well Control Conference of the Americas & Exhibition*, where a significant portion of the conversation centered on the technologies, procedures, and regulations shaping the future of MPD.
+
 The conference provided a wealth of knowledge, confirming that as our industry drills more complex wells, the precision and safety offered by MPD are indispensable. For those who couldn't attend or want a refresher, we've summarized some of the most relevant presentations for the MPD community.
 ## Advancing the Science: From Foundational Models to Full-Scale Testing
-A deep understanding of downhole dynamics is what separates good well control from great well control. Two standout presentations reinforced the science that underpins every successful MPD operation.
+> A deep understanding of downhole dynamics is what separates good well control from great well control.
+
+Two standout presentations reinforced the science that underpins every successful MPD operation.
 First, the paper on **Comprehensive Kick Tolerance Review** (Barbato, et al.) provided a critical comparison of the traditional Single Bubble model against more sophisticated Multi-phase Models and the **Influx Management Envelope (IME)**. For MPD practitioners, the focus on the IME is particularly relevant, as it forms the data-driven basis for defining our operational window and managing influxes proactively rather than reactively.
 Complementing this was a fascinating study from Louisiana State University on **Gas Migration and Shut-In Pressures** (Kunju & Almeida). Using a full-scale test well, their research provides invaluable, real-world data on gas behavior in different mud systems. This fundamental work helps validate the models we use and refine the procedures for safely managing gas in an MPD environment.
 ## Critical by Design: Optimizing the Mud Gas Separator (MGS)
