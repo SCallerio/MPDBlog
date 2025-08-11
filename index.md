@@ -6,7 +6,6 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 #
 layout: home
-title: Welcome to the Managed Pressure Drilling Insights Blog
 ---
 This blog is dedicated to sharing insights, research, and advancements in Managed Pressure Drilling (MPD) and related technologies. Our goal is to provide a platform for professionals in the oil and gas industry to learn, discuss, and innovate in the field of drilling operations.
 
