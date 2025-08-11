@@ -49,6 +49,6 @@ By integrating these strategies, MPD evolves from a piece of hardware to an indi
 
 ## References
 
-Medina, J., Romero Mc Intosh, C., & Krasuk, R. (2015). Cementing operation in underbalanced casing drilling: A successful case history in an unconventional shale reservoir in Argentina. Paper presented at the *SPE/IADC Managed Pressure Drilling and Underbalanced Operations Conference and Exhibition 2015*, SPE/IADC-173806-MS. [https://doi.org/10.2118/173806-ms]
+Medina, J., Romero Mc Intosh, C., & Krasuk, R. (2015). Cementing operation in underbalanced casing drilling: A successful case history in an unconventional shale reservoir in Argentina. Paper presented at the *SPE/IADC Managed Pressure Drilling and Underbalanced Operations Conference and Exhibition 2015*, SPE/IADC-173806-MS. [https://doi.org/10.2118/173806-ms](https://doi.org/10.2118/173806-ms)
 
-Tecpetrol. (2022). *Notching up another milestone on the road to optimization*. [https://www.tecpetrol.com/en/news/2022/notching-up-another-milestone-on-the-road-to-optimization]
+Tecpetrol. (2022). *Notching up another milestone on the road to optimization*. [https://www.tecpetrol.com/en/news/2022/notching-up-another-milestone-on-the-road-to-optimization](https://www.tecpetrol.com/en/news/2022/notching-up-another-milestone-on-the-road-to-optimization)
