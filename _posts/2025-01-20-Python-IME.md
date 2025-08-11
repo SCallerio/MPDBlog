@@ -5,6 +5,7 @@ date:   2025-01-19 18:58:51 -0600
 author: Santiago Callerio
 categories: well_control
 tags: python IME
+excerpt_separator: <!--more-->
 ---
 ![Influx Management Envelope]({{ site.baseurl }}/images/IME_SB.svg "Influx Management Envelope")<br>
 *<small>Influx Management Envelope (IME)</small>*
@@ -12,7 +13,7 @@ tags: python IME
 Developing an Influx Management Envelope (IME) traditionally requires running several instances of a transient multi-phase model (e.g. a drift-flux model ([Gu et al. (2022)](https://doi.org/10.1016/j.applthermaleng.2022.118077)), Drillbench, etc.) to determine which influx combinations surpass the pre-established limits for pressure and flowrate. This can be a time intensive process that requires fine tuning and repetition. An analytical IME, although it disregards part of the multi-phase dynamics such as gas distribution and phase mixture (i.e. using single-bubble equations where $$\alpha_g = 1$$), and gas dilution, it represents an accurate first approximation to an IME and a fast-drafting tool in case an IME needs to be updated.
 
 This article will dive into the development of an IME generator tool in Python, using single-bubble equations and the aid of a gas equation of state to estimate the gas phase parameters in the well.
-
+ <!--more-->
 ## IME Analytical Development
 The equations required to compute an IME are devived below, based on the work by [Culen et al. (2016)](https://doi.org/10.2118/179191-MS) and [Berg et al. (2020)](https://doi.org/10.2118/200510-MS). Essentially, what we need to determine is which downhole influx combinations will exceed the established surface limits for pressure and flowrate, during the circulation process to surface. For this, we characterize every influx combination a pair of influx volume ($$V_K$$) and kick intensity ($$KI$$) or initial surface back pressure required to supress the kick ($$P_{SBP_{2}}$$).
 
