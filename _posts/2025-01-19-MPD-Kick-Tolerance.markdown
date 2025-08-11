@@ -3,6 +3,7 @@ layout: post
 title:  "MPD Dynamic Well Control, and the birth of the Influx Management Envelope (IME)"
 date:   2025-01-19 18:58:51 -0600
 categories: well_control
+excerpt_separator: <!--more-->
 ---
 
 ![Well Control Flaring]({{ site.baseurl }}/images/flaring.jpg "Well Control Flaring")
@@ -10,7 +11,7 @@ categories: well_control
 Source: [Oil & Gas Watch](https://news.oilandgaswatch.org/post/study-air-pollution-from-oil-and-gas-flares-severely-underestimated)</small>*
 
 ## MPD Dynamic Well Control
-The use of Managed Pressure Drilling (MPD) combined with mass flowmeters (i.e. Coriolis flowmeters) enhances the kick detection capability, reducing both detection time and reaction time ([Bacon et al., 2012](https://doi.org/10.2118/151392-MS)). This is clearly reflected in the resulting Influx Management Envelope (IME) designs, which downsize the MPD manageable kick limit from 25 bbl. down to 15 or 10 bbl. However, the origin or basis for these reference kick volume limits is not explicitly delineated, and is often referred to as the “customary limit” or “agreed volume limit” ([Gabaldon et al., 2019](https://doi.org/10.2118/194537-MS)).
+The use of Managed Pressure Drilling (MPD) combined with mass flowmeters (i.e. Coriolis flowmeters) enhances the kick detection capability, reducing both detection time and reaction time ([Bacon et al., 2012](https://doi.org/10.2118/151392-MS)). This is clearly reflected in the resulting Influx Management Envelope (IME) designs, which downsize the MPD manageable kick limit from 25 bbl. down to 15 or 10 bbl. However, the origin or basis for these reference kick volume limits is not explicitly delineated, and is often referred to as the “customary limit” or “agreed volume limit” ([Gabaldon et al., 2019](https://doi.org/10.2118/194537-MS)).<!--more-->
 MPD influx management and dynamic well control offer tangible benefits to limit gas influx volumes and facilitate influx circulation:
    - Since pressure is actively applied from surface to suppress the influx, it eliminates the after-flow effect observed in conventional well control, even in the assisted shut-in case. Thus, kick size is reduced, as shown in [Figure 1.1](#figure-downhole-influx-volume).
    - In deep-water (DW) wells, the choke line friction can be eliminated and the reduction in mud column hydrostatic is reduced when the kick is circulated rather than the low-capacity the choke line ([Bacon et al. (2016)](https://doi.org/10.2118/179185-MS)).
