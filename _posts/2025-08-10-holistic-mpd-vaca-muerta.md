@@ -45,9 +45,7 @@ The ultimate optimization, however, is offline cementing. With the well secured 
 
 By integrating these strategies, MPD evolves from a piece of hardware to an indispensable philosophy. It's a field-proven playbook for building more complex wells faster, safer, and more economically—a critical enabler for unlocking the full potential of Vaca Muerta and other high-pressure unconventional plays worldwide.
 
-*For the full technical analysis, including the detailed mud weight window schematics and operational data, access the paper, "MPD AS A HOLISTIC SOLUTION FOR VACA MUERTA CHALLENGES," presented at the 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos.*
-
-*This article is based on the paper "MPD AS A HOLISTIC SOLUTION FOR VACA MUERTA CHALLENGES," presented at the [*IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*](https://perforacion.iapg.org.ar/). The authors would like to acknowledge the contributions of their colleagues at The University of Texas at Austin and SLB for their support in this research.*
+*For the full technical analysis, including the detailed mud weight window schematics and operational data, access the paper, "MPD AS A HOLISTIC SOLUTION FOR VACA MUERTA CHALLENGES," presented at the [IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos](https://perforacion.iapg.org.ar/).*
 
 ## References
 
