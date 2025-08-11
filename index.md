@@ -8,8 +8,6 @@
 layout: home
 title: Welcome to the Managed Pressure Drilling Insights Blog
 ---
-
-[//]: # (# Welcome to the Managed Pressure Drilling Insights Blog)
 This blog is dedicated to sharing insights, research, and advancements in Managed Pressure Drilling (MPD) and related technologies. Our goal is to provide a platform for professionals in the oil and gas industry to learn, discuss, and innovate in the field of drilling operations.
 
 Besides the MPD insights, we also share Python code snippets and examples related to drilling engineering, well control, and other relevant topics. These resources are designed to help engineers and professionals enhance their skills and apply Python effectively in their work.
