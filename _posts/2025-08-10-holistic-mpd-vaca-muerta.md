@@ -20,18 +20,22 @@ The relentless drive for longer laterals in Argentina's *Vaca Muerta* field is a
   <source srcset="{{ site.baseurl }}/images/drain_frac_stages_growth_YOY_plus_areaplot_dark.svg" media="(prefers-color-scheme: dark)">
   <img 
       src="{{ site.baseurl }}/images/drain_frac_stages_growth_YOY_plus_areaplot_light.svg" 
-      alt="Conventional and MPC Operating Windows"
+      alt="Year-on-Year mean reported drilled horizontal length and total frac stages per well, for Argentina unconventional Wells"
       style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
 </picture>
-
-[//]: # (![Argentina's Unconventional Wells]&#40;{{ site.baseurl }}/images/drain_frac_stages_growth_YOY_plus_areaplot.svg&#41;)
 *<small>Fig. 1 &mdash; Year-on-Year mean reported drilled horizontal length and total frac stages per well, for Argentina unconventional Wells<br />
 Source: [Secretaría de Energía (2025)](http://datos.energia.gob.ar/dataset/datos-de-fractura-de-pozos-adjunto-iv/archivo/2280ad92-6ed3-403e-a095-50139863ab0d)</small>*
 
 A new paper, to be presented at the [*IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*](https://perforacion.iapg.org.ar/), reframes this challenge. Authored by a team from The University of Texas at Austin and SLB, the work argues for a paradigm shift: viewing Managed Pressure Drilling (MPD) not as a reactive tool for managing influx, but as a proactive, holistic system for optimizing the entire well construction process.
 
-{: .center-image}
-![Quintuco Vaca Muerta Mud Weight Window]({{ site.baseurl }}/images/quintuco_vaca_muerta_drilling_window_v2.png){: width="90%"}<br />
+<picture>
+  <source srcset="{{ site.baseurl }}/images/quintuco_vaca_muerta_drilling_window_dark.png" media="(prefers-color-scheme: dark)">
+  <img 
+      src="{{ site.baseurl }}/images/quintuco_vaca_muerta_drilling_window_light.png" 
+      alt="Production section mud weight window and simplified wellbore schematic"
+      style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
+</picture>
+
 
 *<small>Fig. 2 &mdash; Production section mud weight window (left) and simplified wellbore schematic (right), after Frydman et al. (2018) (Callerio et al., 2025)<br /></small>*
 
@@ -41,12 +45,11 @@ The foundation of this approach is a technique called **Pressure Trapping MPD**.
 
 > "This real-time mapping effectively broadens the operational window," explains lead author Santiago Callerio. "We saw the mud weight window expand from a tight 150 g/L to a more manageable 210 g/L. This was one of the keys that unlocked the ability to drill laterals up to 70% longer without inducing losses or compromising wellbore stability."
 
-[//]: # (![Pressure Trapping MPD Connection SBP and ESD Trend]&#40;{{ site.baseurl }}/images/Connection_SBP_ESD_Trend.svg&#41;)
 <picture>
   <source srcset="{{ site.baseurl }}/images/Connection_SBP_ESD_Trend_dark.svg" media="(prefers-color-scheme: dark)">
   <img 
       src="{{ site.baseurl }}/images/Connection_SBP_ESD_Trend_light.svg" 
-      alt="Conventional and MPC Operating Windows"
+      alt="Connection SBP and ESD Trend"
       style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
 </picture>
 *<small>Fig. 3 &mdash; Connections (CNX) Surface Back-Pressure (SBP) and Equivalent Static Density (ESD) for Pressure Trapping MPD Application (Callerio et al., 2025). 
@@ -58,14 +61,25 @@ and further down the transition into VM. The mean values show an average reducti
 
 Perhaps the most significant efficiency gains were realized during tripping operations. Conventionally, tripping out of a long horizontal requires a full wellbore displacement with a heavy kill mud (KM) (Fig. 4)—a time-consuming process that risks formation damage and losses.
 
-![Wellbore and Kill Mud Rollover]({{ site.baseurl }}/images/rollover_depth_case.png)
+[//]: # (![Wellbore and Kill Mud Rollover]&#40;{{ site.baseurl }}/images/rollover_depth_case.png&#41;)
+<picture>
+  <source srcset="{{ site.baseurl }}/images/rollover_depth_case_dark.png" media="(prefers-color-scheme: dark)">
+  <img 
+      src="{{ site.baseurl }}/images/rollover_depth_case_light.png" 
+      alt="Wellbore and Kill Mud Rollover"
+      style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
+</picture>
 *<small>Fig. 4 &mdash; Schematic of wellbore and rollover kill-mud; the left-most case corresponds to the conventional case, 
 which requires displacing the full wellbore at TD (Callerio et al., 2025). The three ones at the right correspond to different MPD cases, 
 which reduce the required tripping time and net kill-mud volume<br /></small>*
 
-{: .center-image}
-![Tripping Time for each Rollover Depth]({{ site.baseurl }}/images/TvsD_Tripping.svg)<br />
-
+<picture>
+  <source srcset="{{ site.baseurl }}/images/TvsD_Tripping_dark.svg" media="(prefers-color-scheme: dark)">
+  <img 
+      src="{{ site.baseurl }}/images/TvsD_Tripping_light.svg" 
+      alt="Tripping Time for each Rollover Depth"
+      style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
+</picture>
 *<small>Fig. 5 &mdash; Average tripping time for each rollover depth case (Callerio et al., 2025). The conventional case requires a full wellbore displacement, 
 whereas the MPD cases only require displacing a small portion of the wellbore, significantly reducing tripping time.<br /></small>*
 
@@ -76,7 +90,14 @@ the need for a full KM rollover is removed (Fig. 4). The team’s analysis shows
 - **Cuts net tripping time by 55%**, as stripping operations can be performed faster and more safely with real-time swab/surge monitoring (Fig. 5, Fig. 6).
 - **Reduces circulation time for the rollover by 75%** (from 4.5 hours to just 1.1 hours), as only a small portion of the well needs to be displaced (Fig. 6).
 
-![Pressure Trapping MPD Connection SBP and ESD Trend]({{ site.baseurl }}/images/time_comparison_tripping_rollover_kill_mud.png)
+[//]: # (![Pressure Trapping MPD Connection SBP and ESD Trend]&#40;{{ site.baseurl }}/images/time_comparison_tripping_rollover_kill_mud.png&#41;)
+<picture>
+  <source srcset="{{ site.baseurl }}/images/KM_Volume_Comparison_Tripping_Rollover_Time_dark.svg" media="(prefers-color-scheme: dark)">
+  <img 
+      src="{{ site.baseurl }}/images/KM_Volume_Comparison_Tripping_Rollover_Time_light.svg" 
+      alt="TTripping/Rollover Time Comparison based on Drilling Method"
+      style="display: block; margin-left: auto; margin-right: auto; width: 80%; height: auto;">
+</picture>
 *<small>Fig. 6 &mdash; Tripping and Rollover Time comparison for the different drilling methods (left), and Kill Mud Volume comparison (right) (Callerio et al., 2025). As observed, the
 MPD application provides an average 50% reduction on tripping and circulation time, the same for the required KM volume.</small>*
 
