@@ -16,7 +16,15 @@ excerpt_separator: <!--more-->
 The relentless drive for longer laterals in Argentina's *Vaca Muerta* field is a testament to the industry's ambition. But with laterals now pushing past 3,200 meters (Fig. 1), operators are hitting a wall. The geomechanical complexity of the *Quintuco* and *Vaca Muerta* formations creates a narrow and unforgiving drilling window (Fig. 2), where conventional methods struggle with equivalent circulating density (ECD) management, wellbore instability, and costly non-productive time (NPT).
 <!--more-->
 
-![Argentina's Unconventional Wells]({{ site.baseurl }}/images/drain_frac_stages_growth_YOY_plus_areaplot.svg)
+<picture>
+  <source srcset="{{ site.baseurl }}/images/drain_frac_stages_growth_YOY_plus_areaplot_dark.svg" media="(prefers-color-scheme: dark)">
+  <img 
+      src="{{ site.baseurl }}/images/drain_frac_stages_growth_YOY_plus_areaplot_light.svg" 
+      alt="Conventional and MPC Operating Windows"
+      style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
+</picture>
+
+[//]: # (![Argentina's Unconventional Wells]&#40;{{ site.baseurl }}/images/drain_frac_stages_growth_YOY_plus_areaplot.svg&#41;)
 *<small>Fig. 1 &mdash; Year-on-Year mean reported drilled horizontal length and total frac stages per well, for Argentina unconventional Wells<br />
 Source: [Secretaría de Energía (2025)](http://datos.energia.gob.ar/dataset/datos-de-fractura-de-pozos-adjunto-iv/archivo/2280ad92-6ed3-403e-a095-50139863ab0d)</small>*
 
@@ -33,7 +41,14 @@ The foundation of this approach is a technique called **Pressure Trapping MPD**.
 
 > "This real-time mapping effectively broadens the operational window," explains lead author Santiago Callerio. "We saw the mud weight window expand from a tight 150 g/L to a more manageable 210 g/L. This was one of the keys that unlocked the ability to drill laterals up to 70% longer without inducing losses or compromising wellbore stability."
 
-![Pressure Trapping MPD Connection SBP and ESD Trend]({{ site.baseurl }}/images/Connection_SBP_ESD_Trend.svg)
+[//]: # (![Pressure Trapping MPD Connection SBP and ESD Trend]&#40;{{ site.baseurl }}/images/Connection_SBP_ESD_Trend.svg&#41;)
+<picture>
+  <source srcset="{{ site.baseurl }}/images/Connection_SBP_ESD_Trend_dark.svg" media="(prefers-color-scheme: dark)">
+  <img 
+      src="{{ site.baseurl }}/images/Connection_SBP_ESD_Trend_light.svg" 
+      alt="Conventional and MPC Operating Windows"
+      style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
+</picture>
 *<small>Fig. 3 &mdash; Connections (CNX) Surface Back-Pressure (SBP) and Equivalent Static Density (ESD) for Pressure Trapping MPD Application (Callerio et al., 2025). 
 The left plot is showing the SBP and ESD values for 4 similar wells, where each line represents one well, 
 whereas the right plot is showing the mean values plus the 95% confidence interval for these. 
@@ -74,7 +89,14 @@ Field data cited in the paper shows an **83% success rate in avoiding remedial c
 > As reported by [Medina, Romero McIntosh and Krasuk (2015)](https://doi.org/10.2118/173806-ms), MPC showed an **83% success rate in avoiding remedial cementing**
 
 {: .center-image}
-![Conventional and MPC Operating Windows]({{ site.baseurl }}/images/conventional_mpc_jobs.png){: width="80%"}<br />
+
+<picture>
+  <source srcset="{{ site.baseurl }}/images/cementacion_both_dark.svg" media="(prefers-color-scheme: dark)">
+  <img 
+      src="{{ site.baseurl }}/images/cementacion_both_light.svg" 
+      alt="Conventional and MPC Operating Windows"
+      style="display: block; margin-left: auto; margin-right: auto; width: 90%; height: auto;">
+</picture>
 
 *<small>Fig. 7 &mdash; Conventional cementing job (left), and MPC job (right) operating windows (Callerio et al., 2025).
 The MPC job shows a much wider operating window, with no ECD spikes, and a much lower risk of losses, compared to the conventional job.</small>*
@@ -82,7 +104,7 @@ The MPC job shows a much wider operating window, with no ECD spikes, and a much 
 The ultimate optimization, however, is offline cementing. With the well secured by the wellhead, the rig can skid to the next well and begin operations while the previous well is cemented through the MPD system and waits on cement (WOC). This parallel operation removes up to 31 hours of flat time from the rig's critical path, delivering savings of approximately $150,000 per well.
 > Offline MPC reduces the critical path by **31 hours**, saving around **$150,000 per well** ([Tecpetrol, 2022](https://www.tecpetrol.com/en/news/2022/notching-up-another-milestone-on-the-road-to-optimization))
 
-By integrating these strategies, MPD evolves from a piece of hardware to an indispensable philosophy. It's a field-proven playbook for building more complex wells faster, safer, and more economically—a critical enabler for unlocking the full potential of Vaca Muerta and other high-pressure unconventional plays worldwide.
+By integrating these strategies, MPD evolves from a piece of hardware to an indispensable philosophy. It's a field-proven playbook for building more complex wells faster, safer, and more economically—a critical enabler for unlocking the full potential of *Vaca Muerta* and other high-pressure unconventional plays worldwide.
 
 *For the full technical analysis, including the detailed mud weight window schematics and operational data, access the paper, "MPD AS A HOLISTIC SOLUTION FOR VACA MUERTA CHALLENGES," presented at the [IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos](https://perforacion.iapg.org.ar/).*
 
