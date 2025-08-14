@@ -4,6 +4,7 @@ title:  "MPD Dynamic Well Control, and the birth of the Influx Management Envelo
 date:   2025-01-19 18:58:51 -0600
 categories: well_control
 excerpt_separator: <!--more-->
+published: false
 ---
 
 ![Well Control Flaring]({{ site.baseurl }}/images/flaring.jpg "Well Control Flaring")

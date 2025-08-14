@@ -6,6 +6,7 @@ author: Santiago Callerio
 categories: well_control
 tags: python IME
 excerpt_separator: <!--more-->
+published: false
 ---
 ![Influx Management Envelope]({{ site.baseurl }}/images/IME_SB.svg "Influx Management Envelope")<br>
 *<small>Influx Management Envelope (IME)</small>*
