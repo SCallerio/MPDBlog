@@ -41,9 +41,9 @@ A new paper, to be presented at the [*IAPG 5to Congreso Latinoamericano de Perfo
 
 ## From Drilling to "Feeling" the Way Down
 
-The foundation of this approach is a technique called **Pressure Trapping MPD**. By drilling with a statically underbalanced mud and allowing a small, controlled influx during connections, the system provides a real-time measurement of the formation pore pressure (Fig. 3). This transforms drilling from a pre-planned execution into a dynamic, "feel-the-way-down" process.
+The foundation of this approach is a technique called **Pressure Trapping MPD**. By drilling with a statically underbalanced mud and allowing a small, controlled influx during connections (i.e., performing *soft shut-in* connections), the system provides a real-time measurement of the formation pore pressure (Fig. 3). This transforms drilling from a pre-planned execution into a dynamic, "feel-the-way-down" process.
 
-> "This real-time mapping effectively broadens the operational window," explains lead author Santiago Callerio. "We saw the mud weight window expand from a tight 150 g/L to a more manageable 210 g/L. This was one of the keys that unlocked the ability to drill laterals up to 70% longer without inducing losses or compromising wellbore stability."
+> "This real-time pore pressure mapping using soft shut-in connections effectively broadens the operational window," explains lead author Santiago Callerio. "After a number of connections were performed, we saw an **average 60 g/L reduction in the mapped pore pressure**, allowing the mud weight window to expand. This was one of the keys that unlocked the ability to drill laterals up to **70% longer without inducing losses, wellbore breathing, or compromising wellbore stability**."
 
 <picture>
   <source srcset="{{ site.baseurl }}/images/Connection_SBP_ESD_Trend_dark.svg" media="(prefers-color-scheme: dark)">
@@ -52,11 +52,11 @@ The foundation of this approach is a technique called **Pressure Trapping MPD**.
       alt="Connection SBP and ESD Trend"
       style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
 </picture>
-*<small>Fig. 3 &mdash; Connections (CNX) Surface Back-Pressure (SBP) and Equivalent Static Density (ESD) for Pressure Trapping MPD Application (Callerio et al., 2025). 
-The left plot is showing the SBP and ESD values for 4 similar wells, where each line represents one well, 
-whereas the right plot is showing the mean values plus the 95% confidence interval for these. 
-Two distinctive peaks can be observed in both values, which correspond to the transition between Quintuco and VM (Pre-Q), 
-and further down the transition into VM. The mean values show an average reduction of ~75 g/L (300 psi) of the measured influx pressure.<br /></small>*
+*<small>Fig. 3 &mdash; Connections (CNX) Surface Back-Pressure (SBP), Equivalent Static Density (ESD), and maximum Connection Gas Flow-Rate for Pressure Trapping MPD Application (Callerio et al., 2025). 
+The left plot shows the SBP, ESD and Gas-Out values versus Depth for 4 similar wells, where each line represents one well, 
+whereas the right plot shows the mean values plus the 95% confidence interval for these. 
+Two distinctive peaks can be observed in the trend lines, which correspond to the transition between Quintuco and VM (Pre-Q), 
+and further down the transition into VM. The mean values show an average reduction of ~60 g/L (300 psi) of the measured pore pressure.<br /></small>*
 ## A Paradigm Shift in Tripping and Rollovers
 
 Perhaps the most significant efficiency gains were realized during tripping operations. Conventionally, tripping out of a long horizontal requires a full wellbore displacement with a heavy kill mud (KM) (Fig. 4)—a time-consuming process that risks formation damage and losses.
@@ -119,7 +119,7 @@ Field data cited in the paper shows an **83% success rate in avoiding remedial c
       style="display: block; margin-left: auto; margin-right: auto; width: 90%; height: auto;">
 </picture>
 
-*<small>Fig. 7 &mdash; Conventional cementing job (left), and MPC job (right) operating windows (Callerio et al., 2025).
+*<small>Fig. 7 &mdash; Conventional cementing job (top), and MPC job (bottom) operating windows (Callerio et al., 2025).
 The MPC job shows a much wider operating window, with no ECD spikes, and a much lower risk of losses, compared to the conventional job.</small>*
 
 The ultimate optimization, however, is offline cementing. With the well secured by the wellhead, the rig can skid to the next well and begin operations while the previous well is cemented through the MPD system and waits on cement (WOC). This parallel operation removes up to 31 hours of flat time from the rig's critical path, delivering savings of approximately $150,000 per well.
@@ -131,7 +131,9 @@ By integrating these strategies, MPD evolves from a piece of hardware to an indi
 
 ## References
 
-Callerio, S., Sanguinetti, C.E., Mastrangelo, L., & Toro Ibanez, J. C. (2025). MPD as a Holistic Solution for Vaca Muerta Challenges. Paper presented at the *IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*, Buenos Aires, Argentina. [https://doi.org/10.2118/123456](https://doi.org/10.2118/123456) *(Note: This is a placeholder link; please replace with the actual DOI or URL when available)*
+Callerio, S., Sanguinetti, C.E., Mastrangelo, L., & Toro Ibanez, J. C. (2025). MPD as a Holistic Solution for Vaca Muerta Challenges. Paper presented at the *IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*, Buenos Aires, Argentina. 
+
+[//]: # ([https://doi.org/10.2118/123456]&#40;https://doi.org/10.2118/123456&#41; *&#40;Note: This is a placeholder link; please replace with the actual DOI or URL when available&#41;*)
 
 Frydman, M., Acevedo, A., Miguel Castellanos, J., Casanova, O., Hasbani, J., Gutierrez, O., & Giroto, G. (2018). Reducing Drilling Risks in Highly Over-Pressurized Quintuco-Vaca Muerta Formation, a Case History in Neuquén Basin /Argentina. *SPE Argentina Exploration and Production of Unconventional Resources Symposium*, SPE-191839-MS. [https://doi.org/10.2118/191839-MS](https://doi.org/10.2118/191839-MS)
 
