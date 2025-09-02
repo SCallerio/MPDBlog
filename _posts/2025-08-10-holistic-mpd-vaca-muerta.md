@@ -53,8 +53,8 @@ The foundation of this approach is a technique called **Pressure Trapping MPD**.
       style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
 </picture>
 *<small>Fig. 3 &mdash; Connections (CNX) Surface Back-Pressure (SBP), Equivalent Static Density (ESD), and maximum Connection Gas Flow-Rate for Pressure Trapping MPD Application (Callerio et al., 2025). 
-The left plot shows the SBP, ESD and Gas-Out values versus Depth for 4 similar wells, where each line represents one well, 
-whereas the right plot shows the mean values plus the 95% confidence interval for these. 
+The left plots show the SBP, ESD and Gas-Out values versus Depth for 4 similar wells, where each line represents one well, 
+whereas the right plots show the mean values plus the 95% confidence interval for these. 
 Two distinctive peaks can be observed in the trend lines, which correspond to the transition between Quintuco and VM (Pre-Q), 
 and further down the transition into VM. The mean values show an average reduction of ~60 g/L (300 psi) of the measured pore pressure.<br /></small>*
 ## A Paradigm Shift in Tripping and Rollovers
