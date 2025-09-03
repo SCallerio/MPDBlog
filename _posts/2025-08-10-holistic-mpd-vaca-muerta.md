@@ -131,7 +131,7 @@ By integrating these strategies, MPD evolves from a piece of hardware to an indi
 
 ## References
 
-Callerio, S., Sanguinetti, C.E., Mastrangelo, L., & Toro Ibanez, J. C. (2025). MPD as a Holistic Solution for Vaca Muerta Challenges. Paper presented at the *IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*, Buenos Aires, Argentina. 
+Callerio, S., Sanguinetti, C.E., Mastrangelo, L., & Toro Ibanez, J. C. (2025). MPD as a Holistic Solution for Vaca Muerta Challenges: Minimizing Well Construction Time in High-Pressure Environments. Paper presented at the *IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*, Buenos Aires, Argentina. 
 
 [//]: # ([https://doi.org/10.2118/123456]&#40;https://doi.org/10.2118/123456&#41; *&#40;Note: This is a placeholder link; please replace with the actual DOI or URL when available&#41;*)
 
