@@ -127,13 +127,11 @@ The ultimate optimization, however, is offline cementing. With the well secured 
 
 By integrating these strategies, MPD evolves from a piece of hardware to an indispensable philosophy. It's a field-proven playbook for building more complex wells faster, safer, and more economically—a critical enabler for unlocking the full potential of *Vaca Muerta* and other high-pressure unconventional plays worldwide.
 
-*For the full technical analysis, including the detailed mud weight window schematics and operational data, access the paper, "MPD AS A HOLISTIC SOLUTION FOR VACA MUERTA CHALLENGES," presented at the [IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos](https://perforacion.iapg.org.ar/).*
+*For the full technical analysis, including the detailed mud weight window schematics and operational data, access the paper, "[MPD as a Holistic Solution for Vaca Muerta Challenges: Minimizing Well Construction Time in High-Pressure Environments](https://perforacion.iapg.org.ar/resumenes/Trabajos/PER081.pdf)," presented at the [IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos](https://perforacion.iapg.org.ar/).*
 
 ## References
 
-Callerio, S., Sanguinetti, C.E., Mastrangelo, L., & Toro Ibanez, J. C. (2025). MPD as a Holistic Solution for Vaca Muerta Challenges: Minimizing Well Construction Time in High-Pressure Environments. Paper presented at the *IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*, Buenos Aires, Argentina. 
-
-[//]: # ([https://doi.org/10.2118/123456]&#40;https://doi.org/10.2118/123456&#41; *&#40;Note: This is a placeholder link; please replace with the actual DOI or URL when available&#41;*)
+Callerio, S., Sanguinetti, C.E., Mastrangelo, L., & Toro Ibanez, J. C. (2025). MPD as a Holistic Solution for Vaca Muerta Challenges: Minimizing Well Construction Time in High-Pressure Environments. Paper presented at the *IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*, Buenos Aires, Argentina. [https://perforacion.iapg.org.ar/resumenes/Trabajos/PER081.pdf](https://perforacion.iapg.org.ar/resumenes/Trabajos/PER081.pdf)
 
 Frydman, M., Acevedo, A., Miguel Castellanos, J., Casanova, O., Hasbani, J., Gutierrez, O., & Giroto, G. (2018). Reducing Drilling Risks in Highly Over-Pressurized Quintuco-Vaca Muerta Formation, a Case History in Neuquén Basin /Argentina. *SPE Argentina Exploration and Production of Unconventional Resources Symposium*, SPE-191839-MS. [https://doi.org/10.2118/191839-MS](https://doi.org/10.2118/191839-MS)
 
