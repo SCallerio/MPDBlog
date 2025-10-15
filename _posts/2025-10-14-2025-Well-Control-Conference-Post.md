@@ -1,12 +1,15 @@
 ---
 layout: post
+author: Santiago Callerio
 title: "The Evolving Frontier of Well Control: A 2025 IADC Well Control Conference Review"
 subtitle: "A comprehensive look at the latest in MPD, shifting blowout trends, CO2 management, and the future of energy."
 categories: conference-content
-published: false
+published: true
 excerpt_separator: <!--more-->
 ---
-![Drilling Well Control, Land Rig]({{site.baseurl}} images/20180224_123206~2.jpg)
+![Drilling Well Control, Land Rig]({{site.baseurl}}/images/20180224_123206~2.jpg)
+*<small>Photo by Santiago Callerio
+<br /></small>*
 
 > The landscape of well control is constantly evolving. While foundational principles remain, the technologies we use, the regulations we follow, and the challenges we face are in a state of dynamic change.
 
