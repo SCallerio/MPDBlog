@@ -21,8 +21,10 @@ Managed Pressure Drilling has officially graduated from a niche technology to a 
 ## The New Regulatory Landscape: BSEE Formalizes MPD's Role
 The most significant development was the deep dive into **BSEE's updated guidelines for MPD ([NTL 2024-G05](https://www.bsee.gov/sites/bsee.gov/files/2024-11/BSEE%20NTL%20No.%202024-G05%20Managed%20Pressure%20Drilling%20Projects%20Using%20a%20Subsea%20Blow%20Out%20Preventer.pdf))**. Building on a decade of experience from over 220 subsea BOP wells, the agency is solidifying MPD's position as a primary well control system. The key message is that MPD is no longer "new technology" but a mature discipline with rigorous expectations.
 
+> MPD systems are now officially viewed by BSEE as well control (WC) equipment, with requirements that may be even more stringent than for conventional WC equipment.
+
 Key mandates include:
-*   **MPD as Well Control Equipment:** MPD systems are now officially viewed as well control (WC) equipment under guidelines like [30 CFR 250.738](), with requirements that may be even more stringent than for conventional WC equipment.
+*   **MPD as Well Control Equipment:** MPD systems are now officially viewed as well control (WC) equipment under guidelines like [30 CFR 250.738](https://www.govinfo.gov/content/pkg/CFR-2024-title30-vol2/pdf/CFR-2024-title30-vol2-sec250-738.pdf), with requirements that may be even more stringent than for conventional WC equipment.
 *   **Mandatory I3P Verification:** Operators must provide an Independent Third Party (I3P) "fit for service" report covering all MPD procedures, equipment, and the complete maintenance and spares management plan.
 *   **Enhanced Testing and Training:** The guidelines mandate frequent pressure testing of MPD equipment alongside traditional WC equipment (every 21 days) and emphasize robust crew training focused on the critical transition from standard MPD to active well control.
 
