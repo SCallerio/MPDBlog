@@ -6,6 +6,7 @@ categories: conference-content
 published: false
 excerpt_separator: <!--more-->
 ---
+![Drilling Well Control, Land Rig]({{site.baseurl}} images/20180224_123206~2.jpg)
 
 > The landscape of well control is constantly evolving. While foundational principles remain, the technologies we use, the regulations we follow, and the challenges we face are in a state of dynamic change.
 
