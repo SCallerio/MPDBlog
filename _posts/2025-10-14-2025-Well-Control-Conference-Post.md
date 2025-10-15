@@ -6,11 +6,11 @@ categories: conference-content
 published: true
 excerpt_separator: <!--more-->
 ---
-*A comprehensive look at the latest in MPD regulations, MGS design, kick tolerance modeling, shifting blowout trends, CO2 management, and the future of energy.*
-
 ![Drilling Well Control, Land Rig]({{site.baseurl}}/images/20180224_123206~2.jpg)
 *<small>Photo by Santiago Callerio
 <br /></small>*
+
+*A comprehensive look at the latest in MPD regulations, MGS design, kick tolerance modeling, shifting blowout trends, CO2 management, and the future of energy.*
 
 > The landscape of well control is constantly evolving. While foundational principles remain, the technologies we use, the regulations we follow, and the challenges we face are in a state of dynamic change.
 
