@@ -4,6 +4,7 @@ author:
   name: "Santiago Callerio"
   github_username: SCallerio
   email: santiagocallerio@gmail.com
+url: https://scallerio.github.io/MPDBlog/
 
 # The `>` after `description:` means to ignore line-breaks until next key.
 # If you want to omit the line-break after the end of text, use `>-` instead.
@@ -27,6 +28,7 @@ theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
 #  - jekyll-remote-theme
 
 # Theme-specific settings
@@ -78,4 +80,4 @@ minima:
   #  - { platform: x,              user_url: "https://x.com/jekyllrb" }
   #  - { platform: youtube,        user_url: "https://www.youtube.com/jekyll" }
 
-
+# ToDo: RSS Feed settings (rss button not working) https://aistudio.google.com/prompts/1CFkzzqft-X4PdXXDcJtfztH8ZTkCKjX_, https://reeswrites.com/posts/jekyll-feed-github-pages/, https://andrewstiefel.com/style-atom-xsl/
