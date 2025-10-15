@@ -1,12 +1,13 @@
 ---
 layout: post
 author: Santiago Callerio
-title: "The Evolving Frontier of Well Control: A 2025 IADC Well Control Conference Review"
-subtitle: "A comprehensive look at the latest in MPD, shifting blowout trends, CO2 management, and the future of energy."
+title: "The Evolving Frontier of Well Control: 2025 IADC Well Control Conference Review"
 categories: conference-content
 published: true
 excerpt_separator: <!--more-->
 ---
+*A comprehensive look at the latest in MPD regulations, MGS design, kick tolerance modeling, shifting blowout trends, CO2 management, and the future of energy.*
+
 ![Drilling Well Control, Land Rig]({{site.baseurl}}/images/20180224_123206~2.jpg)
 *<small>Photo by Santiago Callerio
 <br /></small>*
