@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Evolving Frontier of Well Control: A 2025 IADC Conference Review"
+title: "The Evolving Frontier of Well Control: A 2025 IADC Well Control Conference Review"
 subtitle: "A comprehensive look at the latest in MPD, shifting blowout trends, CO2 management, and the future of energy."
 categories: conference-content
 published: false
@@ -58,7 +58,7 @@ This fundamental work is crucial for validating the models we use and refining t
 
 # Part 2: Beyond MPD - Broader Trends Shaping the Industry
 
-While MPD was a dominant topic, the conference also provided a wide-angle view of the other forces shaping the well control and energy sectors.
+*While MPD was a dominant topic, the conference also provided a wide-angle view of the other forces shaping the well control and energy sectors.*
 
 ## The Regulatory and Energy Horizon
 The **Bureau of Ocean Energy Management (BOEM)** announced an ambitious plan for 30 new leases in the Gulf of Mexico and 6 in Alaska's Cook Inlet between 2026 and 2040. To attract investment, royalties would be reduced to 12-16%, and efforts are underway to reduce regulatory burdens and expedite project approvals.
@@ -82,7 +82,7 @@ Finally, a discussion on **Electric BOPs** by Brian Piccolo (HMH) and Matthew Gi
 
 # The Final Word
 
-The 2025 IADC conference painted a clear picture of an industry in transition. It is maturing and standardizing core advanced technologies like MPD while simultaneously adapting to a changing risk landscape and looking ahead to the challenges and opportunities of the energy transition. The commitment to advancing the science and practice of well control remains stronger than ever.
+The *2025 IADC Well Control Conference of the Americas & Exhibition* painted a clear picture of an industry in transition. It is maturing and standardizing core advanced technologies like MPD while simultaneously adapting to a changing risk landscape and looking ahead to the challenges and opportunities of the energy transition. The commitment to advancing the science and practice of well control remains stronger than ever.
 
 ---
 
