@@ -40,7 +40,11 @@ This regulatory shift underscores the industry's reliance on MPD and formalizes 
 ### Critical by Design: Re-Engineering the Mud Gas Separator (MGS)
 *No MPD system is complete without a robust Mud Gas Separator, and this vital equipment received a much-needed focus.*
 
-![IOGP Position Paper Preview]({{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png)<br />
+[//]: # (![IOGP Position Paper Preview]&#40;{{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png&#41;<br />)
+[//]: # (<img src="{{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png" alt="IOGP Position Paper Preview" style="width:75%;" /><br />)
+<div style="text-align:center;">
+  <img src="{{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png" alt="IOGP Position Paper Preview" style="width:50%;" /><br />
+</div>
 *<small>[IOGP Position Paper Preview - Mud Gas Separator Design and Operating Recommendations (November 2024)](https://www.iogp.org/bookstore/product/mud-gas-separator-design-and-operating-recommendations/)
 <br /></small>*
 
@@ -71,6 +75,10 @@ This fundamental work is crucial for validating the models we use and refining t
 
 ### The Regulatory and Energy Horizon
 The **Bureau of Ocean Energy Management (BOEM)** announced an ambitious plan for 30 new leases in the Gulf of Mexico and 6 in Alaska's Cook Inlet between 2026 and 2040 ([BOEM Press Release](https://www.boem.gov/newsroom/press-releases/boem-finalizes-environmental-review-gulf-america-offshore-energy), [DOI Press Release](https://www.doi.gov/pressreleases/interior-department-sets-offshore-energy-leasing-schedule-under-one-big-beautiful)). To attract investment, royalties would be reduced to 12-16%, and efforts are underway to reduce regulatory burdens and expedite project approvals.
+
+![AREA IDENTIFICATION MAP - 2024-2029 PROGRAM AREA - U.S. Outer Continental Shelf, Gulf of Mexico]({{site.baseurl}}/images/MAS-Area-ID-Map.png)
+*<small>[2024-2029 GOA Area Identification (Bureau of Ocean Energy Management, 2025)](https://www.boem.gov/oil-gas-energy/national-program/2024-2029-goa-area-identification)
+<br /></small>*
 
 On the new energy front, Toney Deer (Chair of Geothermal Development) signaled an upcoming announcement to accelerate **geothermal development**. The focus is on supercritical wells and medium/low enthalpy fields, highlighting the direct transferability of skills and technology from the oil and gas industry to this growing sector.
 
