@@ -40,6 +40,10 @@ This regulatory shift underscores the industry's reliance on MPD and formalizes 
 ### Critical by Design: Re-Engineering the Mud Gas Separator (MGS)
 *No MPD system is complete without a robust Mud Gas Separator, and this vital equipment received a much-needed focus.*
 
+![IOGP Position Paper Preview]({{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png)
+*<small>IOGP Position Paper Preview - Mud Gas Separator Design and Operating Recommendations (November 2024)
+<br /></small>*
+
 A presentation based on **[IOGP Position Paper - Mud Gas Separator Design and Operating Recommendations](https://www.iogp.org/bookstore/product/mud-gas-separator-design-and-operating-recommendations/)**(Nov. 2024) highlighted a critical vulnerability: the technology has been relatively unchanged for 50 years, despite its use in new, demanding applications (e.g., MPD influx circulation, drill-through for unconventionals). 
 
 **Martyn Parker** (Pruitt) complemented this by sharing practical insights from designing MGS for modern MPD operations. The core challenges are clear:
@@ -66,7 +70,7 @@ This fundamental work is crucial for validating the models we use and refining t
 *While MPD was a dominant topic, the conference also provided a wide-angle view of the other forces shaping the well control and energy sectors.*
 
 ### The Regulatory and Energy Horizon
-The **Bureau of Ocean Energy Management (BOEM)** announced an ambitious plan for 30 new leases in the Gulf of Mexico and 6 in Alaska's Cook Inlet between 2026 and 2040. To attract investment, royalties would be reduced to 12-16%, and efforts are underway to reduce regulatory burdens and expedite project approvals.
+The **Bureau of Ocean Energy Management (BOEM)** announced an ambitious plan for 30 new leases in the Gulf of Mexico and 6 in Alaska's Cook Inlet between 2026 and 2040 ([BOEM Press Release](https://www.boem.gov/newsroom/press-releases/boem-finalizes-environmental-review-gulf-america-offshore-energy), [DOI Press Release](https://www.doi.gov/pressreleases/interior-department-sets-offshore-energy-leasing-schedule-under-one-big-beautiful)). To attract investment, royalties would be reduced to 12-16%, and efforts are underway to reduce regulatory burdens and expedite project approvals.
 
 On the new energy front, Toney Deer (Chair of Geothermal Development) signaled an upcoming announcement to accelerate **geothermal development**. The focus is on supercritical wells and medium/low enthalpy fields, highlighting the direct transferability of skills and technology from the oil and gas industry to this growing sector.
 
