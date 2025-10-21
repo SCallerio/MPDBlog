@@ -41,7 +41,7 @@ This regulatory shift underscores the industry's reliance on MPD and formalizes 
 *No MPD system is complete without a robust Mud Gas Separator, and this vital equipment received a much-needed focus.*
 
 ![IOGP Position Paper Preview]({{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png)
-*<small>IOGP Position Paper Preview - Mud Gas Separator Design and Operating Recommendations (November 2024)
+*<small>[IOGP Position Paper Preview - Mud Gas Separator Design and Operating Recommendations (November 2024)](https://www.iogp.org/bookstore/product/mud-gas-separator-design-and-operating-recommendations/)
 <br /></small>*
 
 A presentation based on **[IOGP Position Paper - Mud Gas Separator Design and Operating Recommendations](https://www.iogp.org/bookstore/product/mud-gas-separator-design-and-operating-recommendations/)**(Nov. 2024) highlighted a critical vulnerability: the technology has been relatively unchanged for 50 years, despite its use in new, demanding applications (e.g., MPD influx circulation, drill-through for unconventionals). 
