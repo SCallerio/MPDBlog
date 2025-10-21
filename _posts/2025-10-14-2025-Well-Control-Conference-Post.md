@@ -40,7 +40,7 @@ This regulatory shift underscores the industry's reliance on MPD and formalizes 
 ### Critical by Design: Re-Engineering the Mud Gas Separator (MGS)
 *No MPD system is complete without a robust Mud Gas Separator, and this vital equipment received a much-needed focus.*
 
-![IOGP Position Paper Preview]({{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png)
+![IOGP Position Paper Preview]({{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png)<br />
 *<small>[IOGP Position Paper Preview - Mud Gas Separator Design and Operating Recommendations (November 2024)](https://www.iogp.org/bookstore/product/mud-gas-separator-design-and-operating-recommendations/)
 <br /></small>*
 
