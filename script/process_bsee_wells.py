@@ -36,7 +36,7 @@ def main():
     # Save as JSON instead of CSV
     output_dir = "data/processed"
     os.makedirs(output_dir, exist_ok=True)
-    output_path = os.path.join(output_dir, "gom_2025_wells.json")
+    output_path = os.path.join(output_dir, "gom_bsee_wells.json")
 
     # orient='records' → perfect for JavaScript: array of objects
     APD_2025.to_json(output_path, orient='records', date_format='iso', force_ascii=False)
