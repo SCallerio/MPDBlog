@@ -27,7 +27,7 @@ jobs:
 
       - name: Create directories
         run: |
-          mkdir -p data/raw/eWellAPDRawData
+          mkdir -p data/raw/
           mkdir -p data/processed
           mkdir -p scripts
 
@@ -37,7 +37,7 @@ jobs:
 
       - name: Unzip raw data
         run: |
-          unzip -o data/raw/eWellAPDRawData.zip -d data/raw/eWellAPDRawData
+          unzip -o data/raw/eWellAPDRawData.zip -d data/raw/
 
       - name: Run 2025 wells processing script
         run: |
