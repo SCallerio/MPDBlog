@@ -50,7 +50,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/raw/eWellAPDRawData/ data/processed/gom_2025_wells.csv script/process_bsee_wells.py
+          git add data/raw/eWellAPDRawData/ data/processed/gom_2025_wells.json script/process_bsee_wells.py
           git diff --quiet && git diff --staged --quiet || (
             git commit -m "Monthly update: BSEE Last 12 months APD wells ($(date +'%Y-%m-%d'))" &&
             git push
