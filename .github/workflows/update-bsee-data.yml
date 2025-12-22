@@ -1,0 +1,53 @@
+name: Update BSEE APD Data (Monthly)
+
+on:
+  schedule:
+    # Run on the 1st of every month at 06:00 UTC
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+jobs:
+  update-and-process:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install pandas
+        run: pip install pandas
+
+      - name: Create directories
+        run: |
+          mkdir -p data/raw/eWellAPDRawData
+          mkdir -p data/processed
+          mkdir -p scripts
+
+      - name: Download latest raw data
+        run: |
+          wget https://www.data.bsee.gov/Well/Files/eWellAPDRawData.zip -O data/raw/eWellAPDRawData.zip
+
+      - name: Unzip raw data
+        run: |
+          unzip -o data/raw/eWellAPDRawData.zip -d data/raw/eWellAPDRawData
+
+      - name: Run 2025 wells processing script
+        run: |
+          python script/process_bsee_wells.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/raw/eWellAPDRawData/ data/processed/gom_2025_wells.csv scripts/process_2025_wells.py
+          git diff --quiet && git diff --staged --quiet || (
+            git commit -m "Monthly update: BSEE 2025 APD wells ($(date +'%Y-%m-%d'))" &&
+            git push
+          )
