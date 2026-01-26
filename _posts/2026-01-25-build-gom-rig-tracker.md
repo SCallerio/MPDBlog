@@ -3,7 +3,7 @@ title: Build a Gulf of Mexico Rig Tracker Using BSEE APD Data and Plotly
 description: A Python-based workflow to analyze Gulf of Mexico offshore drilling activity using BSEE APD data, interactive maps, and operator- and rig-level summaries.
 author: Santiago Callerio
 layout: post
-published: true
+published: false
 categories: Data_Analytics
 excerpt_separator: <!--more-->
 ---
