@@ -1,15 +1,18 @@
 ---
 layout: post
 title:  "MPD Dynamic Well Control, and the birth of the Influx Management Envelope (IME)"
-date:   2025-01-19 18:58:51 -0600
+date:   2026-03-06 08:00:00 -0600
 categories: well_control
 excerpt_separator: <!--more-->
-published: false
+published: True
 ---
 
 ![Well Control Flaring]({{ site.baseurl }}/images/flaring.jpg "Well Control Flaring")
 *<small>Well control on a drilling rig, Bakken field, North Dakota, US. <br />
 Source: [Oil & Gas Watch](https://news.oilandgaswatch.org/post/study-air-pollution-from-oil-and-gas-flares-severely-underestimated)</small>*
+
+# The MPD Influx Management Envelope (IME) and Kick Tolerance Timeline
+<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vQ0cRAQL8pf3UPLlOnLvWVRbF3h8x2gCYA2Sh5oxyAw9iNCRxdy-DAWnVbPpWielhfpbo9NfypF3xgd&font=Default&lang=en&initial_zoom=0&theme=contrast&width=100%25&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
 
 ## MPD Dynamic Well Control
 The use of Managed Pressure Drilling (MPD) combined with mass flowmeters (i.e. Coriolis flowmeters) enhances the kick detection capability, reducing both detection time and reaction time ([Bacon et al., 2012](https://doi.org/10.2118/151392-MS)). This is clearly reflected in the resulting Influx Management Envelope (IME) designs, which downsize the MPD manageable kick limit from 25 bbl. down to 15 or 10 bbl. However, the origin or basis for these reference kick volume limits is not explicitly delineated, and is often referred to as the “customary limit” or “agreed volume limit” ([Gabaldon et al., 2019](https://doi.org/10.2118/194537-MS)).<!--more-->
