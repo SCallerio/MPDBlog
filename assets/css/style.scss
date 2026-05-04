@@ -14,3 +14,49 @@
     max-width: 100%;
     height: auto;
 }
+
+/* Make TimelineJS iframe go edge-to-edge */
+.timelinejs-container,
+.timelinejs-embed,
+iframe[src*="cdn.knightlab.com/libs/timeline3"] {
+  width: 90vw !important;
+  max-width: 90vw !important;
+  margin-left: calc(50% - 45vw) !important;
+  margin-right: calc(50% - 45vw) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Optional: reduce side padding only on mobile if it feels too extreme */
+@media (max-width: 768px) {
+  .timelinejs-container,
+  .timelinejs-embed,
+  iframe[src*="cdn.knightlab.com/libs/timeline3"] {
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+  }
+}
+
+///* Centered 90% width TimelineJS embed */
+//.timelinejs-container,
+//.timelinejs-embed,
+//iframe[src*="cdn.knightlab.com/libs/timeline3"] {
+//  width: 90vw !important;
+//  max-width: 90vw !important;
+//  margin-left: auto !important;
+//  margin-right: auto !important;
+//  display: block !important;   /* ensures centering works properly */
+//  padding-left: 0 !important;
+//  padding-right: 0 !important;
+//}
+//
+///* Optional: slight breathing room on very small screens */
+//@media (max-width: 768px) {
+//  .timelinejs-container,
+//  .timelinejs-embed,
+//  iframe[src*="cdn.knightlab.com/libs/timeline3"] {
+//    width: 96vw !important;   /* a bit wider on mobile for usability */
+//    margin-left: 2vw !important;
+//    margin-right: 2vw !important;
+//  }
+//}
