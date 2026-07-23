@@ -6,7 +6,7 @@ published: false
 categories: Data_Analytics
 excerpt_separator: <!--more-->
 description: "A Python/Jupyter guide to building an interactive MPD connections dashboard: set a hookload threshold visually and compute Surface Back Pressure statistics per connection."
-image: /images/thisisengineering-f4pUuCc3M0g-unsplash_bw.jpg
+image: {path: "/images/thisisengineering-f4pUuCc3M0g-unsplash_bw.jpg", width: 2000, height: 1334, alt: "Laptop showing a signals plot"}
 image_position: 15%
 image_caption: 'Photo by <a href="https://unsplash.com/@thisisengineering?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">ThisisEngineering</a> on <a href="https://unsplash.com/photos/person-using-black-laptop-computer-f4pUuCc3M0g?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>'
 ---

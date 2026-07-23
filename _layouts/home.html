@@ -146,7 +146,8 @@ layout: base
               _includes/head.html.
             {%- endcomment -%}
             {%- if post.image -%}
-              <img src="{{ post.image | remove: '_bw' | replace: '.jpg', '_web.jpg' | relative_url }}" alt="{{ post.title | escape }}"
+              <img src="{{ post.image.path | remove: '_bw' | replace: '.jpg', '_web.jpg' | relative_url }}"
+                   alt="{{ post.image.alt | default: post.title | escape }}"
                    style="object-position: center {{ post.image_position | default: '50%' }};">
               {%- if post.image_caption -%}
                 <small class="fig-caption">{{ post.image_caption }}</small>

@@ -6,7 +6,7 @@ categories: conference_content
 published: true
 excerpt_separator: <!--more-->
 description: "Key takeaways from the 2025 IADC Well Control Conference: new BSEE rules for Managed Pressure Drilling, mud gas separator design, kick tolerance modeling, and offshore leasing trends."
-image: /images/20180224_123206~2_bw.jpg
+image: {path: "/images/20180224_123206~2_bw.jpg", width: 2000, height: 1500, alt: "Drilling rig at a land well control site"}
 image_position: 70%
 image_caption: 'Photo by Santiago Callerio'
 ---

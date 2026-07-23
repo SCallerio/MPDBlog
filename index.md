@@ -6,6 +6,7 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 #
 layout: home
+image: {path: "/images/og-under-pressure.jpg", width: 1200, height: 630, alt: "Under Pressure — a Managed Pressure Drilling (MPD) technical blog"}
 ---
 
 This blog is dedicated to sharing insights, research, and advancements in Managed Pressure Drilling (MPD) and related technologies. Our goal is to provide a platform for students and professionals in the oil and gas industry to learn, discuss, and innovate in the field of drilling operations.

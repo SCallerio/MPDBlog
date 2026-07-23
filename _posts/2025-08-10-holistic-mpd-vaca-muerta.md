@@ -8,7 +8,7 @@ tags: [tripping, cementing, vaca-muerta]
 published: true
 excerpt_separator: <!--more-->
 description: "How holistic Managed Pressure Drilling extends lateral reach by 70%, cuts tripping time in half, and takes cementing off the critical path in Argentina's Vaca Muerta shale."
-image: /images/andrew-svk-958IhSPu5F4-unsplash_bw.jpg
+image: {path: "/images/andrew-svk-958IhSPu5F4-unsplash_bw.jpg", width: 2000, height: 1499, alt: "Long lateral drilling in Vaca Muerta"}
 image_position: 50%
 image_caption: 'Photo by <a href="https://unsplash.com/@andrew_svk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Andrew Svk</a> on <a href="https://unsplash.com/photos/a-person-walking-down-the-middle-of-a-road-958IhSPu5F4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>'
 ---
