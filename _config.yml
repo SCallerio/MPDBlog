@@ -4,7 +4,18 @@ author:
   name: "Santiago Callerio"
   github_username: SCallerio
   email: santiagocallerio@gmail.com
-url: https://scallerio.github.io/MPDBlog
+url: https://scallerio.github.io
+# GitHub Pages injects --baseurl "/MPDBlog" automatically for project
+# sites (no custom domain) regardless of what's here — but only for the
+# actual deployed build; local `jekyll build`/`serve` does NOT do this.
+# Setting it explicitly here makes local builds match production instead
+# of silently diverging, and is harmless on GH Pages itself (an
+# auto-injected CLI flag overrides an identical config value, not
+# doubles it). `url` must NOT also contain "/MPDBlog" — combined with
+# this baseurl, that produced a doubled /MPDBlog/MPDBlog/... in every
+# absolute_url (og:image, og:url, the feed, ...) on the live site only,
+# which is exactly why local testing never caught it.
+baseurl: "/MPDBlog"
 google_analytics: G-Z5C5SK4PXR
 
 # Post like-button backend (see cloudflare/like-counter-worker.js). Empty
