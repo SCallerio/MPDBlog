@@ -1,41 +1,260 @@
 ---
 layout: base
 ---
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-        {{ page.date | date: date_format }}
-      </time>
-      {%- if page.modified_date -%}
-        ~
-        {%- assign mdate = page.modified_date | date_to_xmlschema -%}
-        <time class="dt-modified" datetime="{{ mdate }}" itemprop="dateModified">
-          {{ mdate | date: date_format }}
-        </time>
+<!-- ═══════════════════════════════════════════════
+     POST HERO — full-width cover, same style as home
+     Uses page.image front-matter field; falls back to
+     the drillship if none defined.
+════════════════════════════════════════════════ -->
+{%- assign hero_img = page.image | default: '/images/drillmax_grayscale_opacity_20.png' -%}
+
+<section style="position:relative; width:100%; height:320px; overflow:hidden; background-color:#e8e8e8;">
+
+  <img src="{{ hero_img | relative_url }}"
+       alt="" aria-hidden="true"
+       style="position:absolute; inset:0; width:100%; height:100%;
+              object-fit:cover; object-position:center {{ page.image_position | default: '50%' }};
+              display:block; pointer-events:none; opacity:0.85;">
+
+  <!-- Same light scrim as the home hero, regardless of whether this is a
+       post's own photo or the drillship fallback — both are pre-baked
+       grayscale files (images/*_bw.jpg), styled identically on purpose. -->
+  <div style="position:absolute; inset:0; z-index:1; background:rgba(248,247,247,0.42);"></div>
+
+  <!-- Title + meta overlaid, aligned to main column -->
+  <div style="position:absolute; inset:0; z-index:2; display:flex; align-items:flex-end;">
+    <div class="max-w-[800px] mx-auto w-full px-6 pb-8">
+
+      {%- if page.categories.size > 0 -%}
+        <div style="margin-bottom:0.5rem; display:flex; flex-wrap:wrap; gap:0.4rem;">
+          {%- for cat in page.categories -%}
+            <span class="font-poppins font-normal cat-pill bg-accent-red/85 text-offwhite"
+                  style="font-size:0.7rem; padding:0.2rem 0.7rem; border-radius:999px;
+                         letter-spacing:0.05em; text-transform:uppercase;">
+              {{ cat | replace: '_', ' ' | capitalize }}
+            </span>
+          {%- endfor -%}
+        </div>
       {%- endif -%}
-      {%- if page.author -%}
-        • {% for author in page.author %}
-          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
-            {%- if forloop.last == false %}, {% endif -%}
-        {% endfor %}
-      {%- endif -%}</p>
-  </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
+      <h1 class="font-poppins font-semibold hero-title text-accent-red"
+          style="font-size:clamp(1.5rem,3.5vw,2.4rem); line-height:1.2; margin:0 0 0.4rem 0; max-width:72ch;">
+        {{ page.title | escape }}
+      </h1>
+
+      {%- assign reading_time = page.content | strip_html | number_of_words | divided_by: 200 | plus: 1 -%}
+      <div class="font-poppins font-normal hero-meta"
+           style="font-size:0.8rem; display:flex; gap:1rem; flex-wrap:wrap;">
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
+        {%- if page.author -%}<span>{{ page.author }}</span>
+        {%- elsif site.author.name -%}<span>{{ site.author.name }}</span>{%- endif -%}
+        <span>{{ reading_time }} min read</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{%- if page.image_caption -%}
+  <div class="max-w-[800px] mx-auto px-6">
+    <small class="fig-caption">{{ page.image_caption }}</small>
+  </div>
+{%- endif -%}
+
+<!-- ═══════════════════════════════════════════════
+     POST BODY — max-w-[800px] to match home column
+════════════════════════════════════════════════ -->
+<article class="max-w-[800px] mx-auto px-6 py-10">
+
+  {%- if page.subtitle -%}
+    <p class="font-poppins font-normal italic text-almost-black border-accent-red"
+       style="font-size:1.05rem; line-height:1.7;
+              border-left-width:3px; border-left-style:solid; padding-left:1rem; margin-bottom:2rem;">
+      {{ page.subtitle }}
+    </p>
+  {%- endif -%}
+
+  <div class="prose-mpd">
     {{ content }}
   </div>
 
-  {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
+  {%- assign post_url = page.url | absolute_url -%}
+  <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid rgba(164,163,168,0.3);
+              display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+
+    <!-- Like — shared/anonymous count via a Cloudflare Worker + GitHub-stored
+         data/likes.json (see cloudflare/like-counter-worker.js). Degrades to
+         an optimistic, locally-remembered "0 -> 1" if site.like_worker_url
+         isn't configured yet. -->
+    <button type="button" id="like-btn" onclick="handleLike('{{ page.slug }}')"
+            class="font-poppins font-normal link-accent"
+            style="display:inline-flex; align-items:center; gap:0.4rem; font-size:0.85rem;
+                   background:none; border:none; cursor:pointer; padding:0;">
+      <svg id="like-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <span id="like-count">&ndash;</span><span id="like-label">Like</span>
+    </button>
+
+    <!-- Share -->
+    <div style="display:flex; align-items:center; gap:0.85rem;">
+      <span class="font-poppins font-normal text-meta"
+            style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em;">
+        Share:
+      </span>
+
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ post_url | url_encode }}"
+         target="_blank" rel="noopener noreferrer" title="Share on LinkedIn" class="link-accent">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M13.632 13.635h-2.37V9.922c0-.886-.018-2.025-1.234-2.025-1.235 0-1.424.964-1.424 1.96v3.778h-2.37V6H8.51v1.04h.03c.318-.6 1.092-1.233 2.247-1.233 2.4 0 2.845 1.58 2.845 3.637v4.188zM3.558 4.955c-.762 0-1.376-.617-1.376-1.377 0-.758.614-1.375 1.376-1.375.76 0 1.376.617 1.376 1.375 0 .76-.617 1.377-1.376 1.377zm1.188 8.68H2.37V6h2.376v7.635zM14.816 0H1.18C.528 0 0 .516 0 1.153v13.694C0 15.484.528 16 1.18 16h13.635c.652 0 1.185-.516 1.185-1.153V1.153C16 .516 15.467 0 14.815 0z"/>
+        </svg>
+      </a>
+      <a href="https://twitter.com/intent/tweet?url={{ post_url | url_encode }}&text={{ page.title | url_encode }}"
+         target="_blank" rel="noopener noreferrer" title="Share on X / Twitter" class="link-accent">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M18.42 2H21.5l-7.5 8.57L23 22h-6.9l-5.4-6.9L4.5 22H1.4l8.1-9.26L1 2h7.1l4.9 6.3L18.42 2Zm-1.2 18h1.9L7.02 4H5l12.2 16Z"/>
+        </svg>
+      </a>
+      <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ post_url | url_encode }}"
+         target="_blank" rel="noopener noreferrer" title="Share on WhatsApp" class="link-accent">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.39c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.81-.78.97-.15.17-.29.19-.53.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.24-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.47-.01-.17 0-.43.06-.66.31-.23.24-.86.85-.86 2.06 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.25 3.74.59.26 1.06.41 1.42.52.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28Z"/>
+        </svg>
+      </a>
+      <button type="button" id="copy-link-btn" onclick="copyLink(this, '{{ post_url }}')"
+              title="Copy link" class="link-accent"
+              style="background:none; border:none; cursor:pointer; padding:0; display:inline-flex;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07l-1.41 1.41"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 11a5 5 0 0 0-7.07 0l-2.83 2.83a5 5 0 0 0 7.07 7.07l1.41-1.41"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {%- if page.tags.size > 0 -%}
+    <div style="margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid rgba(164,163,168,0.3);
+                display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem;">
+      <span class="font-poppins font-normal text-meta"
+            style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; margin-right:0.25rem;">
+        Tags:
+      </span>
+      {%- for tag in page.tags -%}
+        <span class="font-poppins font-normal text-almost-black bg-soft-gray/15"
+              style="font-size:0.75rem; padding:0.2rem 0.65rem; border-radius:4px;">
+          {{ tag }}
+        </span>
+      {%- endfor -%}
+    </div>
   {%- endif -%}
 
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  <nav style="margin-top:3rem; padding-top:2rem; border-top:1px solid rgba(164,163,168,0.3);
+              display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+    {%- if page.previous.url -%}
+      <a href="{{ page.previous.url | relative_url }}"
+         style="text-decoration:none; display:flex; flex-direction:column; gap:0.25rem;">
+        <span class="font-poppins font-normal text-meta"
+              style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; display:flex; align-items:center; gap:0.3rem;">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>Previous
+        </span>
+        <span class="font-poppins font-semibold text-almost-black hover-accent-red"
+              style="font-size:0.88rem; line-height:1.35;">
+          {{ page.previous.title | truncatewords: 8 }}
+        </span>
+      </a>
+    {%- else -%}<div></div>{%- endif -%}
+
+    {%- if page.next.url -%}
+      <a href="{{ page.next.url | relative_url }}"
+         style="text-decoration:none; display:flex; flex-direction:column; gap:0.25rem; text-align:right;">
+        <span class="font-poppins font-normal text-meta"
+              style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; display:flex; align-items:center; justify-content:flex-end; gap:0.3rem;">
+          Next
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </span>
+        <span class="font-poppins font-semibold text-almost-black hover-accent-red"
+              style="font-size:0.88rem; line-height:1.35;">
+          {{ page.next.title | truncatewords: 8 }}
+        </span>
+      </a>
+    {%- endif -%}
+  </nav>
+
+  {%- if site.disqus.shortname -%}
+    {%- include disqus_comments.html -%}
+  {%- else -%}
+    {%- comment -%}
+      Comments aren't wired up yet — add `disqus: {shortname: your-shortname}`
+      to _config.yml to switch this to the real embed above, no other
+      changes needed. (_includes/disqus.html is an older, unused duplicate
+      of disqus_comments.html with an inconsistent site.disqus variable
+      shape — dead code, not this placeholder's source.)
+    {%- endcomment -%}
+    <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid rgba(164,163,168,0.3);">
+      <h3 class="font-poppins font-semibold text-almost-black" style="font-size:1.1rem; margin-bottom:0.4rem;">
+        Comments
+      </h3>
+      <p class="font-merriweather text-meta" style="font-size:0.92rem;">
+        Comments aren't set up yet — coming soon.
+      </p>
+    </div>
+  {%- endif -%}
+
 </article>
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>`
+
+<script>
+  (function(){
+    var slug = {{ page.slug | jsonify }};
+    var workerUrl = {{ site.like_worker_url | jsonify }};
+    var countEl = document.getElementById('like-count');
+    var likedKey = 'liked_' + slug;
+
+    if (localStorage.getItem(likedKey)) setLikedUI();
+
+    if (!workerUrl) { countEl.textContent = '0'; return; }
+    fetch(workerUrl + '/likes/' + encodeURIComponent(slug))
+      .then(function(r){ return r.json(); })
+      .then(function(data){ countEl.textContent = data.count; })
+      .catch(function(){ countEl.textContent = '0'; });
+  })();
+
+  function setLikedUI() {
+    var likeBtn = document.getElementById('like-btn');
+    document.getElementById('like-icon').setAttribute('fill', 'currentColor');
+    document.getElementById('like-label').textContent = 'Liked';
+    likeBtn.disabled = true;
+    likeBtn.style.cursor = 'default';
+    likeBtn.style.opacity = '0.85';
+  }
+
+  function handleLike(slug) {
+    var likedKey = 'liked_' + slug;
+    if (localStorage.getItem(likedKey)) return;
+    localStorage.setItem(likedKey, '1');
+
+    var countEl = document.getElementById('like-count');
+    var current = parseInt(countEl.textContent, 10) || 0;
+    countEl.textContent = current + 1; // optimistic
+    setLikedUI();
+
+    var workerUrl = {{ site.like_worker_url | jsonify }};
+    if (!workerUrl) return; // no backend deployed yet — optimistic UI only
+    fetch(workerUrl + '/likes/' + encodeURIComponent(slug), { method: 'POST' })
+      .then(function(r){ return r.json(); })
+      .then(function(data){ if (typeof data.count === 'number') countEl.textContent = data.count; })
+      .catch(function(){ /* keep the optimistic count if the request fails */ });
+  }
+
+  function copyLink(btn, url) {
+    navigator.clipboard.writeText(url).then(function(){
+      var original = btn.innerHTML;
+      btn.textContent = 'Copied!';
+      setTimeout(function(){ btn.innerHTML = original; }, 1500);
+    });
+  }
+</script>

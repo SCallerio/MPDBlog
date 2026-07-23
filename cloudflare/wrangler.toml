@@ -1,0 +1,11 @@
+name = "mpd-blog-likes"
+main = "like-counter-worker.js"
+compatibility_date = "2024-11-01"
+
+# Non-secret config. GITHUB_TOKEN is NOT here on purpose — it's set as an
+# encrypted secret instead (see README.md), since this file is committed
+# to git and anything in it is public.
+[vars]
+GITHUB_OWNER = "SCallerio"
+GITHUB_REPO = "MPDBlog"
+GITHUB_BRANCH = "main"

@@ -2,60 +2,173 @@
 layout: base
 ---
 
-<div class="home">
-  {%- if page.title -%}
-    <h1 class="page-heading">{{ page.title }}</h1>
-  {%- endif -%}
+<!-- ═══════════════════════════════════════════════
+     HERO — full-width short cover banner
+     Only Title + Subtitle inside. Description moves below.
+════════════════════════════════════════════════ -->
+<section style="position:relative; width:100%; height:320px; overflow:hidden; background-color:#e8e8e8;">
 
-  {{ content }}
+  <img src="{{ '/images/drillmax_grayscale_opacity_20.png' | relative_url }}"
+       alt="" aria-hidden="true"
+       style="position:absolute; inset:0; width:100%; height:100%;
+              object-fit:cover; object-position:center 55%;
+              display:block; pointer-events:none; opacity:0.85;">
 
+  <div class="absolute inset-0 z-[1] bg-offwhite/[0.42]"></div>
 
-  {% if site.paginate %}
-    {% assign posts = paginator.posts %}
-  {% else %}
-    {% assign posts = site.posts %}
-  {% endif %}
+  <div style="position:absolute; inset:0; z-index:2; display:flex; align-items:center;">
+    <div class="max-w-[800px] mx-auto w-full px-6">
 
+      <span class="block w-12 h-[3px] bg-accent-red rounded-sm mb-[1.1rem]"></span>
 
-  {%- if posts.size > 0 -%}
-    {%- if page.list_title -%}
-      <h2 class="post-list-heading">{{ page.list_title }}</h2>
+      <h1 class="font-poppins font-semibold hero-title text-accent-red"
+          style="font-size:clamp(2rem,4.5vw,3rem); line-height:1.15; margin-bottom:0.5rem;">
+        {{ site.title | escape }}
+      </h1>
+
+      {%- if site.subtitle -%}
+        <p class="font-poppins font-normal hero-subtitle"
+           style="font-size:1.05rem; margin:0;">
+          {{ site.subtitle | escape }}
+        </p>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     DESCRIPTION BAND — below hero, above posts
+════════════════════════════════════════════════ -->
+{%- if site.description or content != "" -%}
+<div class="bg-offwhite dark:bg-[#1f1f1f] border-b border-soft-gray/20 dark:border-soft-gray/15">
+  <div class="max-w-[800px] mx-auto px-6 py-8">
+
+    {%- if site.description -%}
+      <p class="font-merriweather text-almost-black opacity-[0.85]"
+         style="font-size:0.97rem; line-height:1.85; max-width:72ch;">
+        {{ site.description | escape }}
+      </p>
     {%- endif -%}
-    <ul class="post-list">
-      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-      {%- for post in posts -%}
-      <li>
-        <span class="post-meta">{{ post.date | date: date_format }}</span>
-        <h3>
-          <a class="post-link" href="{{ post.url | relative_url }}">
+
+    {%- if content != "" and content != nil -%}
+      <div class="font-merriweather text-meta"
+           style="font-size:0.88rem; line-height:1.85; max-width:72ch; margin-top:0.6rem;">
+        {{ content }}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+{%- endif -%}
+
+<!-- ═══════════════════════════════════════════════
+     POSTS LISTING — excerpt only, respects the excerpt_separator
+════════════════════════════════════════════════ -->
+<section class="max-w-[800px] mx-auto px-6 py-12">
+
+  {%- if site.posts.size > 0 -%}
+
+    <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem;">
+      <div class="w-1 h-8 bg-accent-red rounded-sm shrink-0"></div>
+      <h2 class="font-poppins font-semibold text-almost-black" style="font-size:1.6rem; margin:0;">
+        {{ page.list_title | default: "Latest Posts" }}
+      </h2>
+    </div>
+
+    {%- if site.categories.size > 0 or site.tags.size > 0 -%}
+      <div id="post-filter" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2rem;">
+        <button type="button" onclick="filterPosts('all')"
+                class="font-poppins font-normal cat-pill filter-pill active"
+                style="font-size:0.72rem; padding:0.2rem 0.75rem; border-radius:999px; border:1px solid transparent; cursor:pointer;">
+          All
+        </button>
+        {%- for category in site.categories -%}
+          <button type="button" onclick="filterPosts('{{ category[0] | downcase }}')"
+                  class="font-poppins font-normal cat-pill filter-pill"
+                  style="font-size:0.72rem; padding:0.2rem 0.75rem; border-radius:999px; border:1px solid transparent; cursor:pointer;">
+            {{ category[0] | replace: '_', ' ' | capitalize }}
+          </button>
+        {%- endfor -%}
+        {%- for tag in site.tags -%}
+          <button type="button" onclick="filterPosts('{{ tag[0] | downcase }}')"
+                  class="font-poppins font-normal cat-pill filter-pill"
+                  style="font-size:0.72rem; padding:0.2rem 0.75rem; border-radius:999px; border:1px solid transparent; cursor:pointer;">
+            #{{ tag[0] }}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+    {%- for post in site.posts -%}
+
+      <article data-category="{{ post.categories | join: ' ' | downcase }}"
+               data-tags="{{ post.tags | join: ' ' | downcase }}"
+               style="border-bottom:1px solid rgba(164,163,168,0.25); padding-bottom:2.5rem; margin-bottom:2.5rem;">
+
+        {%- assign reading_time = post.content | strip_html | number_of_words | divided_by: 200 | plus: 1 -%}
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.6rem; margin-bottom:0.6rem;">
+          <time class="font-poppins font-normal text-meta"
+                datetime="{{ post.date | date_to_xmlschema }}"
+                style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em;">
+            {{ post.date | date: date_format }}
+          </time>
+          <span class="font-poppins font-normal text-meta"
+                style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em;">
+            &middot; {{ reading_time }} min read
+          </span>
+          {%- for cat in post.categories limit:2 -%}
+            <span class="font-poppins font-normal cat-pill text-accent-red bg-accent-red/[0.08] border border-accent-red/20"
+                  style="font-size:0.72rem; padding:0.15rem 0.65rem; border-radius:999px;">
+              {{ cat | replace: '_', ' ' | capitalize }}
+            </span>
+          {%- endfor -%}
+        </div>
+
+        <h3 class="font-poppins font-semibold text-almost-black"
+            style="font-size:1.3rem; line-height:1.35; margin:0 0 0.9rem 0;">
+          <a href="{{ post.url | relative_url }}"
+             class="hover-accent-red"
+             style="text-decoration:none; color:inherit;">
             {{ post.title | escape }}
           </a>
         </h3>
-        {%- if site.show_excerpts -%}
-          {{ post.excerpt }}
-        {%- endif -%}
-      </li>
-      {%- endfor -%}
-    </ul>
 
-    {% if site.paginate %}
-      <div class="pager">
-        <ul class="pagination">
-        {%- if paginator.previous_page %}
-          <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{ paginator.previous_page }}</a></li>
-        {%- else %}
-          <li><div class="pager-edge">•</div></li>
-        {%- endif %}
-          <li><div class="current-page">{{ paginator.page }}</div></li>
-        {%- if paginator.next_page %}
-          <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page }}</a></li>
-        {%- else %}
-          <li><div class="pager-edge">•</div></li>
-        {%- endif %}
-        </ul>
-      </div>
-    {%- endif %}
+        {%- if site.show_excerpts -%}
+          <div class="font-merriweather excerpt-content text-meta"
+               style="font-size:0.95rem; line-height:1.8; margin-bottom:1rem;">
+            {%- comment -%}
+              Card thumbnail uses the web-sized color photo (script/
+              generate_hero_images.py --web-color), not the full-resolution
+              original and not the grayscale _bw hero variant — reuses
+              .excerpt-content img sizing already defined in
+              _includes/head.html.
+            {%- endcomment -%}
+            {%- if post.image -%}
+              <img src="{{ post.image | remove: '_bw' | replace: '.jpg', '_web.jpg' | relative_url }}" alt="{{ post.title | escape }}"
+                   style="object-position: center {{ post.image_position | default: '50%' }};">
+              {%- if post.image_caption -%}
+                <small class="fig-caption">{{ post.image_caption }}</small>
+              {%- endif -%}
+            {%- endif -%}
+            {{ post.excerpt }}
+          </div>
+        {%- endif -%}
+
+        <a href="{{ post.url | relative_url }}"
+           class="link-accent font-poppins"
+           style="display:inline-flex; align-items:center; gap:0.35rem; font-size:0.85rem; text-decoration:none;">
+          Read more
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+
+      </article>
+
+    {%- endfor -%}
 
   {%- endif -%}
 
-</div>
+</section>

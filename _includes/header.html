@@ -1,32 +1,153 @@
-<header class="site-header">
+<header style="background:#151515; position:sticky; top:0; z-index:50; box-shadow:0 1px 8px rgba(0,0,0,0.4);">
+  <div class="max-w-[800px] mx-auto px-6" style="display:flex; align-items:center; justify-content:space-between;">
 
-  <div class="wrapper">
-    {%- assign default_paths = site.pages | map: "path" -%}
-    {%- assign page_paths = site.header_pages | default: default_paths -%}
-    {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
-<!--    <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }} <small>{{ site.subtitle | escape }}</small></a>-->
-    <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}<span class="site-subtitle"><small>{{ site.subtitle | escape }}</small></span> </a>
+    <!-- Brand -->
+    <a href="{{ '/' | relative_url }}"
+       style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; padding:1rem 0;">
+      <span class="font-poppins font-semibold link-accent"
+            style="font-size:1.15rem; letter-spacing:0.01em;">
+        {{ site.title | escape }}
+      </span>
+      {%- if site.subtitle -%}
+        <span class="font-poppins font-normal"
+              style="color:rgba(248,247,247,0.65); font-size:0.82rem; display:none;"
+              class="sm:inline">
+          {{ site.subtitle | escape }}
+        </span>
+      {%- endif -%}
+    </a>
 
-    {%- if titles_size > 0 -%}
-      <nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
+    <!-- Nav + Theme toggle -->
+    <div style="display:flex; align-items:center; gap:0;">
 
-        <div class="trigger">
-          {%- for path in page_paths -%}
-            {%- assign my_page = site.pages | where: "path", path | first -%}
-            {%- if my_page.title -%}
-            <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      </nav>
-    {%- endif -%}
+      {%- assign default_paths = site.pages | map: "path" -%}
+      {%- assign page_paths = site.header_pages | default: default_paths -%}
+      {%- assign titled_pages = site.pages | where_exp: "p", "p.title != nil" -%}
+      {%- for nav_path in page_paths -%}
+        {%- assign nav_pages = titled_pages | where: "path", nav_path -%}
+        {%- for nav_page in nav_pages -%}
+          <a href="{{ nav_page.url | relative_url }}"
+             class="font-poppins font-normal nav-link{% if page.url == nav_page.url %} nav-link-active{% endif %}"
+             style="font-size:0.88rem; padding:1.25rem 1rem; text-decoration:none;">
+            {{ nav_page.title | escape }}
+          </a>
+        {%- endfor -%}
+      {%- endfor -%}
+
+      <!-- Dark / Light theme toggle -->
+      <button id="theme-toggle"
+              onclick="toggleTheme()"
+              title="Toggle dark/light theme"
+              class="theme-toggle-btn font-poppins"
+              style="margin-left:0.75rem; background:rgba(248,247,247,0.1); border:none;
+                     border-radius:999px; padding:0.4rem 0.75rem; cursor:pointer;
+                     display:flex; align-items:center; gap:0.35rem;
+                     color:#F8F7F7; font-size:0.75rem;">
+        <span id="theme-icon">☀️</span>
+        <span id="theme-label" style="display:none; font-size:0.72rem;">Light</span>
+      </button>
+
+    </div>
   </div>
 </header>
+
+<script>
+  // Swap <img data-light-src data-dark-src> pairs to match the current
+  // theme. Post images can't rely on <picture><source media="(prefers-
+  // color-scheme: dark)"> alone: this site's theme is a manual toggle
+  // persisted to localStorage, which overrides the OS preference — a
+  // media-query-only swap would drift out of sync with the toggle.
+  function syncThemedImages() {
+    var isDark = document.body.classList.contains('dark');
+    document.querySelectorAll('img[data-light-src][data-dark-src]').forEach(function(img){
+      var wanted = isDark ? img.dataset.darkSrc : img.dataset.lightSrc;
+      if (img.getAttribute('src') !== wanted) img.src = wanted;
+    });
+  }
+
+  // Prefixed "Mpd" on purpose: some posts (e.g. the interactive Jupyter
+  // dashboards) embed their own <script> with unscoped global functions
+  // of their own — a plain `applyTheme` here previously collided with
+  // one such post-local `function applyTheme(theme)`, which silently
+  // broke the toggle only on that page (last script tag to declare a
+  // same-named global function wins).
+  function applyMpdTheme(isDark) {
+    document.body.classList.toggle('dark', isDark);
+    var icon = document.getElementById('theme-icon');
+    if (icon) icon.textContent = isDark ? '🌙' : '☀️';
+    syncThemedImages();
+    // Lets any post-embedded chart/widget react to a real theme change
+    // (manual toggle or live OS-follow) instead of only picking up the
+    // new theme the next time it happens to redraw for its own reasons.
+    document.dispatchEvent(new CustomEvent('mpd-theme-change', { detail: { isDark: isDark } }));
+  }
+
+  var osDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+  // Apply theme on load: an explicit manual choice (from a previous
+  // toggle click) always wins; otherwise follow the OS preference.
+  (function(){
+    var saved = localStorage.getItem('mpd-theme');
+    applyMpdTheme(saved === 'dark' || (!saved && osDarkQuery.matches));
+  })();
+
+  // This <script> runs during initial HTML parsing, before the post
+  // body further down the page — and its <img data-light-src
+  // data-dark-src> elements — exist in the DOM. So the syncThemedImages()
+  // call inside applyMpdTheme() above finds nothing on first load; it
+  // only actually syncs images once a later toggle re-runs it, by which
+  // point the whole page has loaded. Run it again here once the DOM
+  // (including post content) is actually complete.
+  document.addEventListener('DOMContentLoaded', syncThemedImages);
+
+  // Tag the post's real opening paragraph with .drop-cap (styled in
+  // _includes/head.html). Skips a leading italic-only summary line
+  // (`*text*` with nothing else in the paragraph) — whatever comes
+  // between that line and the real first paragraph varies post to post
+  // (a blockquote, a heading, nothing), so this just walks the direct
+  // <p> children in order rather than assuming a fixed structure.
+  function applyDropCap() {
+    document.querySelectorAll('.prose-mpd').forEach(function(prose){
+      var paras = prose.querySelectorAll(':scope > p');
+      for (var i = 0; i < paras.length; i++) {
+        var p = paras[i];
+        var isItalicOnly = p.children.length === 1 && p.children[0].tagName === 'EM' &&
+                            p.children[0].textContent.trim() === p.textContent.trim();
+        if (!isItalicOnly) { p.classList.add('drop-cap'); break; }
+      }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', applyDropCap);
+
+  // Keep following the OS theme live — e.g. the OS switches to dark at
+  // sunset while the tab is open — but only for visitors who haven't
+  // clicked the toggle. Once toggled, the manual choice in localStorage
+  // is permanent and OS changes are ignored, same as the toggle itself.
+  osDarkQuery.addEventListener('change', function(e){
+    if (localStorage.getItem('mpd-theme')) return;
+    applyMpdTheme(e.matches);
+  });
+
+  function toggleTheme() {
+    var isDark = !document.body.classList.contains('dark');
+    localStorage.setItem('mpd-theme', isDark ? 'dark' : 'light');
+    applyMpdTheme(isDark);
+  }
+
+  // Home-page category/tag filter (single-select). Each post <article>
+  // carries data-category/data-tags (space-separated, lowercased);
+  // 'all' resets. Prefixed "Mpd" for the same reason applyMpdTheme is —
+  // avoid colliding with a same-named global in a post-embedded script.
+  function filterPosts(value) {
+    document.querySelectorAll('.filter-pill').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('onclick') === "filterPosts('" + value + "')");
+    });
+    document.querySelectorAll('article[data-category]').forEach(function(article){
+      if (value === 'all') { article.style.display = ''; return; }
+      var cats = article.dataset.category.split(' ');
+      var tags = article.dataset.tags.split(' ');
+      var match = cats.indexOf(value) !== -1 || tags.indexOf(value) !== -1;
+      article.style.display = match ? '' : 'none';
+    });
+  }
+</script>

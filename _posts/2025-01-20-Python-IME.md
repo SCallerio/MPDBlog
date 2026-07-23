@@ -9,7 +9,7 @@ excerpt_separator: <!--more-->
 published: false
 ---
 ![Influx Management Envelope]({{ site.baseurl }}/images/IME_SB.svg "Influx Management Envelope")<br>
-*<small>Influx Management Envelope (IME)</small>*
+*<small class="fig-caption">Influx Management Envelope (IME)</small>*
 
 Developing an Influx Management Envelope (IME) traditionally requires running several instances of a transient multi-phase model (e.g. a drift-flux model ([Gu et al. (2022)](https://doi.org/10.1016/j.applthermaleng.2022.118077)), Drillbench, etc.) to determine which influx combinations surpass the pre-established limits for pressure and flowrate. This can be a time intensive process that requires fine tuning and repetition. An analytical IME, although it disregards part of the multi-phase dynamics such as gas distribution and phase mixture (i.e. using single-bubble equations where $$\alpha_g = 1$$), and gas dilution, it represents an accurate first approximation to an IME and a fast-drafting tool in case an IME needs to be updated.
 
@@ -25,7 +25,7 @@ $$P_{H_2}=P_{H_{MW}}+P_{H_K}$$<br>
 
 | <div style="text-align:center"><a name="wellbore-reference"></a><img src="{{ site.baseurl }}/images/wellbore_reference.png" alt="Wellbore Reference" width="200"/></div>        |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *<small>Figure 1.1: Wellbore reference, showing the defined references for influx height ($$h_{K_2}$$), mud column height ($$d_2$$), and total depth TVD ($$d_{TD}$$).</small>* |
+| *<small class="fig-caption">Figure 1.1: Wellbore reference, showing the defined references for influx height ($$h_{K_2}$$), mud column height ($$d_2$$), and total depth TVD ($$d_{TD}$$).</small>* |
 
 $$P_{H_2}=\rho_{MW}×g×d_2+\rho_K×g×h_{K_2}$$
 $$P_{H_2}=\rho_{MW}×g×(d_{TD}-h_{K_{2}})+\rho_K×g×h_{K_2}$$

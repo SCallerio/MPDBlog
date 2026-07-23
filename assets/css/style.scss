@@ -1,62 +1,96 @@
 ---
-# Only the main Sass file needs front matter (the dashes are enough)
 ---
 
-@import
-  "minima/skins/{{ site.minima.skin | default: 'classic' }}",
-  "minima/initialize";
+/*
+ * MPD Blog — custom stylesheet
+ * Tailwind CSS handles the heavy lifting via CDN.
+ * This file provides: syntax highlighting, fine-grained overrides,
+ * and anything Tailwind's JIT doesn't cover at build time.
+ */
 
-.center-image {
-    text-align: center;
+/* ── Syntax Highlighting (rouge / highlight.js compatible) ─────── */
+.highlight {
+  background: #151515;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  color: #F8F7F7;
+  font-size: 0.875rem;
+  line-height: 1.7;
 }
-.center-image img {
-    display: inline-block;
-    max-width: 100%;
-    height: auto;
+/* !important throughout: the code block background is always dark
+   (#151515) regardless of the site's light/dark toggle, so these token
+   colors are never meant to change — but without !important they lose
+   to _includes/head.html's `body.dark span:not(.cat-pill):not(.tag-pill)`
+   catch-all, which forces every plain <span> (Rouge tokens included)
+   to #F8F7F7 in dark mode and flattens all syntax highlighting to white. */
+.highlight .c  { color: #A4A3A8 !important; font-style: italic }
+.highlight .k  { color: #E64E28 !important; font-weight: 600 }
+.highlight .s  { color: #a6e22e !important; }
+.highlight .n  { color: #F8F7F7 !important; }
+.highlight .o  { color: #D23810 !important; }
+.highlight .m  { color: #ae81ff !important; }
+.highlight .nb { color: #66d9ef !important; }
+.highlight .nn { color: #f8f8f2 !important; }
+
+/* ── Jupyter Notebook output cells ─────────────────────────────── */
+.input_area pre,
+.output_area pre {
+  background: #151515;
+  color: #F8F7F7;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.8rem;
 }
 
-/* Make TimelineJS iframe go edge-to-edge */
-.timelinejs-container,
-.timelinejs-embed,
-iframe[src*="cdn.knightlab.com/libs/timeline3"] {
-  width: 90vw !important;
-  max-width: 90vw !important;
-  margin-left: calc(50% - 45vw) !important;
-  margin-right: calc(50% - 45vw) !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+/* ── Responsive images in posts ────────────────────────────────── */
+.prose-mpd figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+.prose-mpd figure img {
+  display: inline-block;
+}
+.prose-mpd figure figcaption {
+  /* color/font-style intentionally omitted: owned by the theme-aware
+     caption rule (light/dark) in _includes/head.html to avoid two
+     competing definitions. */
+  margin-top: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
 }
 
-/* Optional: reduce side padding only on mobile if it feels too extreme */
-@media (max-width: 768px) {
-  .timelinejs-container,
-  .timelinejs-embed,
-  iframe[src*="cdn.knightlab.com/libs/timeline3"] {
-    margin-left: -1rem !important;
-    margin-right: -1rem !important;
-  }
+/* ── Tables ─────────────────────────────────────────────────────── */
+.prose-mpd table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  margin: 1.5rem 0;
+}
+.prose-mpd th {
+  background: #151515;
+  color: #F8F7F7;
+  font-weight: 600;
+  padding: 0.625rem 1rem;
+  text-align: left;
+}
+.prose-mpd td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #A4A3A820;
+  color: #151515;
+}
+.prose-mpd tr:nth-child(even) td {
+  background: rgba(210,56,16,0.04);
 }
 
-///* Centered 90% width TimelineJS embed */
-//.timelinejs-container,
-//.timelinejs-embed,
-//iframe[src*="cdn.knightlab.com/libs/timeline3"] {
-//  width: 90vw !important;
-//  max-width: 90vw !important;
-//  margin-left: auto !important;
-//  margin-right: auto !important;
-//  display: block !important;   /* ensures centering works properly */
-//  padding-left: 0 !important;
-//  padding-right: 0 !important;
-//}
-//
-///* Optional: slight breathing room on very small screens */
-//@media (max-width: 768px) {
-//  .timelinejs-container,
-//  .timelinejs-embed,
-//  iframe[src*="cdn.knightlab.com/libs/timeline3"] {
-//    width: 96vw !important;   /* a bit wider on mobile for usability */
-//    margin-left: 2vw !important;
-//    margin-right: 2vw !important;
-//  }
-//}
+/* ── Scrollbar (webkit) ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #F8F7F7; }
+::-webkit-scrollbar-thumb { background: #A4A3A8; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #D23810; }
+
+/* ── Selection ──────────────────────────────────────────────────── */
+::selection { background: #D23810; color: #F8F7F7; }

@@ -1,14 +1,26 @@
 ---
 layout: base
 ---
-<article class="post">
 
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title | escape }}</h1>
+<div class="max-w-3xl mx-auto px-6 py-12">
+
+  <header class="mb-8">
+
+    <!-- Accent line -->
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-8 h-0.5 bg-accent-red rounded-full"></div>
+    </div>
+
+    <h1 class="font-poppins font-semibold text-almost-black text-3xl md:text-4xl leading-tight">
+      {{ page.title | escape }}
+    </h1>
+
+    <!-- Divider -->
+    <div class="mt-5 h-px bg-soft-gray/30"></div>
   </header>
 
-  <div class="post-content">
+  <div class="prose-mpd text-base leading-relaxed space-y-5">
     {{ content }}
   </div>
 
-</article>
+</div>

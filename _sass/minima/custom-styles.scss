@@ -1,6 +1,11 @@
-// Placeholder to allow defining custom styles that override everything else.
-// (Use `_sass/minima/custom-variables.scss` to override variable defaults)
+// _sass/minima/custom-styles.scss
+// MPD Blog: All major styling is done via Tailwind classes in the layout templates.
+// Minima's base SCSS is effectively overridden by the Tailwind CDN.
+// This file can hold any remaining Minima-specific overrides if needed.
 
-.category-title {
-  text-transform: capitalize;
+// Reset Minima's default wrapper constraints so Tailwind max-w-* controls layout
+.wrapper {
+  max-width: none;
+  padding: 0;
+  margin: 0;
 }

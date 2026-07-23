@@ -16,7 +16,7 @@ This work focuses on planning and execution of Managed Pressure Tripping operati
 - Show tripping time
 
 ![esd_vs_rollover_depth]({{ site.baseurl }}/images/esd_vs_rollover_depth.png "ECD vs. Rollover Depth")
-*<small>ECD vs. Rollover Depth</small>*
+*<small class="fig-caption">ECD vs. Rollover Depth</small>*
 
 ## Swab/Surge - where's our anchor depth?
 - Useful S&S models
@@ -26,15 +26,15 @@ This work focuses on planning and execution of Managed Pressure Tripping operati
 
 - Swab Speed and Anchor Depth
 ![swab_speed_anchor_depth]({{ site.baseurl }}/images/swab_speed_anchor_depth.png "Swab speed and anchor point")
-*<small>Swab speed and anchor point</small>*
+*<small class="fig-caption">Swab speed and anchor point</small>*
 - Temperature effect on static mud
 ![temp_effect_static_mud]({{ site.baseurl }}/images/temp_effect_static_mud.png "Temperature effect on static mud")
-*<small>Temperature effect on static mud</small>*
+*<small class="fig-caption">Temperature effect on static mud</small>*
 
 ## Pill design - do we include kill mud to optimize?
 - Types of pills, and combinations to optimize rollover time
 ![trip_pill_configuration]({{ site.baseurl }}/images/trip_pill_configuration.png "Tripping slug configuration")
-*<small>Tripping slug configuration</small>*
+*<small class="fig-caption">Tripping slug configuration</small>*
 
 ## Kill Top - when is it feasible?
 - Show main equations

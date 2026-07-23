@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Styles feed.xml for humans who click the RSS link in a browser (most
+  browsers have no built-in feed reader anymore and just show raw XML).
+  Feed readers/aggregators ignore this entirely and parse the Atom XML
+  underneath as normal — jekyll-feed auto-links it because this file is
+  named exactly feed.xslt.xml at the repo root (see its README).
+-->
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:atom="http://www.w3.org/2005/Atom">
+  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
+  <xsl:template match="/">
+    <html lang="en">
+      <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title><xsl:value-of select="atom:feed/atom:title"/> &#8212; RSS Feed</title>
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700&amp;family=Poppins:wght@400;600&amp;display=swap" rel="stylesheet"/>
+        <style>
+          body {
+            background: #151515;
+            color: #F8F7F7;
+            font-family: 'Merriweather', Georgia, serif;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+            line-height: 1.7;
+          }
+          h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #D23810;
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+          }
+          .subtitle {
+            color: #A4A3A8;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+          }
+          .callout {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            color: #A4A3A8;
+            background: rgba(210,56,16,0.08);
+            border: 1px solid rgba(210,56,16,0.25);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            margin: 1.5rem 0 2rem;
+          }
+          .callout a { color: #E64E28; }
+          ul { list-style: none; padding: 0; margin: 0; }
+          li {
+            border-top: 1px solid rgba(164,163,168,0.2);
+            padding: 1.25rem 0;
+          }
+          li:first-child { border-top: none; }
+          .entry-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+          }
+          .entry-title a {
+            color: #F8F7F7;
+            text-decoration: none;
+          }
+          .entry-title a:hover { color: #D23810; }
+          .entry-date {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #A4A3A8;
+            margin-top: 0.3rem;
+          }
+          a { color: #D23810; }
+          a:hover { color: #E64E28; }
+        </style>
+      </head>
+      <body>
+        <h1><xsl:value-of select="atom:feed/atom:title"/></h1>
+        <xsl:if test="atom:feed/atom:subtitle">
+          <p class="subtitle"><xsl:value-of select="atom:feed/atom:subtitle"/></p>
+        </xsl:if>
+        <p class="callout">
+          This is an RSS/Atom feed, meant for feed readers (e.g. Feedly, NetNewsWire,
+          Inoreader) &#8212; paste this page's URL into one to subscribe and get new posts
+          automatically. Reading it here directly works too, it just won't update itself.
+        </p>
+        <ul>
+          <xsl:for-each select="atom:feed/atom:entry">
+            <li>
+              <div class="entry-title">
+                <a href="{atom:link/@href}"><xsl:value-of select="atom:title"/></a>
+              </div>
+              <div class="entry-date">
+                <xsl:value-of select="substring(atom:published, 1, 10)"/>
+              </div>
+            </li>
+          </xsl:for-each>
+        </ul>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>

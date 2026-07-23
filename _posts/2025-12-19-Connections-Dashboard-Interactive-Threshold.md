@@ -5,17 +5,19 @@ layout: post
 published: false
 categories: Data_Analytics
 excerpt_separator: <!--more-->
+description: "A Python/Jupyter guide to building an interactive MPD connections dashboard: set a hookload threshold visually and compute Surface Back Pressure statistics per connection."
+image: /images/thisisengineering-f4pUuCc3M0g-unsplash_bw.jpg
+image_position: 15%
+image_caption: 'Photo by <a href="https://unsplash.com/@thisisengineering?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">ThisisEngineering</a> on <a href="https://unsplash.com/photos/person-using-black-laptop-computer-f4pUuCc3M0g?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>'
 ---
 
 [//]: # (<h2 style="text-align: center; margin-bottom: 20px;">Hookload Threshold Selection</h2>)
-![Signals Plot]({{ site.baseurl }}/images/thisisengineering-f4pUuCc3M0g-unsplash.jpg)
-*<small>Photo by <a href="https://unsplash.com/@thisisengineering?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">ThisisEngineering</a> on <a href="https://unsplash.com/photos/person-using-black-laptop-computer-f4pUuCc3M0g?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-<br /></small>*
 *This post provides the code and guide to build an MPD connections summary dashboard in jupyter notebooks, filtering the drilling 
 connections by visually setting the hookload threshold. The complete code is provided, and the notebook is available for
 download in the following link [In-Slips Detection Notebook]().*
 <!--more-->
-# Introduction
+
+## Introduction
 Tracking connections performance during an MPD operation brings in valuable information while drilling. There's 
 different cases and approaches, but these can include:
 - Measuring ECD and ESD deviation from target for Constant Bottom Hole Pressure (CBHP) operations, allowing for 
@@ -43,12 +45,14 @@ automatically as the intersection between the probability density functions of t
 This post describes the **visual approach**, providing the guide to **code a python notebook to find the suitable 
 threshold to filter the connections, and compute the statistics per connection**.
 
-# Hookload Threshold Selection
+## Hookload Threshold Selection
 
 Move the slider to adjust the hookload threshold, and observe how the in-slips (connections) are identified in the plot. The
 plot is interactive, allowing to zoom and pan to inspect the data closely. After selecting the threshold, click the button to compute the
 statistics for Surface Back Pressure (SBP) during in-slips periods only, grouped by connection depth. This also renders a plot
 with the SBP trend for each in-slips period.
+
+*Hint: try values below 130 klbf, closer to 60 klbf*
 
 [//]: # Interactive Hookload Plot with Threshold Slider
 <div id="plot" style="width:100%; height:400px;"></div>
@@ -129,14 +133,13 @@ with the SBP trend for each in-slips period.
 
   let threshold = 150;
   // Functions to format plots based on theme
+  // Reads the site's actual applied theme (set by _includes/header.html
+  // before this content is parsed) rather than the raw OS media query, so
+  // this matches on first paint and also respects a manual toggle override
+  // instead of ignoring it.
   function getTheme() {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? dark : light;
+      return document.body.classList.contains('dark') ? dark : light;
     }
-
-  function applyTheme(theme) {
-    document.querySelector('h2').style.color = theme === dark ? '#ffffff' : '#000000';
-    document.querySelector('div[style*="margin: 20px 0"] > label').style.color = theme === dark ? '#cccccc' : '#333333';
-  }
 </script>
 
 <!-- Plot update script -->
@@ -154,11 +157,19 @@ with the SBP trend for each in-slips period.
 
   // Initial plot
   updatePlot(threshold);
+
+  // Redraw with the new palette on a real site theme change (manual
+  // toggle or live OS-follow) — reads the slider's current value directly
+  // since `threshold` above is never reassigned by the slider's own
+  // listener.
+  document.addEventListener('mpd-theme-change', function(){
+    updatePlot(parseFloat(document.getElementById('threshold').value));
+  });
 </script>
 
 
 ---
-# References
+## References
 Arnaout, A., Esmael, B., Fruhwirth, R. K., and Thonhauser, G. 2011. Automatic threshold tracking of sensor data using 
 expectation maximization algorithm. Paper presented at the Proceedings of the 2011 11th International Conference on 
 Hybrid Intelligent Systems, HIS 2011. [https://doi.org/10.1109/HIS.2011.6122164](https://doi.org/10.1109/HIS.2011.6122164).

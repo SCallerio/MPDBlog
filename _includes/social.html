@@ -1,5 +1,9 @@
-<ul class="social-media-list">
-{%- for entry in site.minima.social_links -%}
-  {%- include social-item.html item = entry -%}
+{%- assign social_links = site.minima.social_links -%}
+{%- for social_link in social_links -%}
+  <a href="{{ social_link.user_url }}"
+     title="{{ social_link.title | default: social_link.platform | capitalize }}"
+     target="_blank" rel="noopener noreferrer"
+     class="text-soft-gray hover:text-accent-red transition-colors duration-200">
+    {%- include social-item.html platform=social_link.platform -%}
+  </a>
 {%- endfor -%}
-</ul>

@@ -40,7 +40,7 @@ generate operator- and rig-level summary tables relevant to offshore drilling an
 <div id="map-container" style="width: 100%; height: 60vh; min-height: 500px; margin: 30px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; position: relative;">
   <div id="bsee-map" style="width: 100%; height: 100%;"></div>
 </div>
-<small>*Source: <a href="https://www.data.bsee.gov/Well/eWellAPD/Default.aspx">BSEE eWell APD database</a>.
+<small class="fig-caption">*Source: <a href="https://www.data.bsee.gov/Well/eWellAPD/Default.aspx">BSEE eWell APD database</a>.
 Water depth encoded via color scale (ft).
 Hover for well and rig details; zoom and selection tools available in the upper-left.*</small>
 
@@ -54,7 +54,7 @@ Hover for well and rig details; zoom and selection tools available in the upper-
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 
 <script src="{{ site.baseurl }}/assets/js/updateBSEEMap.js"></script>
-*<small>
+*<small class="fig-caption">
   Data source: <a href="https://www.data.bsee.gov/Well/eWellAPD/Default.aspx" target="_blank">BSEE eWell APD</a> | 
   Filtered for last 12-months approved wells in the Gulf of Mexico (GoM)
 </small>*
@@ -83,7 +83,7 @@ operator, well location, water depth, rig metadata, and approval dates. These fi
 spatial, temporal, and operational analysis of offshore drilling activity.
 
 ![BSEE eWell APD Data Sample]({{ site.baseurl }}/images/BSEE_APD_site.png)
-*<small>BSEE eWell APD Data Sample - Screenshot from BSEE's eWell APD data download page</small>*
+*<small class="fig-caption">BSEE eWell APD Data Sample - Screenshot from BSEE's eWell APD data download page</small>*
 
 For this workflow, the APD data are downloaded directly from the [BSEE's public "Raw Data" portal](https://www.data.bsee.gov/Main/RawData.aspx) in compressed format. The analysis is intentionally based on officially 
 approved permits, ensuring regulatory consistency and avoiding uncertainty associated with speculative or 

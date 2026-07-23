@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
 
   {%- include head.html -%}
 
-  <body>
+  <body class="bg-offwhite text-almost-black antialiased min-h-screen flex flex-col">
 
     {%- include header.html -%}
 
-    <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        {{ content }}
-      </div>
+    <main class="flex-1 w-full">
+      {{ content }}
     </main>
 
     {%- include footer.html -%}
@@ -18,5 +16,3 @@
   </body>
 
 </html>
-<!--<script src=”https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
-<!--<script id=”MathJax-script” async src=”https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>-->

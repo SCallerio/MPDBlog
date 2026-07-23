@@ -2,14 +2,14 @@
 layout: post
 author: Santiago Callerio
 title: "The Evolving Frontier of Well Control: 2025 IADC Well Control Conference Review"
-categories: conference-content
+categories: conference_content
 published: true
 excerpt_separator: <!--more-->
+description: "Key takeaways from the 2025 IADC Well Control Conference: new BSEE rules for Managed Pressure Drilling, mud gas separator design, kick tolerance modeling, and offshore leasing trends."
+image: /images/20180224_123206~2_bw.jpg
+image_position: 70%
+image_caption: 'Photo by Santiago Callerio'
 ---
-![Drilling Well Control, Land Rig]({{site.baseurl}}/images/20180224_123206~2.jpg)
-*<small>Photo by Santiago Callerio
-<br /></small>*
-
 *A comprehensive look at the latest in MPD regulations, MGS design, kick tolerance modeling, shifting blowout trends, CO2 management, and the future of energy.*
 
 > The landscape of well control is constantly evolving. While foundational principles remain, the technologies we use, the regulations we follow, and the challenges we face are in a state of dynamic change.
@@ -45,7 +45,7 @@ This regulatory shift underscores the industry's reliance on MPD and formalizes 
 <div style="text-align:center;">
   <img src="{{site.baseurl}}/images/IOGP_Mud Gas Separator Design and Operating Recommendations_Preview.png" alt="IOGP Position Paper Preview" style="width:50%;" /><br />
 </div>
-*<small>[IOGP Position Paper Preview - Mud Gas Separator Design and Operating Recommendations (November 2024)](https://www.iogp.org/bookstore/product/mud-gas-separator-design-and-operating-recommendations/)
+*<small class="fig-caption">[IOGP Position Paper Preview - Mud Gas Separator Design and Operating Recommendations (November 2024)](https://www.iogp.org/bookstore/product/mud-gas-separator-design-and-operating-recommendations/)
 <br /></small>*
 
 A presentation based on **[IOGP Position Paper - Mud Gas Separator Design and Operating Recommendations](https://www.iogp.org/bookstore/product/mud-gas-separator-design-and-operating-recommendations/)**(Nov. 2024) highlighted a critical vulnerability: the technology has been relatively unchanged for 50 years, despite its use in new, demanding applications (e.g., MPD influx circulation, drill-through for unconventionals). 
@@ -77,7 +77,7 @@ This fundamental work is crucial for validating the models we use and refining t
 The **Bureau of Ocean Energy Management (BOEM)** announced an ambitious plan for 30 new leases in the Gulf of Mexico and 6 in Alaska's Cook Inlet between 2026 and 2040 ([BOEM Press Release](https://www.boem.gov/newsroom/press-releases/boem-finalizes-environmental-review-gulf-america-offshore-energy), [DOI Press Release](https://www.doi.gov/pressreleases/interior-department-sets-offshore-energy-leasing-schedule-under-one-big-beautiful)). To attract investment, royalties would be reduced to 12-16%, and efforts are underway to reduce regulatory burdens and expedite project approvals.
 
 ![AREA IDENTIFICATION MAP - 2024-2029 PROGRAM AREA - U.S. Outer Continental Shelf, Gulf of Mexico]({{site.baseurl}}/images/MAS-Area-ID-Map.png)
-*<small>[2024-2029 GOA Area Identification (Bureau of Ocean Energy Management, 2025)](https://www.boem.gov/oil-gas-energy/national-program/2024-2029-goa-area-identification)
+*<small class="fig-caption">[2024-2029 GOA Area Identification (Bureau of Ocean Energy Management, 2025)](https://www.boem.gov/oil-gas-energy/national-program/2024-2029-goa-area-identification)
 <br /></small>*
 
 On the new energy front, Toney Deer (Chair of Geothermal Development) signaled an upcoming announcement to accelerate **geothermal development**. The focus is on supercritical wells and medium/low enthalpy fields, highlighting the direct transferability of skills and technology from the oil and gas industry to this growing sector.

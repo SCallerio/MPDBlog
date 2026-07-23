@@ -1,10 +1,18 @@
 title: Under Pressure #, a Managed Pressure Drilling (MPD) blog
-subtitle: a Managed Pressure Drilling (MPD) blog
+subtitle: a Managed Pressure Drilling (MPD) technical blog
 author:
   name: "Santiago Callerio"
   github_username: SCallerio
   email: santiagocallerio@gmail.com
-url: https://scallerio.github.io/MPDBlog/
+url: https://scallerio.github.io/MPDBlog
+google_analytics: G-Z5C5SK4PXR
+
+# Post like-button backend (see cloudflare/like-counter-worker.js). Empty
+# until deployed — the like button still works client-side (optimistic,
+# per-browser only via localStorage) with this unset; set it to your
+# deployed Worker's URL (e.g. https://mpd-likes.<you>.workers.dev) once
+# it's live to get real shared/anonymous counts stored in data/likes.json.
+like_worker_url: "https://mpd-blog-likes.santiagocallerio.workers.dev"
 
 # The `>` after `description:` means to ignore line-breaks until next key.
 # If you want to omit the line-break after the end of text, use `>-` instead.
@@ -79,5 +87,3 @@ minima:
   #  - { platform: twitter,        user_url: "https://twitter.com/jekyllrb" }
   #  - { platform: x,              user_url: "https://x.com/jekyllrb" }
   #  - { platform: youtube,        user_url: "https://www.youtube.com/jekyll" }
-
-# ToDo: RSS Feed settings (rss button not working) https://aistudio.google.com/prompts/1CFkzzqft-X4PdXXDcJtfztH8ZTkCKjX_, https://reeswrites.com/posts/jekyll-feed-github-pages/, https://andrewstiefel.com/style-atom-xsl/

@@ -3,12 +3,385 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {%- seo -%}
-  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // ── ARGUS brand spec ────────────────────────────────────────
+    // Body copy:  Merriweather (serif), regular weight
+    // Headings:   Poppins SemiBold (600) — see fontWeight below
+    // Labels/UI:  Poppins Regular (400)
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'almost-black': '#151515', // body text (light theme) / page background (dark theme)
+            'offwhite':     '#F8F7F7', // page background (light theme) / body text (dark theme)
+            'gray-mid':     '#757575', // secondary/meta text (light theme)
+            'accent-red':   '#D23810', // main title, links, accents
+            'accent-orange':'#E64E28', // hover state for accent-red
+            'soft-gray':    '#A4A3A8', // secondary/meta text (dark theme), muted borders
+          },
+          fontFamily: {
+            poppins:      ['Poppins', 'sans-serif'],
+            merriweather: ['Merriweather', 'Georgia', 'serif'],
+          },
+          fontWeight: {
+            'poppins-heading': '600', // → use font-semibold; Poppins SemiBold for all headings
+            'poppins-body':    '400', // → use font-normal; Poppins Regular for labels/meta/UI text
+          },
+        }
+      }
+    }
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer base {
+      body {
+        @apply font-merriweather antialiased;
+        background-color: #F8F7F7;
+        color: #151515;
+        transition: background-color 0.25s, color 0.25s;
+      }
+      /* Poppins SemiBold is the guaranteed default for every heading,
+         enforced here so it holds even if a font-semibold utility is
+         ever missed on a new template (e.g. table_layout.html's <h1>). */
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600; /* SemiBold — ARGUS primary heading weight */
+      }
+      /* ── DARK THEME ──────────────────────────── */
+      body.dark {
+        background-color: #151515 !important;
+        color: #F8F7F7 !important;
+      }
+      body.dark h1, body.dark h2, body.dark h3,
+      body.dark h4, body.dark h5, body.dark h6 {
+        color: #F8F7F7 !important;
+      }
+      /* Hero title stays Accent Red in both light and dark themes */
+      body.dark .hero-title {
+        color: #D23810 !important;
+      }
+      /* Hero subtitle — color controlled by class in both themes,
+         no inline color so the [style*] catch-all cannot interfere */
+      .hero-subtitle {
+        color: #151515;
+        opacity: 0.88;
+      }
+      body.dark .hero-subtitle {
+        color: #151515 !important;
+        opacity: 0.88;
+      }
+      /* Post hero date/author — sits on the same fixed light scrim as the
+         hero title, so (like .hero-subtitle) it's intentionally NOT
+         theme-reactive: it should read as grey against that scrim in both
+         site themes, not lighten in dark mode. */
+      .hero-meta { color: #757575; }
+      /* Cover descendants explicitly: the author <span> is directly
+         matched (and so wins over inherited color, !important on the
+         ancestor notwithstanding) by the generic `body.dark span:not(...)`
+         rule below, which would otherwise force it white while the
+         (unmatched) <time> stays correctly grey by inheritance alone. */
+      body.dark .hero-meta,
+      body.dark .hero-meta span,
+      body.dark .hero-meta time { color: #757575 !important; }
+      body.dark p, body.dark li, body.dark td,
+      body.dark span:not(.cat-pill):not(.tag-pill) {
+        color: #F8F7F7;
+      }
+      body.dark .prose-mpd p,
+      body.dark .prose-mpd li,
+      body.dark .prose-mpd td { color: #F8F7F7; }
+      body.dark .prose-mpd a { color: #E64E28; }
+      body.dark .prose-mpd blockquote {
+        background: rgba(248,247,247,0.04) !important;
+        border-left-color: #D23810 !important;
+        color: #F8F7F7 !important;
+      }
+      body.dark .prose-mpd code {
+        background: rgba(248,247,247,0.08) !important;
+        color: #F8F7F7 !important;
+      }
+      /* Code blocks are #151515, the exact same hex as the dark-mode page
+         background — without this they have no visible boundary at all. */
+      body.dark .prose-mpd pre,
+      body.dark .highlight,
+      body.dark .input_area pre,
+      body.dark .output_area pre { background: #1f1f1f !important; }
+      body.dark .excerpt-content { color: #A4A3A8 !important; }
+      /* Footer background is always dark regardless of site theme, so its
+         text must stay pinned to the authored (light-theme) values too —
+         otherwise the `body.dark p` / `span` rules above flatten it to
+         plain white. */
+      body.dark footer .text-accent-red { color: #D23810 !important; }
+      body.dark footer .text-soft-gray  { color: #A4A3A8 !important; }
+      body.dark footer .text-offwhite   { color: #F8F7F7 !important; }
+      body.dark [style*="background:#F8F7F7"],
+      body.dark [style*="background-color:#F8F7F7"] {
+        background:#1f1f1f !important;
+        background-color:#1f1f1f !important;
+      }
+      body.dark [style*="color:#151515"]:not(.hero-subtitle) { color:#F8F7F7 !important; }
+      body.dark [style*="color:#757575"] { color:#A4A3A8 !important; }
+      body.dark [style*="border-bottom:1px solid rgba(164,163,168"] {
+        border-color: rgba(164,163,168,0.15) !important;
+      }
+    }
+
+    @layer components {
+      /* ── Reusable theme-safe interactive colors ───────────
+         Pure CSS :hover — no JS color mutation. JS `this.style.color = '#hex'`
+         gets rewritten by the browser to `rgb(...)`, so the old dark-mode
+         `[style*="color:#151515"]` catch-all could never match it again once
+         set — that's what left post titles pinned black after a single hover
+         in dark mode. These classes replace that pattern site-wide. */
+      .link-accent { color: #D23810; }
+      .link-accent:hover { color: #E64E28 !important; }
+      /* Explicit !important: the generic `body.dark span:not(.cat-pill):not(.tag-pill)`
+         rule below has higher selector specificity than a single class and would
+         otherwise force the header brand span white in dark mode. */
+      body.dark .link-accent { color: #D23810 !important; }
+
+      /* Hover-only accent-red flash for text whose base color is already
+         correctly themed elsewhere (heading rules or .text-meta below). */
+      .hover-accent-red:hover { color: #D23810 !important; }
+
+      /* Secondary/meta text (dates, labels): gray-mid in light,
+         brightens to soft-gray in dark. */
+      .text-meta { color: #757575; }
+      body.dark .text-meta { color: #A4A3A8 !important; }
+
+      /* Home-page category/tag filter pills — muted by default, accent-red
+         once active or hovered. Plain <button>s (not the .cat-pill <span>
+         badges elsewhere), styled directly rather than relying on that
+         class, since the dark-mode span-color catch-all doesn't touch
+         buttons anyway. */
+      .filter-pill {
+        color: #757575;
+        background: transparent;
+        border-color: rgba(164,163,168,0.35) !important;
+        transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      }
+      .filter-pill:hover { color: #D23810; border-color: rgba(210,56,16,0.35) !important; }
+      .filter-pill.active {
+        color: #D23810;
+        background: rgba(210,56,16,0.08);
+        border-color: rgba(210,56,16,0.25) !important;
+      }
+      body.dark .filter-pill { color: #A4A3A8 !important; }
+      body.dark .filter-pill:hover,
+      body.dark .filter-pill.active { color: #D23810 !important; }
+
+      /* Header nav — header background is always #151515 regardless
+         of site theme, so these never need a dark: variant. */
+      .nav-link {
+        color: #F8F7F7;
+        border-bottom: 2px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .nav-link:hover { color: #D23810 !important; }
+      .nav-link-active { color: #D23810 !important; border-bottom-color: #D23810 !important; }
+
+      .theme-toggle-btn { transition: background 0.2s; }
+      .theme-toggle-btn:hover { background: rgba(210,56,16,0.25) !important; }
+
+      /* ── PROSE — post body content ─────────────── */
+      /* No max-width here on purpose: post body fills the same max-w-[800px]
+         column as the home page (see _layouts/home.html / post.html). */
+      .prose-mpd { @apply font-merriweather; }
+      .prose-mpd h1, .prose-mpd h2, .prose-mpd h3,
+      .prose-mpd h4, .prose-mpd h5, .prose-mpd h6 {
+        @apply font-poppins font-semibold;
+        color: #151515;
+        margin: 2rem 0 0.75rem;
+        line-height: 1.25;
+      }
+      .prose-mpd h2 { font-size: 1.45rem; }
+      .prose-mpd h3 { font-size: 1.2rem; }
+      .prose-mpd p  {
+        color: #151515;
+        line-height: 1.85;
+        margin-bottom: 1.25rem;
+        font-size: 0.97rem;
+      }
+      .prose-mpd a {
+        color: #D23810;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .prose-mpd a:hover { color: #E64E28; }
+
+      /* ── DROP CAP — first letter of the post's opening (non-italic)
+         paragraph, and ONLY that one. Applied via a `.drop-cap` class
+         added by JS (applyDropCap() in _includes/header.html), not a
+         pure-CSS selector: authors often lead with a standalone italic
+         summary line, and what follows it before the real first
+         paragraph varies post to post (a blockquote, a heading, nothing)
+         — CSS has no way to select "the first <p> matching a condition"
+         when earlier siblings don't match it (:first-of-type is always
+         the literal first p regardless of any :not()/:has() alongside
+         it), so a plain-CSS version either grabbed the italic line
+         itself or, once restricted to a specific adjacent-sibling
+         pattern, silently matched nothing on posts with a blockquote or
+         heading in between. JS just walks the real <p> children in order
+         and tags the first one that isn't italic-only. */
+      .prose-mpd p.drop-cap::first-letter {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 3.5rem;
+        line-height: 0.85;
+        float: left;
+        color: #D23810;
+        margin: 0.05em 0.08em 0 0;
+      }
+
+      /* ── BLOCKQUOTE — Poppins Regular, red left border ── */
+      .prose-mpd blockquote {
+        @apply font-poppins font-normal;
+        font-size: 1rem;
+        line-height: 1.75;
+        font-style: italic;
+        color: #151515;
+        border-left: 3px solid #D23810;
+        padding: 0.75rem 0 0.75rem 1.25rem;
+        margin: 1.75rem 0;
+        background: rgba(210,56,16,0.04);
+        border-radius: 0 4px 4px 0;
+      }
+      .prose-mpd blockquote p { margin: 0; color: inherit; }
+
+      /* ── IMAGE CAPTIONS — Poppins Regular, theme-aware grey ──
+         Standard pattern for every figure caption in a post:
+           ![alt](url)
+           *<small class="fig-caption">Fig. N — caption text</small>*
+         `.fig-caption` is the canonical, explicit selector — deliberately
+         UNscoped (not `.prose-mpd .fig-caption`) so it renders identically
+         on the home page's excerpt listing (`.excerpt-content`, a sibling
+         context to `.prose-mpd`, not a descendant of it) as it does on the
+         full post page. The structural fallback selectors below (p > em >
+         small, etc.) stay scoped to `.prose-mpd` — they're a safety net
+         for post-body captions authored before this class existed, and
+         excerpt markup is a truncated fragment where they're more likely
+         to misfire. A plain `*italic aside*` with no <small> (e.g. a
+         "Hint:" callout) matches neither, and correctly falls through to
+         normal italic rendering instead of being mistaken for a caption. */
+      .fig-caption,
+      .prose-mpd figcaption,
+      .prose-mpd figure figcaption,
+      .prose-mpd img + em,
+      .prose-mpd p > small,
+      .prose-mpd p > em > small,
+      .prose-mpd small {
+        @apply font-poppins font-normal;
+        display: block;
+        font-style: italic;
+        font-size: 0.78rem;
+        color: #757575 !important;
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+      }
+      /* Caption credit links (e.g. "Photo by <a>X</a> on <a>Y</a>") —
+         unscoped like .fig-caption itself, so this is a single source of
+         truth that works identically on post pages and home page
+         excerpts, rather than posts happening to inherit it from the
+         ambient .prose-mpd a rule while excerpts (outside .prose-mpd)
+         get nothing. */
+      .fig-caption a { color: #D23810; text-decoration: underline; text-underline-offset: 2px; }
+      .fig-caption a:hover { color: #E64E28; }
+      body.dark .fig-caption a { color: #E64E28; }
+      body.dark .fig-caption,
+      body.dark .prose-mpd figcaption,
+      body.dark .prose-mpd figure figcaption,
+      body.dark .prose-mpd img + em,
+      body.dark .prose-mpd p > small,
+      body.dark .prose-mpd p > em > small,
+      body.dark .prose-mpd small {
+        color: #A4A3A8 !important;
+      }
+
+      /* ── IMAGES ─────────────────────────────── */
+      .prose-mpd img {
+        width: 100%;
+        border-radius: 6px;
+        margin: 1.25rem 0 1rem;
+      }
+      .prose-mpd figure { margin: 1.5rem 0; }
+
+      /* ── LISTS ──────────────────────────────── */
+      .prose-mpd ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+      .prose-mpd ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+      .prose-mpd li { color: #151515; line-height: 1.8; margin-bottom: 0.25rem; font-size: 0.97rem; }
+
+      /* ── CODE ───────────────────────────────── */
+      .prose-mpd code {
+        background: rgba(21,21,21,0.07);
+        border-radius: 3px;
+        padding: 0.1rem 0.4rem;
+        font-size: 0.85em;
+        color: #151515;
+        font-family: ui-monospace, 'Courier New', monospace;
+      }
+      .prose-mpd pre {
+        background: #151515;
+        color: #F8F7F7;
+        border-radius: 8px;
+        padding: 1.25rem 1.5rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-size: 0.85rem;
+        line-height: 1.7;
+      }
+      .prose-mpd pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+        font-size: inherit;
+      }
+
+      /* ── TABLES ─────────────────────────────── */
+      .prose-mpd table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+      .prose-mpd th { background: #151515; color: #F8F7F7; font-family: 'Poppins',sans-serif; font-weight:600; padding: 0.6rem 1rem; text-align:left; }
+      .prose-mpd td { padding: 0.5rem 1rem; border-bottom: 1px solid rgba(164,163,168,0.2); color: #151515; }
+      .prose-mpd tr:nth-child(even) td { background: rgba(210,56,16,0.03); }
+
+      /* ── EXCERPT on home page — show the lead image as a thumbnail,
+         with its caption rendered explicitly in home.html (image_caption
+         front matter, same as the post-page hero). Excerpt length is
+         controlled entirely by each post's <!--more--> placement — no
+         extra content-hiding here on top of that. ── */
+      .excerpt-content img {
+        display: block;
+        width: 100%;
+        max-height: 240px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin: 0 0 0.85rem 0;
+      }
+      .excerpt-content figure { margin: 0 0 0.85rem 0; }
+      .excerpt-content figure img { margin-bottom: 0; }
+    }
+  </style>
+
+  <!-- Theme preference persistence -->
+  <script>
+    (function(){
+      var saved = localStorage.getItem('mpd-theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-pending');
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
     {%- include google-analytics.html -%}
   {%- endif -%}
-
   {%- include custom-head.html -%}
-  
 </head>

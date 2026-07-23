@@ -1,0 +1,3 @@
+Sitemap: https://scallerio.github.io/MPDBlog/sitemap.xml
+User-agent: *
+Allow: /
