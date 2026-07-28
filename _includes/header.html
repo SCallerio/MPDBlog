@@ -101,19 +101,34 @@
   document.addEventListener('DOMContentLoaded', syncThemedImages);
 
   // Tag the post's real opening paragraph with .drop-cap (styled in
-  // _includes/head.html). Skips a leading italic-only summary line
-  // (`*text*` with nothing else in the paragraph) — whatever comes
-  // between that line and the real first paragraph varies post to post
-  // (a blockquote, a heading, nothing), so this just walks the direct
-  // <p> children in order rather than assuming a fixed structure.
+  // _includes/head.html). Skips any leading caption-only paragraph --
+  // a bare italic summary line (`*text*`), a `<small>` figure caption, or
+  // an italicized caption (`*<small>...</small>*`, which nests the two) --
+  // by drilling through single-child wrappers and checking each level's
+  // tag/class. Whatever comes between those and the real first paragraph
+  // varies post to post (a blockquote, a heading, an embedded map, nothing),
+  // so this just walks the direct <p> children in order rather than
+  // assuming a fixed structure.
+  function isCaptionOnlyParagraph(p) {
+    var el = p;
+    for (;;) {
+      if (el.tagName === 'EM' || el.tagName === 'SMALL' ||
+          (el.classList && el.classList.contains('fig-caption'))) {
+        return true;
+      }
+      if (el.children.length === 1 && el.textContent.trim() === el.children[0].textContent.trim()) {
+        el = el.children[0];
+        continue;
+      }
+      return false;
+    }
+  }
   function applyDropCap() {
     document.querySelectorAll('.prose-mpd').forEach(function(prose){
       var paras = prose.querySelectorAll(':scope > p');
       for (var i = 0; i < paras.length; i++) {
         var p = paras[i];
-        var isItalicOnly = p.children.length === 1 && p.children[0].tagName === 'EM' &&
-                            p.children[0].textContent.trim() === p.textContent.trim();
-        if (!isItalicOnly) { p.classList.add('drop-cap'); break; }
+        if (!isCaptionOnlyParagraph(p)) { p.classList.add('drop-cap'); break; }
       }
     });
   }

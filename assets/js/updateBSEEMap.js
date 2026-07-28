@@ -102,8 +102,10 @@ async function loadBSEEMap() {
   const container = document.getElementById('map-container');
 
   try {
-      // Hardcoded relative path — no Liquid needed
-      const response = await fetch('/data/processed/gom_2025_wells.json');
+      // This file is a plain static asset (not Liquid-processed), so the site's
+      // baseurl (e.g. "/MPDBlog") can't be templated in directly -- it's passed
+      // in via window.SITE_BASEURL, set inline by the page that loads this script.
+      const response = await fetch((window.SITE_BASEURL || '') + '/data/processed/gom_2025_wells.json');
 
       if (!response.ok) {
         throw new Error(`Failed to load data (HTTP ${response.status})`);

@@ -24,11 +24,11 @@ if (Test-Path $venvPath) {
 }
 # Configuration — adjust if your structure is different
 $SrcFolder = "src\$Slug"
-$Notebook = "2025-12-23-bsee-map-jupyter.ipynb"
-$HtmlOutput = "2025-12-23-bsee-map-jupyter.html"  # nbconvert outputs this name
+$Notebook = "2026-01-25-bsee-map-jupyter.ipynb"
+$HtmlOutput = "2026-01-25-bsee-map-jupyter.html"  # nbconvert outputs this name
 $FixScript = "fix_nb.py"   # your existing fix script
 $IncludesDir = "_includes\notebooks"
-$FinalHtml = "$IncludesDir\$Slug.html"
+$FinalHtml = "$IncludesDir\$HtmlOutput"
 
 # Step 2: Run the fix script on the notebook (helps with validation errors)
 Write-Host "Running fix_nb.py..." -ForegroundColor Cyan
@@ -51,6 +51,7 @@ jupyter nbconvert $Notebook `
     --to html `
     --template basic `
     --no-prompt `
+    --HTMLExporter.exclude_anchor_links=True `
     --TagRemovePreprocessor.enabled=True `
     --TagRemovePreprocessor.remove_cell_tags remove_cell
 
@@ -60,6 +61,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
+Pop-Location
 
 # Step 3: Ensure _includes/notebooks exists
 if (-Not (Test-Path $IncludesDir)) {
@@ -80,4 +82,4 @@ Move-Item -Force $SourceHtml $DestinationHtml
 Write-Host "Moved HTML to $DestinationHtml" -ForegroundColor Green
 
 Write-Host "`nBuild complete! Include in your post with:" -ForegroundColor Yellow
-Write-Host "{% include notebooks/$Slug.html %}" -ForegroundColor White
+Write-Host "{% include notebooks/$HtmlOutput %}" -ForegroundColor White

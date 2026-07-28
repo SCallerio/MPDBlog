@@ -156,6 +156,11 @@
       .text-meta { color: #757575; }
       body.dark .text-meta { color: #A4A3A8 !important; }
 
+      /* External link-preview card (_includes/link-card.html). */
+      .link-card:hover { border-color: rgba(210,56,16,0.4) !important; }
+      body.dark .link-card { border-color: rgba(164,163,168,0.25) !important; }
+      body.dark .link-card:hover { border-color: rgba(210,56,16,0.5) !important; }
+
       /* Home-page category/tag filter pills — muted by default, accent-red
          once active or hovered. Plain <button>s (not the .cat-pill <span>
          badges elsewhere), styled directly rather than relying on that
@@ -350,6 +355,16 @@
       .prose-mpd td { padding: 0.5rem 1rem; border-bottom: 1px solid rgba(164,163,168,0.2); color: #151515; }
       .prose-mpd tr:nth-child(even) td { background: rgba(210,56,16,0.03); }
 
+      /* Wide dataframe output (e.g. APD.head() with 60+ columns) would
+         otherwise overflow the page's width entirely uncontained. Scope
+         the scroll to the output itself, with a visible, draggable
+         scrollbar (site's existing thin ::-webkit-scrollbar styling below
+         applies here too) instead of blowing out the whole post layout. */
+      .jupyter-container .output_html {
+        overflow-x: auto;
+        max-width: 100%;
+      }
+
       /* ── EXCERPT on home page — show the lead image as a thumbnail,
          with its caption rendered explicitly in home.html (image_caption
          front matter, same as the post-page hero). Excerpt length is
@@ -368,6 +383,18 @@
     }
   </style>
 
+  <!-- Pygments syntax-highlighting CSS for embedded Jupyter notebooks' code
+       cells (nbconvert's --template basic emits the highlight spans but
+       ships no CSS for them at all). Generated file, not hand-edited -- see
+       its header comment for the regeneration command. Scoped under
+       .jupyter-container and !important so it doesn't collide with
+       assets/css/style.scss's own (unscoped, !important) partial overrides
+       for the site's regular Rouge-highlighted markdown code blocks, which
+       share the same Pygments-compatible class names. Always-dark, matching
+       that file's "code blocks are always dark regardless of site theme"
+       convention -- no light-mode variant needed. -->
+  <link rel="stylesheet" href="{{ '/assets/css/pygments-notebook.css' | relative_url }}">
+
   <!-- Theme preference persistence -->
   <script>
     (function(){
@@ -379,6 +406,28 @@
   </script>
 
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+  <!-- Pandas Styler output tables (background_gradient()) in the embedded
+       notebooks carry fixed, pre-computed hex colors that can't adapt live
+       to the site's theme toggle. Rather than have them "half switch" (only
+       the header/border react to the toggle while the gradient cells stay
+       fixed), give the whole table the same always-dark treatment already
+       used for code blocks: consistently dark regardless of site theme.
+       Matched by pandas' own "T_<uuid>" id-naming convention. Deliberately
+       NOT !important and placed last in <head> (after style.css) to win
+       the same-specificity tie against .prose-mpd td / body.dark .prose-mpd
+       td via source order alone -- Styler's own per-cell rules are
+       ID-scoped (#T_xxx_rowN_colM), categorically higher specificity than
+       any class/attribute selector, so they still win outright for the
+       actual gradient cells; this only supplies the fallback for
+       non-gradient columns (e.g. a Company_Name label column) Styler
+       doesn't touch, and the table's own background (a new property, no
+       competing declaration to tie-break at all). -->
+  <style>
+    .jupyter-container table[id^="T_"] { background: #1f1f1f; }
+    .jupyter-container table[id^="T_"] td { color: #F8F7F7; }
+  </style>
+
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
     {%- include google-analytics.html -%}
