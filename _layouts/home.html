@@ -107,7 +107,24 @@ layout: base
                data-tags="{{ post.tags | join: ' ' | downcase }}"
                style="border-bottom:1px solid rgba(164,163,168,0.25); padding-bottom:2.5rem; margin-bottom:2.5rem;">
 
-        {%- assign reading_time = post.content | strip_html | number_of_words | divided_by: 200 | plus: 1 -%}
+        {%- comment -%}
+          Same fix as _layouts/post.html: keep prose (including embedded
+          notebooks' own markdown-cell narrative) but exclude their code and
+          output from the word count -- see that file for the full
+          explanation. Posts with no embed are unaffected.
+        {%- endcomment -%}
+        {%- assign jc_marker = '<div class="jupyter-container">' -%}
+        {%- assign md_marker = '<div class="text_cell_render border-box-sizing rendered_html">' -%}
+        {%- assign jc_parts = post.content | split: jc_marker -%}
+        {%- assign prose_only_content = jc_parts | first -%}
+        {%- for jc_chunk in jc_parts offset: 1 -%}
+          {%- assign md_chunks = jc_chunk | split: md_marker -%}
+          {%- for md_chunk in md_chunks offset: 1 -%}
+            {%- assign md_inner = md_chunk | split: '</div>' | first -%}
+            {%- assign prose_only_content = prose_only_content | append: md_inner -%}
+          {%- endfor -%}
+        {%- endfor -%}
+        {%- assign reading_time = prose_only_content | strip_html | number_of_words | divided_by: 200 | plus: 1 -%}
         <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.6rem; margin-bottom:0.6rem;">
           <time class="font-poppins font-normal text-meta"
                 datetime="{{ post.date | date_to_xmlschema }}"
