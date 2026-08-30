@@ -77,8 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
 ---
 
 ## Step-by-Step to Build the GoM Rig Tracker Dashboard in Jupyter Notebooks
-The notebook containing the code referenced below can be downloaded from the following link: 
-[2026-08-29-bsee-map-jupyter.ipynb]("{{ site.baseurl}} /src/2026-08-29-bsee-map-jupyter-example/2026-08-29-bsee-map-jupyter.ipynb")
+The notebook containing the code referenced below can be viewed and downloaded from the following links: 
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SCallerio/MPDBlog/blob/main/src/2026-08-29-bsee-map-jupyter-example/2026-08-29-bsee-map-jupyter.ipynb)
+[![Render on nbviewer](https://img.shields.io/badge/render-nbviewer-orange)](https://nbviewer.org/github/SCallerio/MPDBlog/blob/main/src/2026-08-29-bsee-map-jupyter-example/2026-08-29-bsee-map-jupyter.ipynb)
+
 ### 1. Data Acquisition from BSEE eWell APD Database
 #### 1.1 Application for Permit to Drill (APD) Dataset
 The foundation of the rig tracker dashboard is the [Bureau of Safety and Environmental Enforcement (BSEE) eWell 
