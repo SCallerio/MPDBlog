@@ -150,7 +150,8 @@
   }
 
   // Home-page category/tag filter (single-select). Each post <article>
-  // carries data-category/data-tags (space-separated, lowercased);
+  // carries data-category/data-tags (pipe-separated, lowercased, so
+  // multi-word tags like "gulf of mexico" stay intact as one entry);
   // 'all' resets. Prefixed "Mpd" for the same reason applyMpdTheme is —
   // avoid colliding with a same-named global in a post-embedded script.
   function filterPosts(value) {
@@ -159,8 +160,8 @@
     });
     document.querySelectorAll('article[data-category]').forEach(function(article){
       if (value === 'all') { article.style.display = ''; return; }
-      var cats = article.dataset.category.split(' ');
-      var tags = article.dataset.tags.split(' ');
+      var cats = article.dataset.category.split('|');
+      var tags = article.dataset.tags.split('|');
       var match = cats.indexOf(value) !== -1 || tags.indexOf(value) !== -1;
       article.style.display = match ? '' : 'none';
     });

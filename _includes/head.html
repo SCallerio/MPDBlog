@@ -354,6 +354,22 @@
       .prose-mpd th { background: #151515; color: #F8F7F7; font-family: 'Poppins',sans-serif; font-weight:600; padding: 0.6rem 1rem; text-align:left; }
       .prose-mpd td { padding: 0.5rem 1rem; border-bottom: 1px solid rgba(164,163,168,0.2); color: #151515; }
       .prose-mpd tr:nth-child(even) td { background: rgba(210,56,16,0.03); }
+      /* Table title, same always-dark treatment as .prose-mpd th above (a
+         caption is effectively an extra header row) -- used by the
+         JS-rendered BSEE summary tables (assets/js/updateBSEEMap.js),
+         which used to hardcode this same look (plus a dark table body)
+         directly as inline styles, so it never adapted when the reader
+         switched to light mode. Removed there in favor of this class. */
+      .prose-mpd caption {
+        caption-side: top;
+        text-align: left;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 1.05rem;
+        padding: 0.75rem 1rem;
+        background: #151515;
+        color: #F8F7F7;
+      }
 
       /* Wide dataframe output (e.g. APD.head() with 60+ columns) would
          otherwise overflow the page's width entirely uncontained. Scope
@@ -364,6 +380,20 @@
         overflow-x: auto;
         max-width: 100%;
       }
+
+      /* A notebook embed is a whole rendered HTML blob -- each matplotlib
+         plot's colors are already baked into its output PNG at nbconvert
+         time, so it can't be swapped per-image like
+         _posts/2025-08-10-holistic-mpd-vaca-muerta.md's data-light-src/
+         data-dark-src figures. Instead the post embeds two full renders of
+         the same notebook (.theme-light / .theme-dark, one nbconvert'd
+         from the plain notebook, one from a copy whose style-setup cell
+         also layers matplotlib's dark_background style) and this toggles
+         which is visible, keyed off the same body.dark class the theme
+         switch sets. See _posts/2026-08-29-build-gom-rig-tracker.md. */
+      .jupyter-container.theme-dark { display: none; }
+      body.dark .jupyter-container.theme-light { display: none; }
+      body.dark .jupyter-container.theme-dark { display: block; }
 
       /* ── EXCERPT on home page — show the lead image as a thumbnail,
          with its caption rendered explicitly in home.html (image_caption

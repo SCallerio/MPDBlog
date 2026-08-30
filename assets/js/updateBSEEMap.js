@@ -51,26 +51,29 @@ function generateTables(data) {
     .sort((a, b) => b.rigCount - a.rigCount);
 
   // === Render Table Function ===
+  // No inline colors here on purpose: these render inside the post's
+  // .prose-mpd wrapper, so the site's own theme-aware table styling
+  // (_includes/head.html's .prose-mpd table/th/td/caption rules) applies
+  // automatically and stays in sync with the light/dark toggle -- hardcoded
+  // inline styles previously baked in a permanent dark look that clashed
+  // with the light theme.
   function renderTable(containerId, rows, columns, title) {
     let html = `
-      <table style="width:100%; border-collapse:collapse; font-family:Arial, sans-serif; background:#1e1e1e; color:#ddd;">
-        <caption style="caption-side:top; font-weight:bold; font-size:18px; padding:15px; background:#222; color:white; text-align:left;">
-          ${title}
-        </caption>
+      <table>
+        <caption>${title}</caption>
         <thead>
-          <tr style="background:#333;">
-            ${columns.map(col => `<th style="padding:12px; border:1px solid #444; text-align:left; color:white;">${col}</th>`).join('')}
+          <tr>
+            ${columns.map((col, i) => `<th style="text-align:${i === 0 ? 'left' : i === columns.length - 1 ? 'right' : 'center'};">${col}</th>`).join('')}
           </tr>
         </thead>
         <tbody>
     `;
 
-    rows.forEach((row, index) => {
-      const bgColor = index % 2 === 0 ? '#222' : '#2a2a2a';  // Alternating dark grays
-      html += `<tr style="background:${bgColor};">`;
-      html += `<td style="padding:12px; border:1px solid #444;">${row.operator || row.rigType}</td>`;
-      html += `<td style="padding:12px; border:1px solid #444; text-align:center;">${row.wellCount || row.rigCount}</td>`;
-      html += `<td style="padding:12px; border:1px solid #444; text-align:right;">${row.avgDepth.toLocaleString()} ft</td>`;
+    rows.forEach(row => {
+      html += `<tr>`;
+      html += `<td>${row.operator || row.rigType}</td>`;
+      html += `<td style="text-align:center;">${row.wellCount || row.rigCount}</td>`;
+      html += `<td style="text-align:right;">${row.avgDepth.toLocaleString()} ft</td>`;
       html += `</tr>`;
     });
 

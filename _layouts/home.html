@@ -103,8 +103,8 @@ layout: base
     {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
     {%- for post in site.posts -%}
 
-      <article data-category="{{ post.categories | join: ' ' | downcase }}"
-               data-tags="{{ post.tags | join: ' ' | downcase }}"
+      <article data-category="{{ post.categories | join: '|' | downcase }}"
+               data-tags="{{ post.tags | join: '|' | downcase }}"
                style="border-bottom:1px solid rgba(164,163,168,0.25); padding-bottom:2.5rem; margin-bottom:2.5rem;">
 
         {%- comment -%}
