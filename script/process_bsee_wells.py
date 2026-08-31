@@ -42,7 +42,7 @@ def main():
     APD_2025.to_json(output_path, orient='records', date_format='iso', force_ascii=False)
 
     print(f"Saved filtered BSEE wells as JSON to {output_path}")
-    print(f"   → {len(APD_2025):,} wells ready for web plotting")
+    print(f"   -> {len(APD_2025):,} wells ready for web plotting")
 
     # Optional: Print summary
     if not APD_2025.empty:

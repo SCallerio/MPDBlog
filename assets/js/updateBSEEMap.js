@@ -174,8 +174,13 @@ async function loadBSEEMap() {
           [0.8, 'rgb(25, 25, 112)'],
           [1.0, 'rgb(0, 0, 139)']
         ],
+        // Plotly.js v2.x reads colorbar.title.text -- a bare string here
+        // silently renders no title at all (this site pins plotly-2.35.2,
+        // see the <script> tag in the post). The notebook's own embedded
+        // map doesn't need this because plotly.py normalizes a plain
+        // `title="..."` string to {text: ...} before it ever reaches JS.
         colorbar: {
-          title: 'Water Depth (ft)',
+          title: { text: 'Water Depth (ft)' },
           tickformat: ',.0f'},
         opacity: 0.85
       },
