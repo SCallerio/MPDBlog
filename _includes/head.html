@@ -316,6 +316,19 @@
         border-radius: 6px;
         margin: 1.25rem 0 1rem;
       }
+
+      /* Small external badge links (Colab/nbviewer, etc.) -- without this
+         they inherit the blanket .prose-mpd img full-width rule above and
+         get stretched to the entire post column, turning a ~20px-tall
+         badge into a giant button. */
+      .prose-mpd img.badge-icon {
+        display: inline-block;
+        width: auto;
+        height: 20px;
+        border-radius: 0;
+        margin: 0 0.4rem 0.4rem 0;
+        vertical-align: middle;
+      }
       .prose-mpd figure { margin: 1.5rem 0; }
 
       /* ── LISTS ──────────────────────────────── */
