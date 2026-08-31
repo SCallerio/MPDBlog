@@ -69,6 +69,61 @@
     });
   }
 
+  // Fetches the notebook variant matching the current theme into a
+  // `.jupyter-container[data-src]` placeholder, instead of both light and
+  // dark being baked into the page via Jekyll's Liquid include tag (one of
+  // them always hidden by CSS but still fully downloaded and rendered
+  // client-side -- including its own live Plotly output, a second
+  // invisible copy of whatever interactive chart it contains). Each
+  // variant is fetched at
+  // most once per page view and cached, so a later theme toggle just swaps
+  // rather than re-fetching. See build-notebook.ps1 for how
+  // assets/notebooks/*.html gets produced.
+  var jupyterNotebookCache = {};
+  function loadJupyterNotebook() {
+    var isDark = document.body.classList.contains('dark');
+    var container = document.querySelector(
+      isDark ? '.jupyter-container.theme-dark' : '.jupyter-container.theme-light'
+    );
+    if (!container || container.dataset.loaded === 'true') return;
+    var url = container.getAttribute('data-src');
+    if (!url) return;
+
+    function render(html) {
+      container.innerHTML = html;
+      container.dataset.loaded = 'true';
+      // innerHTML doesn't execute <script> tags -- recreate each one so
+      // the notebook's own embedded Plotly output (a <script src=...
+      // plotly...> tag plus an inline Plotly.newPlot(...) call) actually
+      // runs.
+      container.querySelectorAll('script').forEach(function(oldScript){
+        var newScript = document.createElement('script');
+        for (var i = 0; i < oldScript.attributes.length; i++) {
+          var attr = oldScript.attributes[i];
+          newScript.setAttribute(attr.name, attr.value);
+        }
+        newScript.textContent = oldScript.textContent;
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+      });
+    }
+
+    var cacheKey = isDark ? 'dark' : 'light';
+    if (jupyterNotebookCache[cacheKey]) {
+      render(jupyterNotebookCache[cacheKey]);
+      return;
+    }
+    fetch(url)
+      .then(function(r){ return r.text(); })
+      .then(function(html){
+        jupyterNotebookCache[cacheKey] = html;
+        render(html);
+      })
+      .catch(function(err){
+        container.innerHTML = '<p style="text-align:center; padding:2rem; color:#999;">Could not load notebook content.</p>';
+        console.error('Notebook lazy-load failed:', err);
+      });
+  }
+
   // Prefixed "Mpd" on purpose: some posts (e.g. the interactive Jupyter
   // dashboards) embed their own <script> with unscoped global functions
   // of their own — a plain `applyTheme` here previously collided with
@@ -80,6 +135,7 @@
     var icon = document.getElementById('theme-icon');
     if (icon) icon.textContent = isDark ? '🌙' : '☀️';
     syncThemedImages();
+    loadJupyterNotebook();
     // Lets any post-embedded chart/widget react to a real theme change
     // (manual toggle or live OS-follow) instead of only picking up the
     // new theme the next time it happens to redraw for its own reasons.
@@ -103,6 +159,7 @@
   // point the whole page has loaded. Run it again here once the DOM
   // (including post content) is actually complete.
   document.addEventListener('DOMContentLoaded', syncThemedImages);
+  document.addEventListener('DOMContentLoaded', loadJupyterNotebook);
 
   // Tag the post's real opening paragraph with .drop-cap (styled in
   // _includes/head.html). Skips any leading caption-only paragraph --

@@ -5,7 +5,7 @@ author: Santiago Callerio
 layout: post
 published: true
 categories: Data_Analytics
-tags: [gulf of mexico, data analytics, rig tracker, interactive visualization]
+tags: [gulf of mexico, data analytics, rig tracker, offshore rig tracker, interactive visualization]
 excerpt_separator: <!--more-->
 ---
 
@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
 ## Step-by-Step to Build the GoM Rig Tracker Dashboard in Jupyter Notebooks
 The notebook containing the code referenced below can be viewed and downloaded from the following links: 
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SCallerio/MPDBlog/blob/main/src/2026-08-29-bsee-map-jupyter-example/2026-08-29-bsee-map-jupyter.ipynb)
-[![Render on nbviewer](https://img.shields.io/badge/render-nbviewer-orange)](https://nbviewer.org/github/SCallerio/MPDBlog/blob/main/src/2026-08-29-bsee-map-jupyter-example/2026-08-29-bsee-map-jupyter.ipynb)
+<a href="https://colab.research.google.com/github/SCallerio/MPDBlog/blob/main/src/2026-08-29-bsee-map-jupyter-example/2026-08-29-bsee-map-jupyter.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" class="badge-icon"></a>
+<a href="https://nbviewer.org/github/SCallerio/MPDBlog/blob/main/src/2026-08-29-bsee-map-jupyter-example/2026-08-29-bsee-map-jupyter.ipynb"><img src="https://img.shields.io/badge/render-nbviewer-orange" alt="Render on nbviewer" class="badge-icon"></a>
 
 ### 1. Data Acquisition from BSEE eWell APD Database
 #### 1.1 Application for Permit to Drill (APD) Dataset
@@ -98,11 +98,14 @@ approved permits, ensuring regulatory consistency and avoiding uncertainty assoc
 announced-but-unapproved wells.
 
 <!--more-->
-<div class="jupyter-container theme-light">
-{% include notebooks/2026-08-29-bsee-map-jupyter.html %}
+<!-- Lazy-loaded by loadJupyterNotebook() (_includes/header.html) once the
+     theme is known, instead of Liquid-including both light and dark
+     notebook renders into every page load. -->
+<div class="jupyter-container theme-light" data-src="{{ '/assets/notebooks/2026-08-29-bsee-map-jupyter.html' | relative_url }}">
+  <p style="text-align:center; padding:2rem; color:#999;">Loading notebook&hellip;</p>
 </div>
-<div class="jupyter-container theme-dark">
-{% include notebooks/2026-08-29-bsee-map-jupyter_dark.html %}
+<div class="jupyter-container theme-dark" data-src="{{ '/assets/notebooks/2026-08-29-bsee-map-jupyter_dark.html' | relative_url }}">
+  <p style="text-align:center; padding:2rem; color:#999;">Loading notebook&hellip;</p>
 </div>
 
 ## Data Source & Disclaimer
