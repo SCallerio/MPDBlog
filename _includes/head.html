@@ -3,6 +3,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {%- seo -%}
+  {%- comment -%}
+    jekyll-seo-tag has no keywords/tags support at all (checked the
+    installed gem's lib, docs, and changelog -- zero mentions), so
+    post.tags otherwise has no SEO metadata footprint whatsoever, only
+    the visible "Tags:" list at the bottom of the post and the home-page
+    tag filter. This meta tag itself carries no real Google ranking
+    weight (deprecated for that purpose years ago), but it's the concrete
+    way to make tags show up in page metadata rather than nowhere.
+  {%- endcomment -%}
+  {%- if page.tags.size > 0 -%}
+  <meta name="keywords" content="{{ page.tags | join: ', ' | escape }}">
+  {%- endif -%}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

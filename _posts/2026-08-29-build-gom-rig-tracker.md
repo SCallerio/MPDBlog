@@ -5,7 +5,7 @@ author: Santiago Callerio
 layout: post
 published: true
 categories: Data_Analytics
-tags: [gulf of mexico, data analytics, rig tracker, offshore rig tracker, interactive visualization]
+tags: [gulf of mexico, data analytics, offshore rig tracker, interactive visualization]
 excerpt_separator: <!--more-->
 ---
 
