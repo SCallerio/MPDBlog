@@ -1,0 +1,46 @@
+{%- comment -%}
+  External article/link preview card.
+  Usage: {% include link-card.html url="https://..." title="..." site_name="..." image="/images/x.jpg" image_alt="..." %}
+  `image` is a site-relative path (goes through relative_url) — download
+  and self-host external images rather than hotlinking them, same
+  convention as everything else in this repo. `image_alt` is optional and
+  falls back to `title` (same pattern as _layouts/home.html's
+  `post.image.alt | default: post.title`) so the thumbnail never ships
+  with empty alt text.
+
+  Root element is a <div>, not an <a>: kramdown only recognizes a fixed
+  list of block-level tags (div, p, blockquote, etc.) as raw HTML blocks.
+  `a` isn't on that list, so a top-level `<a>` gets wrapped in a <p> and
+  treated as inline/span HTML — any block-level tag nested inside it
+  (like the text-column <div> below) then gets Markdown-escaped instead
+  of rendered. The clickable area is a "stretched link" <a> covering the
+  whole card instead.
+{%- endcomment -%}
+<div class="link-card" style="position:relative; display:flex; gap:0; align-items:stretch;
+     border:1px solid rgba(164,163,168,0.3); border-radius:8px; overflow:hidden;
+     margin:1.5rem 0; transition:border-color 0.2s;">
+  <a href="{{ include.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ include.title }}"
+     style="position:absolute; inset:0; z-index:1;"></a>
+  {%- if include.image -%}
+    <img src="{{ include.image | relative_url }}" alt="{{ include.image_alt | default: include.title }}"
+         style="width:180px; min-width:180px; object-fit:cover;">
+  {%- endif -%}
+  <div style="padding:1rem 1.25rem; display:flex; flex-direction:column; justify-content:center; min-width:0;">
+    {%- if include.site_name -%}
+      <span class="font-poppins font-normal text-meta"
+            style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em;">
+        {{ include.site_name }}
+      </span>
+    {%- endif -%}
+    <span class="font-poppins font-semibold text-almost-black"
+          style="font-size:1rem; line-height:1.4; margin-top:0.3rem;">
+      {{ include.title }}
+    </span>
+    {%- if include.description -%}
+      <span class="font-merriweather text-meta"
+            style="font-size:0.85rem; line-height:1.5; margin-top:0.4rem;">
+        {{ include.description }}
+      </span>
+    {%- endif -%}
+  </div>
+</div>
