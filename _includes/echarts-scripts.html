@@ -1,0 +1,9 @@
+{%- comment -%}
+  ECharts + the shared chart theme, loaded once per page (line-race.html and
+  energy-chart.html both include this).
+{%- endcomment -%}
+{%- unless echarts_loaded %}
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script src="{{ site.baseurl }}/assets/js/chartTheme.js"></script>
+{%- assign echarts_loaded = true %}
+{%- endunless %}

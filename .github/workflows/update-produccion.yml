@@ -1,0 +1,58 @@
+name: Update Production and Wells Data (Monthly)
+
+on:
+  schedule:
+    # Run on the 4th of every month at 06:00 UTC (national files + Neuquén GeoServer blocks and fluid windows)
+    - cron: '0 6 4 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-and-process:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas requests pyshp pyproj shapely
+
+      - name: Download raw data
+        run: |
+          mkdir -p data/raw data/processed
+          B="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c/resource"
+          wget -q "$B/b5b58cdc-9e07-41f9-b392-fb9ec68b0725/download/produccin-de-pozos-de-gas-y-petrleo-no-convencional.csv" -O data/raw/produccion-no-convencional.csv
+          wget -q "$B/cb5c0f04-7835-45cd-b982-3e25ca7d7751/download/capitulo-iv-pozos.csv" -O data/raw/capitulo-iv-pozos.csv
+          wget -q "$B/3fcda0c5-68aa-4f33-bbe2-0180e6dbeebe/download/shapefile-de-pozos.zip" -O data/raw/shapefile-de-pozos.zip
+          wget -q "http://datos.energia.gob.ar/dataset/81cfad0a-4162-4f85-ad71-837f5a5fae57/resource/48a306a3-d5da-4f28-8ab5-7f80767ffdec/download/produccin-hidrocarburos-concesiones-de-explotacin.zip" -O data/raw/concesiones.zip
+          ls -la data/raw
+
+      - name: Run processing script
+        run: |
+          python script/process_produccion.py --prod data/raw/produccion-no-convencional.csv \
+            --pozos data/raw/capitulo-iv-pozos.csv --pozos-shp data/raw/shapefile-de-pozos.zip \
+            --concesiones data/raw/concesiones.zip
+          python script/process_neuquen_areas.py --prod data/raw/produccion-no-convencional.csv \
+            --pozos data/raw/capitulo-iv-pozos.csv --pozos-shp data/raw/shapefile-de-pozos.zip
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed/produccion_*.json data/processed/pozos_mapa.json data/processed/neuquen_areas.json \
+            assets/data/argentina-concesiones.json assets/data/neuquen-areas.json
+          git diff --quiet && git diff --staged --quiet || (
+            git commit -m "Update production and wells data ($(date +'%Y-%m-%d'))" &&
+            git pull --rebase origin "${GITHUB_REF_NAME}" &&
+            git push
+          )

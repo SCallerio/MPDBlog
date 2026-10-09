@@ -1,0 +1,52 @@
+{%- comment -%}
+  Animated ECharts chart from assets/js/energyCharts.js.
+
+  {% include energy-chart.html
+       kind="province-map"
+       id="metros-province-map"
+       data="/data/processed/metros_perforados_provincia_anio.json"
+       geo="/assets/data/argentina-provinces.json"
+       title="Meters drilled by province"
+       source_name="Secretaría de Energía — Metros perforados"
+       source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
+       note="Meters drilled per province and calendar year." %}
+
+  kind: bar-race | province-map | treemap | bubbles | candles | radar | calendar |
+        change-treemap | sankey | wells-map
+  data: one file, or several comma-separated files (candles only)
+  Optional: geo (province-map: one file; wells-map: provinces,concessions),
+  unit and series_noun (bar-race), height (default 600px), default_indicator
+  and zoom_months (candles).
+{%- endcomment -%}
+{%- assign data_files = include.data | split: "," -%}
+{%- assign geo_files = include.geo | split: "," -%}
+<div style="margin: 30px 0;">
+  <div id="{{ include.id }}" style="width:100%; height:{{ include.height | default: '600px' }};"></div>
+  <div style="text-align:right; margin-top:8px;">
+    <button id="{{ include.id }}-replay" type="button"
+            style="font-family:Poppins,sans-serif; font-size:14px; padding:6px 14px; border:1px solid #A4A3A8; border-radius:6px; background:transparent; color:inherit; cursor:pointer;">
+      ↻ Replay
+    </button>
+  </div>
+  <p style="font-style:italic; color:#757575; font-size:14px; margin-top:6px;">
+    Source: <a href="{{ include.source_url }}">{{ include.source_name }}</a>.
+    {{ include.note }}
+  </p>
+</div>
+
+{% include echarts-scripts.html %}
+{%- unless energy_charts_loaded %}
+<script src="{{ site.baseurl }}/assets/js/energyCharts.js"></script>
+{%- assign energy_charts_loaded = true %}
+{%- endunless %}
+<script>
+  renderEnergyChart({{ include.kind | jsonify }}, '{{ include.id }}',
+    {% if data_files.size > 1 %}[{% for f in data_files %}'{{ site.baseurl }}{{ f | strip }}'{% unless forloop.last %}, {% endunless %}{% endfor %}]{% else %}'{{ site.baseurl }}{{ include.data | strip }}'{% endif %}, {
+    title: {{ include.title | jsonify }},
+    unit: {{ include.unit | jsonify }},
+    geoUrl: {% if geo_files.size > 1 %}[{% for f in geo_files %}'{{ site.baseurl }}{{ f | strip }}'{% unless forloop.last %}, {% endunless %}{% endfor %}]{% elsif include.geo %}'{{ site.baseurl }}{{ include.geo | strip }}'{% else %}null{% endif %},
+    seriesNoun: {{ include.series_noun | jsonify }},
+    defaultIndicator: {{ include.default_indicator | jsonify }},
+    zoomMonths: {{ include.zoom_months | default: 0 }}
+  });
+</script>
