@@ -245,7 +245,12 @@ def frac_quarterly_averages(df, time_col, company_col, start="2015-01", top_n=8,
                                           lat_sum=("lateral", "sum"), st_sum=("stages", "sum"),
                                           n=("lateral", "size"))
     g["density"] = 1000 * g["st_sum"] / g["lat_sum"]
-    quarters = pd.period_range(wells["q"].min(), wells["q"].max(), freq="Q")
+    last = wells["date"].max()
+    end_q = last.to_period("Q")
+    # Drop the last quarter when it is incomplete: a few days of wells read as a jump.
+    if last < end_q.end_time.normalize():
+        end_q -= 1
+    quarters = pd.period_range(wells["q"].min(), end_q, freq="Q")
     labels = {c: short_name(c, max_label_len) for c in top}
     out = {}
     for key, col, digits in [("lateral", "lateral", 0), ("stages", "stages", 1), ("density", "density", 2)]:
