@@ -740,14 +740,16 @@
             itemStyle: { areaColor: ink.surface, borderColor: ink.grid, borderWidth: 0.6 },
             emphasis: { itemStyle: { areaColor: PALETTE[theme][3] }, label: { show: false } },
             select: { disabled: true },
-            regions: provRegions.concat(windowRegions),
+            tooltip: { show: true },
+            // Block colors go on the geo regions: a map series sharing the geo
+            // ignores per-item colors.
+            regions: provRegions
+              .concat(blocks.map(b => ({ name: b.name, itemStyle: { areaColor: view.color(b), borderColor: ink.muted, borderWidth: 0.5 } })))
+              .concat(windowRegions),
           },
           graphic: [{ type: 'rect', left: 0, top: 0, z: 10, silent: true,
                       shape: { width: 4000, height: 78 }, style: { fill: ink.surface } }],
-          series: [{
-            type: 'map', map: 'nqn-blocks', geoIndex: 0,
-            data: blocks.map(b => ({ name: b.name, value: 1, itemStyle: { areaColor: view.color(b) } })),
-          }],
+          series: [],
         }, true);
       };
       select.onchange = draw;
