@@ -106,21 +106,39 @@ def wells_table(pozos, pozos_shp_zip):
     w["lat"] = [p[1] for p in xy]
     ok = w["lon"].notna().mean()
     print(f"Wells CSV: {len(w):,} rows, coordinates parsed from geojson for {ok:.0%}")
-    if ok < 0.9 and pozos_shp_zip:
+    if pozos_shp_zip:
+        # The shapefile is a newer snapshot of the same register: same
+        # coordinates, a few more wells and some drilling dates the CSV lacks.
         import shapefile
         with tempfile.TemporaryDirectory() as tmp:
             zipfile.ZipFile(pozos_shp_zip).extractall(tmp)
             shp = glob.glob(os.path.join(tmp, "**", "*.shp"), recursive=True)[0]
-            r = shapefile.Reader(shp)
+            r = shapefile.Reader(shp, encoding="utf-8", encodingErrors="replace")
             names = [f[0] for f in r.fields[1:]]
-            pts = {}
+            recs = []
             for rec, shape in zip(r.records(), r.shapes()):
-                if shape.points:
-                    pts[str(rec[names.index("SIGLA")]).strip()] = shape.points[0]
-        miss = w["lon"].isna()
-        w.loc[miss, "lon"] = w.loc[miss, "sigla"].astype(str).str.strip().map(lambda s: pts.get(s, (None, None))[0])
-        w.loc[miss, "lat"] = w.loc[miss, "sigla"].astype(str).str.strip().map(lambda s: pts.get(s, (None, None))[1])
-        print(f"  after the shapefile join: {w['lon'].notna().mean():.0%} with coordinates")
+                d = dict(zip(names, rec))
+                d["x"], d["y"] = shape.points[0] if shape.points else (None, None)
+                recs.append(d)
+        s = pd.DataFrame(recs)
+        s["SIGLA"] = s["SIGLA"].astype(str).str.strip()
+        s = s.drop_duplicates("SIGLA")
+        w["sigla"] = w["sigla"].astype(str).str.strip()
+        by_sigla = s.set_index("SIGLA")
+        miss_xy = w["lon"].isna() & w["sigla"].isin(by_sigla.index)
+        w.loc[miss_xy, "lon"] = w.loc[miss_xy, "sigla"].map(by_sigla["x"])
+        w.loc[miss_xy, "lat"] = w.loc[miss_xy, "sigla"].map(by_sigla["y"])
+        blank = pd.to_datetime(w["adjiv_fecha_inicio_perf"], errors="coerce").isna() & w["sigla"].isin(by_sigla.index)
+        w.loc[blank, "adjiv_fecha_inicio_perf"] = w.loc[blank, "sigla"].map(by_sigla["FECHA_INIC"]).astype(str)
+        extra = s[~s["SIGLA"].isin(set(w["sigla"]))]
+        add = pd.DataFrame({
+            "sigla": extra["SIGLA"],
+            "area": extra["AREA"].astype(str).str.replace(r"\s*\([^)]*\)\s*$", "", regex=True),
+            "tipo_recurso": extra["TIPO_RECUR"], "adjiv_fecha_inicio_perf": extra["FECHA_INIC"].astype(str),
+            "lon": extra["x"], "lat": extra["y"]})
+        w = pd.concat([w, add], ignore_index=True)
+        print(f"  shapefile: filled {int(miss_xy.sum())} coordinates and {int(blank.sum())} drilling dates; "
+              f"added {len(add)} wells only in the shapefile")
     w["start"] = pd.to_datetime(w["adjiv_fecha_inicio_perf"], errors="coerce")
     w = w[(w["start"] >= pd.Timestamp(f"{START_YEAR}-01-01")) & (w["start"] <= pd.Timestamp.today())]
     w = w.dropna(subset=["lon", "lat"])

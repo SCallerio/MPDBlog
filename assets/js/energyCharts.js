@@ -18,6 +18,8 @@
 //   'sankey'        {nodes, links}                              (frac_sankey)
 //   'wells-map'     {years, areas, wells} + opts.geoUrl = [provinces, concessions]
 //                                                               (process_produccion.py)
+//   'vm-blocks'     {blocks, contracts, ...} + opts.geoUrl = [provinces, neuquen-areas]
+//                                                               (process_neuquen_areas.py)
 
 (function () {
   const T = window.MPDChartTheme;
@@ -596,8 +598,166 @@
     },
   };
 
+  // ------------------------------------------------ Vaca Muerta block map
+  // Neuquén blocks (provincial GeoServer) colored by the selected view:
+  // operator (brand colors), contract type, or a per-block metric. The Vaca
+  // Muerta fluid windows are drawn on top as colored outlines.
+  const vmBlocks = {
+    setup(chart, data, theme, opts, geos, el) {
+      const ink = INK[theme];
+      const ramp = SEQUENTIAL[theme];
+      const [prov, nqn] = geos;
+      const windows = nqn.windows || [];
+      if (!echarts.getMap('nqn-blocks')) {
+        const feats = prov.features.map(f => Object.assign({}, f, { properties: { name: 'prov:' + f.properties.name } }))
+          .concat(nqn.features, windows);
+        echarts.registerMap('nqn-blocks', { type: 'FeatureCollection', features: feats });
+      }
+      const blocks = data.blocks;
+      const fmtInt = v => (v ? Math.round(v).toLocaleString('en-US') : '0');
+      const binColor = (v, bins) => {
+        if (!v) return ink.surface;
+        let k = 0;
+        while (k < bins.length - 1 && v >= bins[k + 1]) k++;
+        return ramp[Math.min(ramp.length - 1, k + 1)];
+      };
+      const binLegend = (bins, unit) => bins.map((lo, k) => ({
+        color: ramp[Math.min(ramp.length - 1, k + 1)],
+        label: (k === bins.length - 1 ? '> ' + fmtValue(lo, '') : fmtValue(lo, '') + '–' + fmtValue(bins[k + 1], '')) + ' ' + unit,
+      })).concat([{ color: ink.surface, label: 'none' }]);
+
+      const contractColor = {
+        'Unconventional concession': PALETTE[theme][0], 'Conventional concession': PALETTE[theme][2],
+        'Exploration permit': PALETTE[theme][3], 'No contract / reverted': NEUTRAL[theme], Other: ink.grid,
+      };
+      const operatorColor = b => (b.contract === 'No contract / reverted' ? ink.surface
+        : brandColor(b.operator || '', theme) || NEUTRAL[theme]);
+      const VIEWS = {
+        operator: {
+          label: 'Operator (brand colors)', color: operatorColor,
+          legend: () => {
+            const seen = new Map();
+            blocks.forEach(b => {
+              const c = operatorColor(b);
+              if (c !== NEUTRAL[theme] && c !== ink.surface && b.operator && !seen.has(c)) seen.set(c, b.operator);
+            });
+            return Array.from(seen, ([color, label]) => ({ color, label }))
+              .concat([{ color: NEUTRAL[theme], label: 'other operators' }, { color: ink.surface, label: 'no contract' }]);
+          },
+        },
+        contract: {
+          label: 'Contract type', color: b => contractColor[b.contract] || ink.grid,
+          legend: () => data.contracts.map(c => ({ color: contractColor[c] || ink.grid, label: c })),
+        },
+        oil: {
+          label: 'Unconventional oil, ' + data.production_period + ' (bbl/d)', bins: [1, 1000, 5000, 15000, 40000, 80000],
+          value: b => b.oil_bbl_d, unit: 'bbl/d',
+        },
+        gas: {
+          label: 'Unconventional gas, ' + data.production_period + ' (MMm³/d)', bins: [0.01, 0.5, 2, 5, 10, 20],
+          value: b => b.gas_mmm3_d, unit: 'MMm³/d',
+        },
+        wells: {
+          label: 'Unconventional wells drilled since ' + data.wells_since, bins: [1, 10, 50, 100, 200, 400],
+          value: b => b.wells_unconv, unit: 'wells',
+        },
+      };
+      Object.values(VIEWS).forEach(v => {
+        if (v.bins) { v.color = b => binColor(v.value(b), v.bins); v.legend = () => binLegend(v.bins, v.unit); }
+      });
+
+      // View picker + HTML legend, built once next to the chart.
+      let controls = document.getElementById(el.id + '-controls');
+      if (!controls) {
+        controls = document.createElement('div');
+        controls.id = el.id + '-controls';
+        controls.style.cssText = 'font:13px Poppins,sans-serif;margin:0 0 8px 0;';
+        const select = document.createElement('select');
+        select.setAttribute('aria-label', 'Map view');
+        select.style.cssText = 'font:14px Poppins,sans-serif;padding:4px 8px;border:1px solid #A4A3A8;' +
+          'border-radius:6px;background:transparent;color:inherit;margin-right:8px;';
+        Object.entries(VIEWS).forEach(([k, v]) => {
+          const o = document.createElement('option'); o.value = k; o.textContent = v.label; select.appendChild(o);
+        });
+        const legend = document.createElement('div');
+        legend.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;color:#757575;';
+        controls.appendChild(select);
+        controls.appendChild(legend);
+        el.parentNode.insertBefore(controls, el);
+      }
+      const select = controls.querySelector('select');
+      const legendEl = controls.lastChild;
+      if (!select.value) select.value = 'operator';
+
+      const windowColors = [PALETTE[theme][5], PALETTE[theme][3], PALETTE[theme][7], PALETTE[theme][6]];
+      const windowRegions = windows.map((w, k) => ({
+        name: w.properties.name, silent: true, label: { show: false },
+        itemStyle: { areaColor: 'transparent', borderColor: windowColors[k % 4], borderWidth: 2.5, borderType: 'dashed' },
+        emphasis: { disabled: true },
+      }));
+      const provRegions = prov.features.map(f => ({
+        name: 'prov:' + f.properties.name, silent: true, label: { show: false },
+        itemStyle: { areaColor: 'transparent', borderColor: ink.muted, borderWidth: 1 }, emphasis: { disabled: true },
+      }));
+      const byName = {};
+      blocks.forEach(b => { byName[b.name] = b; });
+
+      const draw = () => {
+        const view = VIEWS[select.value];
+        legendEl.innerHTML = '';
+        view.legend().concat(windows.map((w, k) => ({ outline: windowColors[k % 4], label: w.properties.name.slice(3) + ' window' })))
+          .forEach(item => {
+            const span = document.createElement('span');
+            const sw = document.createElement('span');
+            sw.style.cssText = 'display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px;' +
+              (item.outline ? 'border:2px dashed ' + item.outline + ';' : 'background:' + item.color + ';border:1px solid ' + ink.grid + ';');
+            span.appendChild(sw);
+            span.appendChild(document.createTextNode(item.label));
+            legendEl.appendChild(span);
+          });
+        chart.setOption({
+          backgroundColor: 'transparent',
+          title: Object.assign(title(opts.title, view.label + ' · ' + blocks.length + ' blocks · drag to pan, scroll to zoom', ink), { z: 20 }),
+          tooltip: {
+            trigger: 'item',
+            formatter: p => {
+              const b = byName[p.name];
+              if (!b) return '';
+              return '<b>' + b.name + '</b> (' + (b.id || '') + ')<br>' + b.contract_raw +
+                (b.operator ? '<br>Operator: ' + b.operator : '') +
+                (b.holders ? '<br>Holders: ' + b.holders : '') +
+                (b.area_km2 ? '<br>Area: ' + fmtInt(b.area_km2) + ' km²' : '') +
+                (b.start || b.end ? '<br>Contract: ' + (b.start || '?') + ' → ' + (b.end || '?') : '') +
+                '<br>Oil ' + data.production_period + ': ' + fmtValue(b.oil_bbl_d, 'bbl/d') +
+                '<br>Gas: ' + fmtValue(b.gas_mmm3_d, 'MMm³/d') +
+                '<br>Unconventional wells since ' + data.wells_since + ': ' + fmtInt(b.wells_unconv) +
+                (data.wells_last_year ? ' (' + fmtInt(b.wells_last_year) + ' in ' + data.wells_last_year + ')' : '');
+            },
+          },
+          geo: {
+            map: 'nqn-blocks', roam: true, top: 80, bottom: 10, scaleLimit: { min: 0.5, max: 30 },
+            boundingCoords: opts.bounds || [[-71.2, -36.5], [-68.2, -40.4]],
+            itemStyle: { areaColor: ink.surface, borderColor: ink.grid, borderWidth: 0.6 },
+            emphasis: { itemStyle: { areaColor: PALETTE[theme][3] }, label: { show: false } },
+            select: { disabled: true },
+            regions: provRegions.concat(windowRegions),
+          },
+          graphic: [{ type: 'rect', left: 0, top: 0, z: 10, silent: true,
+                      shape: { width: 4000, height: 78 }, style: { fill: ink.surface } }],
+          series: [{
+            type: 'map', map: 'nqn-blocks', geoIndex: 0,
+            data: blocks.map(b => ({ name: b.name, value: 1, itemStyle: { areaColor: view.color(b) } })),
+          }],
+        }, true);
+      };
+      select.onchange = draw;
+      draw();
+    },
+  };
+
   const KINDS = { 'bar-race': barRace, 'province-map': provinceMap, treemap, bubbles, candles,
-                  radar, calendar, 'change-treemap': changeTree, sankey, 'wells-map': wellsMap };
+                  radar, calendar, 'change-treemap': changeTree, sankey, 'wells-map': wellsMap,
+                  'vm-blocks': vmBlocks };
 
   // Candle data may come from several files: their indicators are concatenated.
   function load(dataUrl) {

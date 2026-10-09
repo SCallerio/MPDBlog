@@ -308,6 +308,24 @@ unconventional (`tipo_recurso`). The map starts on the Neuquén basin: drag to p
      source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="Wells with a drilling start date since 2010. Concession outlines: Secretaría de Energía, Concesiones de Explotación." %}
 
+## Vaca Muerta block by block
+
+Every hydrocarbon block in Neuquén, as published by the province's Ministry of Energy, with the Vaca Muerta fluid
+windows drawn on top as dashed outlines. Use the menu to color the blocks by operator (brand colors), by contract
+type, or by unconventional oil, gas or wells drilled; hover over a block for its holders and their shares, its area
+and its contract dates. Production and wells come from the national Capítulo IV files, matched to the blocks by name.
+
+{% include energy-chart.html
+     kind="vm-blocks"
+     id="vaca-muerta-blocks"
+     data="/data/processed/neuquen_areas.json"
+     geo="/assets/data/argentina-provinces.json,/assets/data/neuquen-areas.json"
+     title="Neuquén hydrocarbon blocks"
+     height="760px"
+     source_name="Ministerio de Energía y Recursos Naturales del Neuquén — GeoServer de Hidrocarburos (blocks, fluid windows); Secretaría de Energía — Capítulo IV (production, wells)"
+     source_url="https://hidrocarburos.energianeuquen.gob.ar/gis"
+     note="Blocks and fluid windows simplified for the web." %}
+
 ## Activity candles: month-over-month ups and downs
 
 Candlesticks borrowed from finance, applied to activity: each candle goes from the previous month's value (open) to
@@ -341,8 +359,9 @@ positive or negative. Pick the indicator in the menu:
 - The production races cover unconventional wells only, the scope of the per-well production file used. The well
   map shows wells with a drilling start date since 2010; older wells in the register have no drilling dates.
 - Maps: province outlines from [jazzido/Polymaps-Argentina](https://github.com/jazzido/Polymaps-Argentina);
-  concession areas from the Secretaría de Energía's *Concesiones de Explotación* shapefile; well locations from the
-  *Capítulo IV* well register. All are simplified for the web.
+  concession areas from the Secretaría de Energía's *Concesiones de Explotación* shapefile; Neuquén blocks and Vaca
+  Muerta fluid windows from the [Neuquén Ministry of Energy's GeoServer](https://hidrocarburos.energianeuquen.gob.ar/gis);
+  well locations from the *Capítulo IV* well register and its shapefile. All are simplified for the web.
 - Company names longer than 22 characters are shortened in the labels: for meters drilled they fall back to the
   company code (`idempresa`), and for the frac data legal suffixes are dropped (e.g. "VISTA ENERGY ARGENTINA SAU"
   becomes "VISTA ENERGY").
