@@ -1,0 +1,137 @@
+name: TMP areas/blocks source discovery
+
+on:
+  push:
+    branches: ['claude/**']
+    paths: ['.github/workflows/tmp-areas-discovery.yml']
+
+jobs:
+  discover:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Install tools
+        run: pip install -q pandas requests pyshp
+      - name: Inspect sources (metadata only)
+        run: |
+          python3 - <<'PY'
+          import io, json, re, zipfile, tempfile, glob, math
+          import pandas as pd, requests
+          H = {"User-Agent": "Mozilla/5.0 (MPDBlog data discovery)"}
+          def get(url, **kw):
+              try:
+                  r = requests.get(url, headers=H, timeout=60, **kw)
+                  print(f"\nGET {url} -> {r.status_code} {r.headers.get('content-type','')} {len(r.content)} bytes")
+                  return r
+              except Exception as e:
+                  print(f"\nGET {url} -> ERROR {e}")
+                  return None
+
+          print("=" * 20, "SUPERFICIARIA")
+          for url in ["https://superficiaria.com/en/data/", "https://superficiaria.com/en/map/"]:
+              r = get(url)
+              if not r or not r.ok:
+                  continue
+              html = r.text
+              text = re.sub(r"<[^>]+>", " ", html)
+              text = re.sub(r"\s+", " ", text)
+              for kw in ("licen", "Licen", "CC BY", "Creative", "attribution", "Attribution", "atribu", "terms", "Terms",
+                         "source", "Source", "fuente", "Fuente", "copyright", "©"):
+                  for m in re.finditer(re.escape(kw), text):
+                      print("  TEXT…", text[max(0, m.start() - 120): m.end() + 160])
+                      break
+              assets = sorted(set(re.findall(r'(?:src|href)="([^"]+\.(?:js|json|geojson|csv|pmtiles|mbtiles|topojson)[^"]*)"', html)))
+              print("  ASSETS", assets[:40])
+              links = sorted(set(re.findall(r'href="([^"]+)"', html)))
+              print("  LINKS", [l for l in links if "dato" in l or "data" in l or "licen" in l or "terms" in l][:40])
+              # Look inside the JS bundles for data endpoints.
+              for a in assets:
+                  if not a.endswith(".js") and ".js?" not in a:
+                      continue
+                  u = a if a.startswith("http") else "https://superficiaria.com" + (a if a.startswith("/") else "/en/map/" + a)
+                  js = get(u)
+                  if js is not None and js.ok:
+                      eps = sorted(set(re.findall(r'["\'`]([^"\'`\s]*(?:geojson|pmtiles|\.mvt|\.pbf|tiles|/api/|wfs|wms|\.json|\.csv)[^"\'`\s]*)["\'`]', js.text)))
+                      print("  ENDPOINTS in", u, eps[:60])
+          for url in ["https://superficiaria.com/datos/areas-hidrocarburiferas.csv", "https://superficiaria.com/datos/operadoras.csv"]:
+              r = get(url)
+              if r is not None and r.ok:
+                  df = pd.read_csv(io.BytesIO(r.content))
+                  print("  ROWS", len(df), "COLUMNS", list(df.columns))
+                  print(df.head(3).to_string()[:1500])
+                  for c in df.columns:
+                      if df[c].dtype == object and df[c].nunique() < 40:
+                          print("  VALUES", c, df[c].value_counts().head(15).to_dict())
+
+          print("\n" + "=" * 20, "SIG ENERGIA")
+          for url in ["https://sig.energia.gob.ar/v/?t=4", "https://sig.energia.gob.ar/v/?viz=d0569623",
+                      "https://sig.energia.gob.ar/visor/visorsig.php?t=4"]:
+              r = get(url)
+              if r is not None and r.ok:
+                  eps = sorted(set(re.findall(r'(https?://[^"\'\s<>]*(?:geoserver|wms|wfs|ows|arcgis|MapServer|FeatureServer)[^"\'\s<>]*)', r.text, re.I)))
+                  print("  SERVICE URLS", eps[:40])
+                  scripts = sorted(set(re.findall(r'src="([^"]+\.js[^"]*)"', r.text)))
+                  print("  SCRIPTS", scripts[:30])
+                  for s in scripts:
+                      u = s if s.startswith("http") else "https://sig.energia.gob.ar" + (s if s.startswith("/") else "/v/" + s)
+                      js = get(u)
+                      if js is not None and js.ok:
+                          eps = sorted(set(re.findall(r'["\'](https?://[^"\']*(?:geoserver|wms|wfs|ows|arcgis|MapServer|FeatureServer|api)[^"\']*)["\']', js.text, re.I)))
+                          if eps:
+                              print("  SERVICE URLS in", u, eps[:30])
+          for base in ["https://sig.energia.gob.ar/geoserver/ows", "https://sig.energia.gob.ar/geoserver/wfs"]:
+              r = get(base, params={"service": "WFS", "request": "GetCapabilities"})
+              if r is not None and r.ok and b"FeatureType" in r.content:
+                  names = re.findall(r"<(?:wfs:)?Name>([^<]+)</(?:wfs:)?Name>", r.text)
+                  titles = re.findall(r"<(?:wfs:)?Title>([^<]+)</(?:wfs:)?Title>", r.text)
+                  print("  WFS LAYERS", len(names))
+                  for n, t in zip(names, titles[1:]):
+                      if re.search(r"vaca|permis|concesi|area|yacim|lote|bloque|cuenca|pozo", n + t, re.I):
+                          print("   ", n, "|", t)
+                  break
+
+          print("\n" + "=" * 20, "WELLS: SHAPEFILE vs CSV")
+          B = "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c/resource"
+          csv = pd.read_csv(io.BytesIO(requests.get(B + "/cb5c0f04-7835-45cd-b982-3e25ca7d7751/download/capitulo-iv-pozos.csv", timeout=300).content), low_memory=False)
+          z = requests.get(B + "/3fcda0c5-68aa-4f33-bbe2-0180e6dbeebe/download/shapefile-de-pozos.zip", timeout=300).content
+          import shapefile
+          with tempfile.TemporaryDirectory() as tmp:
+              zipfile.ZipFile(io.BytesIO(z)).extractall(tmp)
+              r = shapefile.Reader(glob.glob(tmp + "/**/*.shp", recursive=True)[0])
+              f = [x[0] for x in r.fields[1:]]
+              rows = []
+              for rec, shp in zip(r.records(), r.shapes()):
+                  d = dict(zip(f, rec)); d["sx"], d["sy"] = shp.points[0] if shp.points else (None, None)
+                  rows.append(d)
+          shp = pd.DataFrame(rows)
+          print("SHP sample dates", shp[["FECHA_INIC", "FECHA_FIN_", "ASFECHA_IN", "FECHA_F_01"]].astype(str).head(3).to_dict("records"))
+          def pt(s):
+              try:
+                  return json.loads(s)["coordinates"][:2]
+              except Exception:
+                  return [None, None]
+          xy = csv["geojson"].map(pt)
+          csv["cx"] = [p[0] for p in xy]; csv["cy"] = [p[1] for p in xy]
+          csv["sigla"] = csv["sigla"].astype(str).str.strip(); shp["SIGLA"] = shp["SIGLA"].astype(str).str.strip()
+          m = csv.merge(shp, left_on="sigla", right_on="SIGLA", how="outer", indicator=True)
+          print("JOIN on sigla:", m["_merge"].value_counts().to_dict())
+          both = m[m["_merge"] == "both"].dropna(subset=["cx", "sx"])
+          dist = ((both["cx"] - both["sx"]) ** 2 + ((both["cy"] - both["sy"]) * 1) ** 2) ** 0.5 * 111000
+          print("Coordinate difference (m): median", round(dist.median(), 1), "p95", round(dist.quantile(0.95), 1), "max", round(dist.max(), 1),
+                "share > 100 m", round((dist > 100).mean(), 4))
+          csv_date = pd.to_datetime(m["adjiv_fecha_inicio_perf"], errors="coerce")
+          for col in ["FECHA_INIC", "FECHA_FIN_", "ASFECHA_IN", "FECHA_F_01"]:
+              d = pd.to_datetime(m[col].astype(str).replace({"None": None, "nan": None}), errors="coerce")
+              print(f"  {col}: non-null {d.notna().sum()}, fills CSV-blank drilling start for {int((csv_date.isna() & d.notna() & (m['_merge']=='both')).sum())} wells; "
+                    f"same as CSV start for {round(((d == csv_date) | (d.isna() & csv_date.isna()))[m['_merge']=='both'].mean(), 3)} of matches; range {d.min()} .. {d.max()}")
+          only = m[m["_merge"] == "right_only"]
+          print("Shapefile-only wells:", len(only), only[["EMPRESA", "AREA", "TIPO_RECUR", "FECHA_INIC"]].astype(str).head(5).to_dict("records"))
+
+          print("\n" + "=" * 20, "PRODUCCION POR YACIMIENTO DATASET")
+          try:
+              p = requests.get("http://datos.energia.gob.ar/api/3/action/package_show?id=produccion-hidrocarburos-yacimientos", timeout=60).json()["result"]
+              print("DATASET", p["title"])
+              for res in p["resources"]:
+                  print("RES", res["name"], "|", res["format"], "|", res["url"])
+          except Exception as e:
+              print("package_show failed", e)
+          PY
