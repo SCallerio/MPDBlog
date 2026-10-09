@@ -12,7 +12,8 @@ excerpt_separator: <!--more-->
 *Who has drilled the most in Argentina, and how have its frac completions changed? This post turns open data from
 the Secretaría de Energía into animated charts: races of cumulative meters drilled and of average lateral length,
 frac stages and stage spacing per operator, plus a province map, a basin drill-down, a bubble chart, an area radar,
-a frac calendar, a year-over-year treemap, a Sankey diagram and monthly activity candles.*
+a frac calendar, a year-over-year treemap, a Sankey diagram, production races by area, a map of every well
+drilled since 2010 and monthly activity candles.*
 
 <!--more-->
 
@@ -256,6 +257,56 @@ area to highlight its flows.
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Total cantidad_fracturas per company and areapermisoconcesion since 2015." %}
+
+## Production race: the top unconventional areas
+
+Monthly production of unconventional wells per concession area (`areapermisoconcesion`), converted to daily rates,
+for the fifteen areas that reached the highest rates, showing the top ten in each month. Each bar is colored by the
+area's main operator (the company with the most production there).
+
+{% include energy-chart.html
+     kind="bar-race"
+     id="produccion-petroleo-bar-race"
+     data="/data/processed/produccion_petroleo_areas.json"
+     title="Unconventional oil production by area"
+     unit="bbl/d"
+     series_noun="areas"
+     height="560px"
+     source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
+     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     note="prod_pet (m³ per month) × 6.29 / days in the month; unconventional wells only." %}
+
+The same race for gas:
+
+{% include energy-chart.html
+     kind="bar-race"
+     id="produccion-gas-bar-race"
+     data="/data/processed/produccion_gas_areas.json"
+     title="Unconventional gas production by area"
+     unit="MMm³/d"
+     series_noun="areas"
+     height="560px"
+     source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
+     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     note="prod_gas (thousand m³ per month) / 1,000 / days in the month; unconventional wells only." %}
+
+## Wells on the map
+
+Every well whose drilling started since 2010 (`adjiv_fecha_inicio_perf`), placed at its location from the
+Capítulo IV well register, over the official concession areas. The color of each area is the number of those wells
+drilled in it so far; the bright dots are the wells drilled in the selected year, blue for conventional and orange for
+unconventional (`tipo_recurso`). The map starts on the Neuquén basin: drag to pan and scroll to zoom.
+
+{% include energy-chart.html
+     kind="wells-map"
+     id="pozos-mapa"
+     data="/data/processed/pozos_mapa.json"
+     geo="/assets/data/argentina-provinces.json,/assets/data/argentina-concesiones.json"
+     title="Wells drilled by concession area"
+     height="720px"
+     source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
+     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     note="Wells with a drilling start date since 2010. Concession outlines: Secretaría de Energía, Concesiones de Explotación." %}
 
 ## Activity candles: month-over-month ups and downs
 

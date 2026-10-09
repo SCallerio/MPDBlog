@@ -11,12 +11,15 @@
        source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
        note="Meters drilled per province and calendar year." %}
 
-  kind: bar-race | province-map | treemap | bubbles | candles
+  kind: bar-race | province-map | treemap | bubbles | candles | radar | calendar |
+        change-treemap | sankey | wells-map
   data: one file, or several comma-separated files (candles only)
-  Optional: geo (province-map), unit (bar-race), height (default 600px),
-  default_indicator and zoom_months (candles).
+  Optional: geo (province-map: one file; wells-map: provinces,concessions),
+  unit and series_noun (bar-race), height (default 600px), default_indicator
+  and zoom_months (candles).
 {%- endcomment -%}
 {%- assign data_files = include.data | split: "," -%}
+{%- assign geo_files = include.geo | split: "," -%}
 <div style="margin: 30px 0;">
   <div id="{{ include.id }}" style="width:100%; height:{{ include.height | default: '600px' }};"></div>
   <div style="text-align:right; margin-top:8px;">
@@ -41,7 +44,8 @@
     {% if data_files.size > 1 %}[{% for f in data_files %}'{{ site.baseurl }}{{ f | strip }}'{% unless forloop.last %}, {% endunless %}{% endfor %}]{% else %}'{{ site.baseurl }}{{ include.data | strip }}'{% endif %}, {
     title: {{ include.title | jsonify }},
     unit: {{ include.unit | jsonify }},
-    geoUrl: {% if include.geo %}'{{ site.baseurl }}{{ include.geo }}'{% else %}null{% endif %},
+    geoUrl: {% if geo_files.size > 1 %}[{% for f in geo_files %}'{{ site.baseurl }}{{ f | strip }}'{% unless forloop.last %}, {% endunless %}{% endfor %}]{% elsif include.geo %}'{{ site.baseurl }}{{ include.geo | strip }}'{% else %}null{% endif %},
+    seriesNoun: {{ include.series_noun | jsonify }},
     defaultIndicator: {{ include.default_indicator | jsonify }},
     zoomMonths: {{ include.zoom_months | default: 0 }}
   });

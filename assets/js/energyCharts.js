@@ -16,6 +16,8 @@
 //   'calendar'      {years, days:[[date, value]], max}           (frac_calendar)
 //   'change-treemap' {year, prev, metrics:{stages, lateral}}     (frac_change_tree)
 //   'sankey'        {nodes, links}                              (frac_sankey)
+//   'wells-map'     {years, areas, wells} + opts.geoUrl = [provinces, concessions]
+//                                                               (process_produccion.py)
 
 (function () {
   const T = window.MPDChartTheme;
@@ -53,11 +55,15 @@
       const months = Array.from(new Set(rows.map(r => r[0]))).sort();
       const companies = Array.from(new Set(rows.map(r => r[1])));
       const byMonth = {};
-      rows.forEach(r => { (byMonth[r[0]] = byMonth[r[0]] || {})[r[1]] = r[2] || 0; });
+      const operator = {};   // optional 4th column: who operates the bar's area
+      rows.forEach(r => {
+        (byMonth[r[0]] = byMonth[r[0]] || {})[r[1]] = r[2] || 0;
+        if (r[3]) operator[r[1]] = r[3];
+      });
       const shown = opts.bars || 10;
       const frameMs = opts.frameMs || 120;
       const ink = INK[theme];
-      const color = c => brandColor(c, theme) || NEUTRAL[theme];
+      const color = c => brandColor(operator[c] || c, theme) || NEUTRAL[theme];
       const frame = i => {
         const m = months[i];
         return {
@@ -68,7 +74,8 @@
       chart.setOption({
         backgroundColor: 'transparent',
         title: title(opts.title, (opts.subtitle || 'Argentina · Secretaría de Energía') +
-          ' · top ' + shown + ' of ' + companies.length + ' companies', ink),
+          ' · top ' + shown + ' of ' + companies.length + ' ' + (opts.seriesNoun || 'companies') +
+          (Object.keys(operator).length ? ' · colored by main operator' : ''), ink),
         grid: { left: 10, right: 90, top: 70, bottom: 30, containLabel: true },
         xAxis: { max: 'dataMax', axisLabel: { color: ink.muted, formatter: fmtAxis, showMaxLabel: false },
                  splitLine: { lineStyle: { color: ink.grid } } },
@@ -80,7 +87,8 @@
                    label: { show: true, position: 'right', valueAnimation: true, color: ink.text,
                             formatter: p => fmtValue(p.value, opts.unit) },
                    data: [] }],
-        tooltip: { trigger: 'item', formatter: p => p.name + ': ' + fmtValue(p.value, opts.unit) },
+        tooltip: { trigger: 'item', formatter: p => p.name + (operator[p.name] ? ' (' + operator[p.name] + ')' : '') +
+          ': ' + fmtValue(p.value, opts.unit) },
         animationDuration: 0,
         animationDurationUpdate: frameMs,
         animationEasing: 'linear',
@@ -418,16 +426,24 @@
       const ud = UPDOWN[theme];
       const span = opts.changeRange || 60;
       const metrics = [['stages', 'Frac stages'], ['lateral', 'Lateral length']];
-      // A new area (nothing the previous year) shows as the strongest growth.
+      // Color each tile from its % change on a fixed diverging scale
+      // (orange -span% .. gray 0 .. blue +span%). A new area (nothing the
+      // previous year) shows as the strongest growth.
+      const scale = [ud.down, NEUTRAL[theme], ud.up];
+      const colorOf = pct => {
+        const p = pct == null ? span : Math.max(-span, Math.min(span, pct));
+        return echarts.color.lerp((p + span) / (2 * span), scale);
+      };
       const prep = nodes => nodes.map(n => {
-        const v = n.value.slice();
-        if (v[2] == null) v[2] = span;
-        const out = { name: n.name, value: v, raw: n.value };
+        const out = { name: n.name, value: n.value, raw: n.value,
+                      itemStyle: { color: colorOf(n.value[2]) } };
         if (n.children) out.children = prep(n.children);
         return out;
       });
       const tip = (info, unit) => {
-        const [cur, prev, pct] = info.data.raw || info.value;
+        const raw = (info.data && info.data.raw) || info.value;
+        if (!Array.isArray(raw)) return info.name;
+        const [cur, prev, pct] = raw;
         return info.treePathInfo.slice(1).map(n => n.name).join(' › ') +
           '<br>' + data.year + ': ' + fmtValue(cur, unit) +
           '<br>' + data.prev + ': ' + fmtValue(prev, unit) +
@@ -445,21 +461,19 @@
           return {
             type: 'treemap', name: label, top: 85, bottom: 10, left: 0, right: 0, roam: false,
             nodeClick: false, breadcrumb: { show: false },
-            visualDimension: 2, visualMin: -span, visualMax: span,
-            color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value',
             tooltip: { formatter: info => tip(info, m.unit) },
             label: { color: '#ffffff', fontSize: 11, overflow: 'truncate',
-                     formatter: p => p.name + '\n' + (p.data.raw && p.data.raw[2] == null ? 'new'
-                       : ((p.value[2] >= 0 ? '+' : '') + Math.round(p.value[2]) + '%')) },
+                     formatter: p => {
+                       const raw = p.data && p.data.raw;
+                       if (!raw) return p.name;
+                       return p.name + '\n' + (raw[2] == null ? 'new'
+                         : (raw[2] >= 0 ? '+' : '') + Math.round(raw[2]) + '%');
+                     } },
             upperLabel: { show: true, height: 22, color: ink.text, fontWeight: 600 },
             itemStyle: { borderColor: ink.surface },
             levels: [
-              { itemStyle: { borderWidth: 3, borderColor: ink.surface, gapWidth: 3 },
-                color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value', visualDimension: 2,
-                visualMin: -span, visualMax: span },
-              { itemStyle: { gapWidth: 1 },
-                color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value', visualDimension: 2,
-                visualMin: -span, visualMax: span },
+              { itemStyle: { borderWidth: 3, borderColor: ink.surface, gapWidth: 3 } },
+              { itemStyle: { gapWidth: 1 } },
             ],
             data: prep(m.tree),
           };
@@ -498,8 +512,84 @@
     },
   };
 
+  // -------------------------------------------- wells over concession areas
+  // Choropleth: wells drilled since the first year, cumulative, per concession
+  // area. Dots: the wells themselves (faint = earlier years, bright = drilled
+  // in the selected year), blue = conventional, orange = unconventional.
+  const wellsMap = {
+    setup(chart, data, theme, opts, geos) {
+      const ink = INK[theme];
+      const ramp = SEQUENTIAL[theme];
+      if (!echarts.getMap('ar-concesiones')) {
+        // Provinces first (background outlines), then the concession areas.
+        const [prov, conc] = geos;
+        const feats = prov.features.map(f => Object.assign({}, f, { properties: { name: 'prov:' + f.properties.name } }))
+          .concat(conc.features);
+        echarts.registerMap('ar-concesiones', { type: 'FeatureCollection', features: feats });
+      }
+      const provRegions = geos[0].features.map(f => ({
+        name: 'prov:' + f.properties.name, silent: true,
+        itemStyle: { areaColor: 'transparent', borderColor: ink.muted, borderWidth: 1 },
+        emphasis: { disabled: true }, label: { show: false },
+      }));
+      const bins = opts.bins || [1, 10, 50, 100, 250, 500];
+      const pieces = bins.map((lo, k) => {
+        const hi = bins[k + 1];
+        return { min: lo, max: hi ? hi - 1 : undefined, color: ramp[k + 1] || ramp[ramp.length - 1],
+                 label: hi ? lo + '–' + (hi - 1) : lo + '+' };
+      });
+      const typeColor = [PALETTE[theme][0], PALETTE[theme][1], ink.muted];
+      const yearLabel = y => (data.partial_year && data.partial_year.startsWith(y) ? data.partial_year : y);
+      const dots = (y, current) => data.types.map((t, k) => data.wells
+        .filter(w => w[3] === k && (current ? String(w[2]) === y : String(w[2]) < y))
+        .map(w => [w[0], w[1]]));
+      const scatter = (name, k, current) => ({
+        type: 'scatter', coordinateSystem: 'geo', geoIndex: 0, name, large: !current, silent: !current,
+        symbolSize: current ? 4 : 2,
+        itemStyle: { color: typeColor[k], opacity: current ? 0.95 : 0.3 },
+        tooltip: { show: false }, zlevel: current ? 2 : 1,
+      });
+      chart.setOption({
+        baseOption: {
+          backgroundColor: 'transparent',
+          timeline: timeline(data.years.map(yearLabel), ink),
+          legend: { top: 52, left: 'center', textStyle: { color: ink.muted, fontSize: 11 },
+                    data: ['Conventional', 'Unconventional'] },
+          tooltip: { trigger: 'item',
+                     formatter: p => (p.seriesType === 'map' && !String(p.name).startsWith('prov:')
+                       ? p.name + ': ' + (p.value > 0 ? p.value + ' wells' : 'no wells') : '') },
+          geo: {
+            map: 'ar-concesiones', roam: true, top: 80, bottom: 60,
+            center: opts.center || [-68.8, -38.3], zoom: opts.zoom || 9, scaleLimit: { min: 1, max: 40 },
+            itemStyle: { areaColor: ink.surface, borderColor: ink.grid, borderWidth: 0.5 },
+            emphasis: { itemStyle: { areaColor: PALETTE[theme][3] }, label: { show: false } },
+            select: { disabled: true },
+            regions: provRegions,
+          },
+          visualMap: { type: 'piecewise', pieces, seriesIndex: 0, left: 10, bottom: 70, showLabel: true,
+                       itemWidth: 14, itemHeight: 10, text: ['Wells per area', ''],
+                       textStyle: { color: ink.muted, fontSize: 11 } },
+          series: [
+            { type: 'map', map: 'ar-concesiones', geoIndex: 0, name: 'Wells per area' },
+            scatter('Conventional', 0, false), scatter('Unconventional', 1, false),
+            scatter('Conventional', 0, true), scatter('Unconventional', 1, true),
+          ],
+        },
+        options: data.years.map(y => {
+          const before = dots(y, false);
+          const now = dots(y, true);
+          return {
+            title: title(opts.title, 'Wells drilled ' + data.years[0] + '–' + yearLabel(y) +
+              ' · bright dots: drilled in ' + yearLabel(y) + ' (' + (now[0].length + now[1].length) + ')', ink),
+            series: [{ data: data.areas[y] }, { data: before[0] }, { data: before[1] }, { data: now[0] }, { data: now[1] }],
+          };
+        }),
+      }, true);
+    },
+  };
+
   const KINDS = { 'bar-race': barRace, 'province-map': provinceMap, treemap, bubbles, candles,
-                  radar, calendar, 'change-treemap': changeTree, sankey };
+                  radar, calendar, 'change-treemap': changeTree, sankey, 'wells-map': wellsMap };
 
   // Candle data may come from several files: their indicators are concatenated.
   function load(dataUrl) {
@@ -513,7 +603,8 @@
     const el = document.getElementById(containerId);
     const impl = KINDS[kind];
     if (!el || !impl) return;
-    const extra = opts.geoUrl ? T.fetchJson(opts.geoUrl) : Promise.resolve(null);
+    const extra = Array.isArray(opts.geoUrl) ? Promise.all(opts.geoUrl.map(T.fetchJson))
+      : opts.geoUrl ? T.fetchJson(opts.geoUrl) : Promise.resolve(null);
     Promise.all([load(dataUrl), extra])
       .then(([data, extraData]) => {
         const chart = echarts.init(el);
