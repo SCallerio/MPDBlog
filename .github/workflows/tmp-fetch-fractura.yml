@@ -1,0 +1,33 @@
+name: TMP fetch fractura extract
+
+on:
+  push:
+    branches: ['claude/**']
+    paths: ['.github/workflows/tmp-fetch-fractura.yml']
+
+jobs:
+  fetch:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download and dump slim extract to log
+        run: |
+          wget -q "http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7/resource/2280ad92-6ed3-403e-a095-50139863ab0d/download/datos-de-fractura-de-pozos-de-hidrocarburos-adjunto-iv-actualizacin-diaria.csv" -O frac.csv
+          ls -la frac.csv
+          pip install -q pandas
+          python - <<'EOF'
+          import pandas as pd, gzip, base64
+          df = pd.read_csv("frac.csv", low_memory=False)
+          print("ROWS", len(df))
+          print("COLUMNS", list(df.columns))
+          print(df.head(3).T.to_string())
+          keep = [c for c in df.columns if c.startswith("fecha") or "empresa" in c
+                  or c in ("longitud_rama_horizontal_m", "cantidad_fracturas", "idpozo", "sigla",
+                           "formacion_productiva", "tipo_reservorio", "subtipo_reservorio", "cuenca", "yacimiento")]
+          print("KEEP", keep)
+          b = base64.b64encode(gzip.compress(df[keep].to_csv(index=False).encode("utf-8"), 9)).decode()
+          print("B64LEN", len(b))
+          print("===BEGIN===")
+          for i in range(0, len(b), 4000):
+              print(b[i:i+4000])
+          print("===END===")
+          EOF
