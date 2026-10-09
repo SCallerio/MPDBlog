@@ -455,9 +455,11 @@
             itemStyle: { borderColor: ink.surface },
             levels: [
               { itemStyle: { borderWidth: 3, borderColor: ink.surface, gapWidth: 3 },
-                color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value', visualDimension: 2 },
+                color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value', visualDimension: 2,
+                visualMin: -span, visualMax: span },
               { itemStyle: { gapWidth: 1 },
-                color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value', visualDimension: 2 },
+                color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value', visualDimension: 2,
+                visualMin: -span, visualMax: span },
             ],
             data: prep(m.tree),
           };

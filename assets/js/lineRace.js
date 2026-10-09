@@ -85,8 +85,7 @@
         datasetId: datasetId,
         name: String(company),
         showSymbol: false,
-        // Bridge quarters in which a company had no wells (averages only).
-        connectNulls: opts.log === false,
+
         lineStyle: { width: 2 },
         // Lines past the available colors fall back to a neutral gray.
         color: lineColors[i],

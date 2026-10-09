@@ -68,38 +68,40 @@ separate fields.
 ## Longer laterals: average lateral length per well
 
 From here on the frac data is averaged rather than summed: totals mostly measure how many wells a company fractured,
-while averages show how its wells are changing. Each point is one company in one quarter, averaged over the
-horizontal wells (lateral length > 0) whose frac job ended in that quarter (`fecha_fin_fractura`), per reporting
-company (`empresa_informante`), from 2015. Quarters in which a company fractured no horizontal well are bridged
-with a straight line.
+while averages show how its wells are changing. Each point is one company at the end of one quarter, averaged over
+the horizontal wells (lateral length > 0) whose frac job ended (`fecha_fin_fractura`) in the trailing four quarters,
+per reporting company (`empresa_informante`), from 2015. A single quarter can rest on one or two wells, so the
+12-month window keeps the lines readable; points based on fewer than three wells are left out, which shows as a
+gap in the line.
 
 {% include line-race.html
      id="fractura-lateral-line-race"
      data="/data/processed/fractura_lateral_trimestral.json"
-     title="Average lateral length per well, by quarter"
+     title="Average lateral length per well (trailing 12 months)"
      y_axis="Average lateral length (m)"
      unit="m"
      log="false"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
-     note="Mean longitud_rama_horizontal_m of the company's horizontal wells fractured in the quarter."
+     note="Mean longitud_rama_horizontal_m of the company's horizontal wells fractured in the trailing four quarters."
      brand_colors="true"
      color_key="fractura" %}
 
 ## More stages: average frac stages per well
 
-The average number of frac stages (`cantidad_fracturas`) per horizontal well, on the same quarters and companies.
+The average number of frac stages (`cantidad_fracturas`) per horizontal well, with the same trailing four-quarter
+window and companies.
 
 {% include line-race.html
      id="fractura-etapas-line-race"
      data="/data/processed/fractura_etapas_trimestral.json"
-     title="Average frac stages per well, by quarter"
+     title="Average frac stages per well (trailing 12 months)"
      y_axis="Average frac stages per well"
      unit="stages"
      log="false"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
-     note="Mean cantidad_fracturas of the company's horizontal wells fractured in the quarter."
+     note="Mean cantidad_fracturas of the company's horizontal wells fractured in the trailing four quarters."
      brand_colors="true"
      color_key="fractura" %}
 
@@ -108,18 +110,18 @@ The average number of frac stages (`cantidad_fracturas`) per horizontal well, on
 Longer laterals naturally carry more stages, so the two charts above partly measure the same thing. Dividing them
 removes that: stages per 1,000 m of lateral is the completion intensity. A rising line means stages are being
 placed closer together, not just that the wells got longer. For each company and quarter it is the total stages
-divided by the total lateral length of its horizontal wells, times 1,000.
+divided by the total lateral length of its horizontal wells in the trailing four quarters, times 1,000.
 
 {% include line-race.html
      id="fractura-densidad-line-race"
      data="/data/processed/fractura_densidad_trimestral.json"
-     title="Frac stages per 1,000 m of lateral, by quarter"
+     title="Frac stages per 1,000 m of lateral (trailing 12 months)"
      y_axis="Frac stages per 1,000 m"
      unit="stages/km"
      log="false"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
-     note="Total stages / total lateral length × 1,000, per company and quarter (horizontal wells)."
+     note="Total stages / total lateral length × 1,000 over the trailing four quarters (horizontal wells)."
      brand_colors="true"
      color_key="fractura" %}
 
@@ -290,5 +292,5 @@ positive or negative. Pick the indicator in the menu:
   becomes "VISTA ENERGY").
 - The frac dataset has a few records from 2006 onward, but less than 1% of the total comes before 2015, so the frac
   charts start in 2015.
-- Quarterly averages for a company can rest on only a handful of wells, so single-quarter jumps are noisy; the trend
-  over several quarters is what matters.
+- The frac averages use a trailing four-quarter window and need at least three wells per point; even so, a company
+  with few wells moves more than YPF, whose averages rest on hundreds.

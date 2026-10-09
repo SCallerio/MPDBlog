@@ -25,7 +25,8 @@ _ES_SMALL = {"de", "del", "la", "las", "los", "el", "y", "e", "en"}
 def title_es(name):
     """'CRUZ DE LORENA' -> 'Cruz de Lorena' (Spanish particles stay lowercase)."""
     words = str(name).strip().lower().split()
-    return " ".join(w if (i and w in _ES_SMALL) else w[:1].upper() + w[1:] for i, w in enumerate(words))
+    return " ".join(w if (i and w in _ES_SMALL and words[i - 1] != "-") else w[:1].upper() + w[1:]
+                    for i, w in enumerate(words))
 
 
 def write(obj, path):
@@ -237,42 +238,41 @@ def monthly_candles(df, key, name, unit, source, start="2009-01"):
 
 
 def frac_quarterly_averages(df, time_col, company_col, start="2015-01", top_n=8,
-                            max_label_len=22):
-    """Quarterly averages per company over its horizontal wells (lateral > 0),
-    by the quarter the frac job ended. Returns three long tables for the line
-    race ([["trimestre", "empresa", value], ...]):
+                            max_label_len=22, window=4, min_wells=3):
+    """Per company, a trailing `window`-quarter average over its horizontal
+    wells (lateral > 0), by the quarter the frac job ended, shown each quarter.
+    Points resting on fewer than `min_wells` wells are null (a gap in the line).
+    Returns three long tables for the line race ([["trimestre", "empresa", v], ...]):
       lateral   average lateral length per well (m)
       stages    average frac stages per well
-      density   frac stages per 1,000 m of lateral (total stages / total lateral)
-    Quarters in which a company fractured no horizontal well are null."""
+      density   frac stages per 1,000 m of lateral (total stages / total lateral)"""
     wells = _frac_wells(df, time_col, company_col, start)
     wells = wells[wells["lateral"] > 0].copy()
     wells["q"] = wells["date"].dt.to_period("Q")
-    top = wells.groupby(company_col)["stages"].sum().nlargest(top_n).index
-    w = wells[wells[company_col].isin(top)]
-    g = w.groupby(["q", company_col]).agg(lateral=("lateral", "mean"), stages=("stages", "mean"),
-                                          lat_sum=("lateral", "sum"), st_sum=("stages", "sum"),
-                                          n=("lateral", "size"))
-    g["density"] = 1000 * g["st_sum"] / g["lat_sum"]
     last = wells["date"].max()
     end_q = last.to_period("Q")
     # Drop the last quarter when it is incomplete: a few days of wells read as a jump.
     if last < end_q.end_time.normalize():
         end_q -= 1
     quarters = pd.period_range(wells["q"].min(), end_q, freq="Q")
+    top = wells.groupby(company_col)["stages"].sum().nlargest(top_n).index
     labels = {c: short_name(c, max_label_len) for c in top}
-    out = {}
-    for key, col, digits in [("lateral", "lateral", 0), ("stages", "stages", 1), ("density", "density", 2)]:
-        rows = [["trimestre", "empresa", key]]
-        for q in quarters:
-            for c in top:
-                v = g[col].get((q, c))
-                rows.append([f"{q.year} Q{q.quarter}", labels[c], None if v is None or pd.isna(v) else round(float(v), digits)])
-        out[key] = rows
-    gaps = int(sum(r[2] is None for r in out["lateral"][1:]))
-    print(f"Quarterly averages: {len(quarters)} quarters x {len(top)} companies, {gaps} empty company-quarters; "
-          f"median wells per company-quarter {int(g['n'].median())}")
-    return out
+    rows = {k: [["trimestre", "empresa", k]] for k in ("lateral", "stages", "density")}
+    gaps = 0
+    for q in quarters:
+        for c in top:
+            w = wells[(wells[company_col] == c) & (wells["q"] > q - window) & (wells["q"] <= q)]
+            ok = len(w) >= min_wells
+            gaps += not ok
+            lat, st = w["lateral"].sum(), w["stages"].sum()
+            vals = {"lateral": round(float(lat / len(w)), 0) if ok else None,
+                    "stages": round(float(st / len(w)), 1) if ok else None,
+                    "density": round(float(1000 * st / lat), 2) if ok else None}
+            for k, v in vals.items():
+                rows[k].append([f"{q.year} Q{q.quarter}", labels[c], v])
+    print(f"Trailing {window}-quarter averages: {len(quarters)} quarters x {len(top)} companies, "
+          f"{gaps} points with fewer than {min_wells} wells left empty")
+    return rows
 
 
 # --- Frac data by area (radar, calendar, change treemap, sankey) -------------
@@ -388,6 +388,7 @@ def frac_sankey(df, time_col, company_col, start="2015-01", top_companies=8, top
     w["company"] = w[company_col].where(w[company_col].isin(top_c), "Other companies").map(
         lambda c: c if c == "Other companies" else short_name(c, 22))
     w["area_lbl"] = w["area"].where(w["area"].isin(top_a), "OTHER AREAS").map(title_es)
+    w.loc[w["area_lbl"] == "Other Areas", "area_lbl"] = "Other areas"
     flows = w.groupby(["company", "area_lbl"])["stages"].sum()
     flows = flows[flows > 0]
     companies = w.groupby("company")["stages"].sum().sort_values(ascending=False).index.tolist()

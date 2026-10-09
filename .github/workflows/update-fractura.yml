@@ -2,7 +2,7 @@ name: Update Fractura Data (Monthly)
 
 on:
   schedule:
-    # Run on the 3rd of every month at 06:00 UTC (after the monthly frac data update)
+    # Run on the 3rd of every month at 06:00 UTC (after the monthly frac data update; trailing averages)
     - cron: '0 6 3 * *'
   workflow_dispatch:
   push:
