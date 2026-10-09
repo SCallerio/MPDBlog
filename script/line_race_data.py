@@ -65,13 +65,14 @@ def short_name(name, max_len):
 
 def build_cumsum(df, time_col, value_col, hue_col, name_col=None, top_n=8,
                  max_label_len=MAX_LABEL_LEN, aliases=None, value_name="valor_acumulado",
-                 start=None):
+                 start=None, shorten_names=False):
     """Monthly cumulative sum of `value_col` per `hue_col`.
 
     Labels: the most frequent `name_col` spelling when it fits in
     `max_label_len`, else the `hue_col` value when that is an ID (name_col
     given), else a shortened name. `aliases` merges hue values ({old: new}).
-    `start` ("2015-01") trims the months shown; totals still include the
+    `shorten_names` tries the name without legal suffixes before falling back
+    to the ID. `start` ("2015-01") trims the months shown; totals still include the
     earlier history, so lines enter at their running total, not at zero.
     Returns (long DataFrame, final ranking Series).
     """
@@ -119,7 +120,8 @@ def build_cumsum(df, time_col, value_col, hue_col, name_col=None, top_n=8,
         if name and len(name) <= max_label_len:
             labels[c] = name
         elif name_col:
-            labels[c] = str(c)
+            short = short_name(name, max_label_len) if (name and shorten_names) else ""
+            labels[c] = short if short and not short.endswith("\u2026") else str(c)
         else:
             labels[c] = short_name(str(c), max_label_len)
 

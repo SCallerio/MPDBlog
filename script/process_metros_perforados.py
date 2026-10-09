@@ -16,6 +16,9 @@ Outputs:
     [["mes", "empresa", "metros_acumulados"], ["2009-01", "YPF S.A.", 12345.0], ...]
   data/processed/metros_perforados_ypf_cumsum.json  YPF only, one line per field
     (areayacimiento)  [["mes", "yacimiento", "metros_acumulados"], ...]
+  data/processed/metros_perforados_cumsum_top15.json  bar race (top 15 companies)
+  data/processed/metros_perforados_provincia_anio.json  choropleth map by province/year
+  data/processed/metros_perforados_arbol.json  basin -> province -> company treemap
 
 Usage:
   python script/process_metros_perforados.py               # top 8 companies
@@ -25,6 +28,7 @@ Usage:
 import argparse
 import os
 
+from energy_charts_data import drilldown_tree, province_year_map, write
 from line_race_data import MAX_LABEL_LEN, build_cumsum, load_csv, write_json
 
 WEB_LINK = (
@@ -33,6 +37,7 @@ WEB_LINK = (
 )
 OUTPUT_PATH = os.path.join("data", "processed", "metros_perforados_cumsum.json")
 YPF_OUTPUT_PATH = os.path.join("data", "processed", "metros_perforados_ypf_cumsum.json")
+OUT_DIR = os.path.join("data", "processed")
 
 # Company codes that are the same operator under a new legal entity, merged
 # into a single line. Pan American Energy (Sucursal Argentina) LLC (PAE) stops
@@ -41,6 +46,8 @@ COMPANY_ALIASES = {"PAL": "PAE"}
 # Field names have no legal suffixes to drop; allow a little more room so
 # e.g. "CAÑADON DE LA ESCONDIDA" (23 chars) is not cut.
 FIELD_MAX_LABEL_LEN = 24
+# Bar-race labels sit on the y axis and have more room than end labels.
+BAR_RACE_MAX_LABEL_LEN = 32
 
 
 def main():
@@ -72,6 +79,18 @@ def main():
     write_json(long, args.ypf_out)
     print("\nYPF: top fields by cumulative meters drilled:")
     print(ranking.head(args.top if args.top > 0 else 20).to_string())
+
+    # Bar race: a wider pool (top 15) so companies can enter the top 10 shown.
+    long, _ = build_cumsum(
+        df, time_col="indice_tiempo", value_col="cantidad", hue_col="idempresa",
+        name_col="empresa", top_n=15, max_label_len=BAR_RACE_MAX_LABEL_LEN,
+        aliases=COMPANY_ALIASES, value_name="metros_acumulados", shorten_names=True)
+    write_json(long, os.path.join(OUT_DIR, "metros_perforados_cumsum_top15.json"))
+
+    # Choropleth map (per province and year) and basin -> province -> company tree.
+    write(province_year_map(df), os.path.join(OUT_DIR, "metros_perforados_provincia_anio.json"))
+    write(drilldown_tree(df, company_aliases=COMPANY_ALIASES, company_labels={"PAE": "PAN AMERICAN ENERGY"}),
+          os.path.join(OUT_DIR, "metros_perforados_arbol.json"))
 
 
 if __name__ == "__main__":

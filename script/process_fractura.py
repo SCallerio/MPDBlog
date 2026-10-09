@@ -16,6 +16,8 @@ Columns used:
 Output:
   data/processed/fractura_lateral_cumsum.json  [["mes","empresa","lateral_m_acumulado"], ...]
   data/processed/fractura_etapas_cumsum.json   [["mes","empresa","etapas_acumuladas"], ...]
+  data/processed/fractura_burbujas.json        bubble chart: per company and year
+  data/processed/fractura_velas.json           monthly activity candles
 
 Usage:
   python script/process_fractura.py                # top 8 companies, from 2015-01
@@ -28,6 +30,7 @@ import re
 
 import pandas as pd
 
+from energy_charts_data import frac_bubbles, frac_candles, write
 from line_race_data import MAX_LABEL_LEN, build_cumsum, load_csv, write_json
 
 WEB_LINK = (
@@ -104,6 +107,12 @@ def main():
             start=args.start or None)
         write_json(long, os.path.join(args.out_dir, out_file))
         print(ranking.head(args.top if args.top > 0 else 20).to_string())
+
+    start = args.start or "2015-01"
+    write(frac_bubbles(df, TIME_COL, HUE_COL, start=start, top_n=args.top),
+          os.path.join(args.out_dir, "fractura_burbujas.json"))
+    write(frac_candles(df, TIME_COL, start=start),
+          os.path.join(args.out_dir, "fractura_velas.json"))
 
 
 if __name__ == "__main__":

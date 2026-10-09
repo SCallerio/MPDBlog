@@ -5,6 +5,9 @@ on:
     # Run on the 2nd of every month at 06:00 UTC
     - cron: '0 6 2 * *'
   workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['.github/workflows/update-metros-perforados.yml']
 
 permissions:
   contents: write
@@ -34,15 +37,24 @@ jobs:
           ls -la data/raw/metros-perforados.csv
           head -5 data/raw/metros-perforados.csv
 
-      - name: Run processing script
-        run: python script/process_metros_perforados.py --csv data/raw/metros-perforados.csv
+      - name: Download well counts (same dataset)
+        run: |
+          BASE="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/resource"
+          wget "$BASE/af6838ef-f675-4409-ac6a-e7c391a5dbab/download/pozos-en-perforacin.csv" -O data/raw/pozos-en-perforacion.csv
+          wget "$BASE/a2ce14af-5c56-45c2-9b9c-c7a1e5156dff/download/pozos-terminados.csv" -O data/raw/pozos-terminados.csv
+
+      - name: Run processing scripts
+        run: |
+          python script/process_metros_perforados.py --csv data/raw/metros-perforados.csv
+          python script/process_pozos.py --perforacion data/raw/pozos-en-perforacion.csv --terminados data/raw/pozos-terminados.csv
 
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/metros_perforados_cumsum.json data/processed/metros_perforados_ypf_cumsum.json
+          git add data/processed/metros_perforados_*.json data/processed/pozos_velas.json
           git diff --quiet && git diff --staged --quiet || (
             git commit -m "Update metros perforados data ($(date +'%Y-%m-%d'))" &&
+            git pull --rebase origin "${GITHUB_REF_NAME}" &&
             git push
           )

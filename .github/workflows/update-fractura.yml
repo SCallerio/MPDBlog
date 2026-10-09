@@ -5,6 +5,9 @@ on:
     # Run on the 3rd of every month at 06:00 UTC
     - cron: '0 6 3 * *'
   workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['.github/workflows/update-fractura.yml']
 
 permissions:
   contents: write
@@ -40,8 +43,9 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/fractura_lateral_cumsum.json data/processed/fractura_etapas_cumsum.json
+          git add data/processed/fractura_*.json
           git diff --quiet && git diff --staged --quiet || (
             git commit -m "Update fractura data ($(date +'%Y-%m-%d'))" &&
+            git pull --rebase origin "${GITHUB_REF_NAME}" &&
             git push
           )
