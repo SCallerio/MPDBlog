@@ -35,9 +35,10 @@ DATA_OUT = os.path.join("data", "processed", "neuquen_areas.json")
 M3_TO_BBL = 6.28981
 START_YEAR = 2010
 
+# Order matters: "PERMISO DE EXPLORACION NO CONVENCIONAL" is an exploration permit.
 CONTRACT_GROUPS = [
-    (r"NO CONVENCIONAL", "Unconventional concession"),
     (r"PERMISO DE EXPLORACION", "Exploration permit"),
+    (r"NO CONVENCIONAL", "Unconventional concession"),
     (r"CONCESION DE EXPLOTACION|LOTE DE EXPLOTACION", "Conventional concession"),
     (r"SIN CONTRATO|REVERSION", "No contract / reverted"),
 ]
@@ -81,9 +82,10 @@ def fluid_windows(feats):
     if not feats:
         return []
     props = pd.DataFrame([f["properties"] for f in feats])
-    cands = [c for c in props.columns if props[c].dtype == object and 1 < props[c].nunique() <= 8]
-    print(f"Fluid-window candidate fields: {[(c, props[c].unique().tolist()) for c in cands]}")
-    field = next((c for c in cands if re.search(r"FLUID|VENTAN|TIPO|DESCR|NOMB", c, re.I)), cands[0] if cands else None)
+    text = [c for c in props.columns
+            if (pd.api.types.is_string_dtype(props[c]) or props[c].dtype == object) and 1 < props[c].nunique() <= 8]
+    print(f"Fluid-window text fields: {[(c, props[c].unique().tolist()) for c in text]}")
+    field = next((c for c in text if re.search(r"NOMB|FLUID|VENTAN|TIPO|DESCR", c, re.I)), text[0] if text else None)
     groups = {}
     for f in feats:
         name = str(f["properties"].get(field, "Vaca Muerta")).strip() if field else "Vaca Muerta"

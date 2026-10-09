@@ -689,10 +689,10 @@
       const legendEl = controls.lastChild;
       if (!select.value) select.value = 'operator';
 
-      const windowColors = [PALETTE[theme][5], PALETTE[theme][3], PALETTE[theme][7], PALETTE[theme][6]];
+      const windowColors = [PALETTE[theme][5], PALETTE[theme][3], PALETTE[theme][7], PALETTE[theme][6], PALETTE[theme][1]];
       const windowRegions = windows.map((w, k) => ({
         name: w.properties.name, silent: true, label: { show: false },
-        itemStyle: { areaColor: 'transparent', borderColor: windowColors[k % 4], borderWidth: 2.5, borderType: 'dashed' },
+        itemStyle: { areaColor: 'transparent', borderColor: windowColors[k % 5], borderWidth: 2.5, borderType: 'dashed' },
         emphasis: { disabled: true },
       }));
       const provRegions = prov.features.map(f => ({
@@ -705,7 +705,7 @@
       const draw = () => {
         const view = VIEWS[select.value];
         legendEl.innerHTML = '';
-        view.legend().concat(windows.map((w, k) => ({ outline: windowColors[k % 4], label: w.properties.name.slice(3) + ' window' })))
+        view.legend().concat(windows.map((w, k) => ({ outline: windowColors[k % 5], label: w.properties.name.slice(3) + ' window' })))
           .forEach(item => {
             const span = document.createElement('span');
             const sw = document.createElement('span');

@@ -128,8 +128,10 @@ def wells_table(pozos, pozos_shp_zip):
         miss_xy = w["lon"].isna() & w["sigla"].isin(by_sigla.index)
         w.loc[miss_xy, "lon"] = w.loc[miss_xy, "sigla"].map(by_sigla["x"])
         w.loc[miss_xy, "lat"] = w.loc[miss_xy, "sigla"].map(by_sigla["y"])
-        blank = pd.to_datetime(w["adjiv_fecha_inicio_perf"], errors="coerce").isna() & w["sigla"].isin(by_sigla.index)
-        w.loc[blank, "adjiv_fecha_inicio_perf"] = w.loc[blank, "sigla"].map(by_sigla["FECHA_INIC"]).astype(str)
+        shp_start = pd.to_datetime(by_sigla["FECHA_INIC"].astype(str), errors="coerce")
+        shp_start = shp_start[shp_start.notna()]
+        blank = pd.to_datetime(w["adjiv_fecha_inicio_perf"], errors="coerce").isna() & w["sigla"].isin(shp_start.index)
+        w.loc[blank, "adjiv_fecha_inicio_perf"] = w.loc[blank, "sigla"].map(shp_start).dt.strftime("%Y-%m-%d")
         extra = s[~s["SIGLA"].isin(set(w["sigla"]))]
         add = pd.DataFrame({
             "sigla": extra["SIGLA"],
