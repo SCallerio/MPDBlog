@@ -547,28 +547,36 @@
         type: 'scatter', coordinateSystem: 'geo', geoIndex: 0, name, large: !current, silent: !current,
         symbolSize: current ? 4 : 2,
         itemStyle: { color: typeColor[k], opacity: current ? 0.95 : 0.3 },
-        tooltip: { show: false }, zlevel: current ? 2 : 1,
+        tooltip: { show: false }, z: current ? 4 : 3,
       });
       chart.setOption({
         baseOption: {
           backgroundColor: 'transparent',
-          timeline: timeline(data.years.map(yearLabel), ink),
-          legend: { top: 52, left: 'center', textStyle: { color: ink.muted, fontSize: 11 },
+          timeline: timeline(data.years.map(yearLabel), ink, { z: 20 }),
+          legend: { top: 52, left: 'center', textStyle: { color: ink.muted, fontSize: 11 }, z: 20,
                     data: ['Conventional', 'Unconventional'] },
           tooltip: { trigger: 'item',
                      formatter: p => (p.seriesType === 'map' && !String(p.name).startsWith('prov:')
                        ? p.name + ': ' + (p.value > 0 ? p.value + ' wells' : 'no wells') : '') },
           geo: {
-            map: 'ar-concesiones', roam: true, top: 80, bottom: 60,
-            center: opts.center || [-68.8, -38.3], zoom: opts.zoom || 9, scaleLimit: { min: 1, max: 40 },
+            map: 'ar-concesiones', roam: true, top: 130, bottom: 60,
+            center: opts.center || [-68.9, -38.2], zoom: opts.zoom || 5, scaleLimit: { min: 1, max: 40 },
             itemStyle: { areaColor: ink.surface, borderColor: ink.grid, borderWidth: 0.5 },
             emphasis: { itemStyle: { areaColor: PALETTE[theme][3] }, label: { show: false } },
             select: { disabled: true },
             regions: provRegions,
           },
           visualMap: { type: 'piecewise', pieces, seriesIndex: 0, left: 10, bottom: 70, showLabel: true,
-                       itemWidth: 14, itemHeight: 10, text: ['Wells per area', ''],
-                       textStyle: { color: ink.muted, fontSize: 11 } },
+                       itemWidth: 14, itemHeight: 10, text: ['Wells per area', ''], z: 20, padding: 6,
+                       backgroundColor: ink.surface, textStyle: { color: ink.muted, fontSize: 11 } },
+          // ECharts does not clip a zoomed map to its box: solid bands above
+          // and below keep the outlines off the title, legend and timeline.
+          graphic: [
+            { type: 'rect', left: 0, top: 0, z: 10, silent: true,
+              shape: { width: 4000, height: 128 }, style: { fill: ink.surface } },
+            { type: 'rect', left: 0, bottom: 0, z: 10, silent: true,
+              shape: { width: 4000, height: 60 }, style: { fill: ink.surface } },
+          ],
           series: [
             { type: 'map', map: 'ar-concesiones', geoIndex: 0, name: 'Wells per area' },
             scatter('Conventional', 0, false), scatter('Unconventional', 1, false),
@@ -579,8 +587,8 @@
           const before = dots(y, false);
           const now = dots(y, true);
           return {
-            title: title(opts.title, 'Wells drilled ' + data.years[0] + '–' + yearLabel(y) +
-              ' · bright dots: drilled in ' + yearLabel(y) + ' (' + (now[0].length + now[1].length) + ')', ink),
+            title: Object.assign(title(opts.title, 'Wells drilled ' + data.years[0] + '–' + yearLabel(y) +
+              ' · bright dots: drilled in ' + yearLabel(y) + ' (' + (now[0].length + now[1].length) + ')', ink), { z: 20 }),
             series: [{ data: data.areas[y] }, { data: before[0] }, { data: before[1] }, { data: now[0] }, { data: now[1] }],
           };
         }),

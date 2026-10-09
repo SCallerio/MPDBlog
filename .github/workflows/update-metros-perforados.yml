@@ -5,9 +5,6 @@ on:
     # Run on the 2nd of every month at 06:00 UTC
     - cron: '0 6 2 * *'
   workflow_dispatch:
-  push:
-    branches: ['claude/**']
-    paths: ['.github/workflows/update-metros-perforados.yml']
 
 permissions:
   contents: write

@@ -2,12 +2,9 @@ name: Update Fractura Data (Monthly)
 
 on:
   schedule:
-    # Run on the 3rd of every month at 06:00 UTC (after the monthly frac data update; trailing averages)
+    # Run on the 3rd of every month at 06:00 UTC
     - cron: '0 6 3 * *'
   workflow_dispatch:
-  push:
-    branches: ['claude/**']
-    paths: ['.github/workflows/update-fractura.yml']
 
 permissions:
   contents: write

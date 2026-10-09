@@ -336,8 +336,13 @@ positive or negative. Pick the indicator in the menu:
 
 - Companies are shown in their brand colors (YPF blue, Shell yellow, Pan American Energy red, and so on).
 - Recent months of the frac data may be revised upward as late reports come in.
-- Both datasets are refreshed monthly by GitHub Actions (`update-metros-perforados.yml` and
-  `update-fractura.yml`), so the charts stay current without manual work.
+- All datasets are refreshed monthly by GitHub Actions (`update-metros-perforados.yml`, `update-fractura.yml` and
+  `update-produccion.yml`), so the charts stay current without manual work.
+- The production races cover unconventional wells only, the scope of the per-well production file used. The well
+  map shows wells with a drilling start date since 2010; older wells in the register have no drilling dates.
+- Maps: province outlines from [jazzido/Polymaps-Argentina](https://github.com/jazzido/Polymaps-Argentina);
+  concession areas from the Secretaría de Energía's *Concesiones de Explotación* shapefile; well locations from the
+  *Capítulo IV* well register. All are simplified for the web.
 - Company names longer than 22 characters are shortened in the labels: for meters drilled they fall back to the
   company code (`idempresa`), and for the frac data legal suffixes are dropped (e.g. "VISTA ENERGY ARGENTINA SAU"
   becomes "VISTA ENERGY").
