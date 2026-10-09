@@ -31,6 +31,9 @@ __pycache__/
 data/raw/
 eWellAPDRawData/
 eWellAPDRawData.zip
+# BSEE production raw data the GoM map notebooks download at runtime
+OffshoreStatsRawData/
+OffshoreStatsRawData.zip
 *.ipynb.bak
 
 # Secrets — never commit tokens/keys. Nothing in this repo actually reads
