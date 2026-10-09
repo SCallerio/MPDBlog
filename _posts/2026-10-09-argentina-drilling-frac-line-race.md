@@ -11,8 +11,8 @@ excerpt_separator: <!--more-->
 
 *Who has drilled the most in Argentina, and how have its frac completions changed? This post turns open data from
 the Secretaría de Energía into animated charts: races of cumulative meters drilled and of average lateral length,
-frac stages and stage spacing per operator, plus a province map, a basin drill-down, a bubble chart and monthly
-activity candles.*
+frac stages and stage spacing per operator, plus a province map, a basin drill-down, a bubble chart, an area radar,
+a frac calendar, a year-over-year treemap, a Sankey diagram and monthly activity candles.*
 
 <!--more-->
 
@@ -189,6 +189,71 @@ area proportional to the number of those wells. Press play to watch the industry
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Horizontal wells (lateral length > 0), grouped by the year the frac job ended. One point per company and year." %}
+
+## Where the wells are fractured: the main areas
+
+A radar of the eight concession areas (`areapermisoconcesion`) with the most horizontal wells fractured since 2015.
+Each spoke is one area and the polygon shows how many wells were fractured there in the selected year, with the
+previous year dashed for comparison. All spokes share one scale, so a longer spoke means more wells.
+
+{% include energy-chart.html
+     kind="radar"
+     id="fractura-radar"
+     data="/data/processed/fractura_radar.json"
+     title="Horizontal wells fractured in the main areas"
+     height="600px"
+     source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
+     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     note="Horizontal wells (lateral length > 0) by the year the frac job ended." %}
+
+## Every frac day: a calendar heatmap
+
+Frac stages pumped per day over the last three years. The dataset gives a start and an end date for each frac job,
+so each well's stages are spread evenly across its job; jobs with a missing start date count on their end date.
+Weekends, holidays and slow periods stand out as pale cells.
+
+{% include energy-chart.html
+     kind="calendar"
+     id="fractura-calendar"
+     data="/data/processed/fractura_calendario.json"
+     title="Frac stages per day"
+     height="590px"
+     source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
+     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     note="Stages spread evenly from fecha_inicio_fractura to fecha_fin_fractura; the color scale tops out at the 98th percentile day." %}
+
+## Who grew, who shrank: last year vs. the year before
+
+In the style of the [ECharts "Obama budget" treemap](https://echarts.apache.org/examples/en/editor.html?c=treemap-obama):
+each tile is a company, split into its areas. Tile size is last full year's total, and the color is the change from
+the year before: blue for growth, orange for decline, gray for little change. Switch between frac stages and lateral
+length with the legend.
+
+{% include energy-chart.html
+     kind="change-treemap"
+     id="fractura-change-treemap"
+     data="/data/processed/fractura_arbol_cambio.json"
+     title="Frac activity by company and area: year-over-year change"
+     height="640px"
+     source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
+     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     note="Companies by frac stages in the last full year; within each, the top six areas and the rest as Other areas." %}
+
+## From companies to areas: a Sankey of frac stages
+
+All frac stages since 2015, flowing from the companies that pumped them to the areas where they were pumped. The
+eight companies and twelve areas with the most stages are shown; the rest are grouped. Hover over a company or an
+area to highlight its flows.
+
+{% include energy-chart.html
+     kind="sankey"
+     id="fractura-sankey"
+     data="/data/processed/fractura_sankey.json"
+     title="Frac stages: company → area"
+     height="640px"
+     source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
+     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     note="Total cantidad_fracturas per company and areapermisoconcesion since 2015." %}
 
 ## Activity candles: month-over-month ups and downs
 

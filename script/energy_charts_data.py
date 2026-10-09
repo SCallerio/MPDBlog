@@ -19,6 +19,15 @@ from argentina_geo import canonical_province
 from line_race_data import short_name
 
 
+_ES_SMALL = {"de", "del", "la", "las", "los", "el", "y", "e", "en"}
+
+
+def title_es(name):
+    """'CRUZ DE LORENA' -> 'Cruz de Lorena' (Spanish particles stay lowercase)."""
+    words = str(name).strip().lower().split()
+    return " ".join(w if (i and w in _ES_SMALL) else w[:1].upper() + w[1:] for i, w in enumerate(words))
+
+
 def write(obj, path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -264,3 +273,129 @@ def frac_quarterly_averages(df, time_col, company_col, start="2015-01", top_n=8,
     print(f"Quarterly averages: {len(quarters)} quarters x {len(top)} companies, {gaps} empty company-quarters; "
           f"median wells per company-quarter {int(g['n'].median())}")
     return out
+
+
+# --- Frac data by area (radar, calendar, change treemap, sankey) -------------
+
+def _frac_area_wells(df, time_col, company_col, start, area_col="areapermisoconcesion"):
+    """One row per fractured well with its area, frac start/end dates, lateral
+    and stages."""
+    d = df[df[time_col] >= pd.Timestamp(start)].copy()
+    d["lateral"] = pd.to_numeric(d["longitud_rama_horizontal_m"], errors="coerce").fillna(0)
+    d["stages"] = pd.to_numeric(d["cantidad_fracturas"], errors="coerce").fillna(0)
+    d["area"] = d[area_col].astype(str).str.strip().str.upper().replace({"NAN": "UNKNOWN"})
+    d["fstart"] = pd.to_datetime(d.get("fecha_inicio_fractura"), errors="coerce", format="mixed")
+    return (d.groupby([company_col, "idpozo"])
+             .agg(area=("area", "first"), start=("fstart", "min"), date=(time_col, "max"),
+                  lateral=("lateral", "max"), stages=("stages", "sum"))
+             .reset_index())
+
+
+def _last_full_year(dates):
+    last = dates.max()
+    return last.year if (last.month == 12 and last.day == 31) else last.year - 1
+
+
+def frac_radar(df, time_col, company_col, start="2015-01", top_areas=8):
+    """Horizontal wells fractured per area and year, for the main areas."""
+    w = _frac_area_wells(df, time_col, company_col, start)
+    w = w[w["lateral"] > 0]
+    w["year"] = w["date"].dt.year
+    areas = w["area"].value_counts().head(top_areas).index.tolist()
+    t = w[w["area"].isin(areas)].groupby(["year", "area"]).size().unstack(fill_value=0)
+    t = t.reindex(columns=areas, fill_value=0)
+    years = [str(y) for y in t.index]
+    return {
+        "areas": [title_es(a) for a in areas],
+        "max": [int(t[a].max()) for a in areas],
+        "years": years,
+        "partial_year": _partial(w["date"].max()),
+        "values": {str(y): [int(v) for v in row] for y, row in t.iterrows()},
+    }
+
+
+def frac_calendar(df, time_col, company_col, start="2015-01", years=3, max_job_days=60):
+    """Frac stages per day for the last `years` calendar years. Each well's
+    stages are spread evenly over its frac job (start to end date); jobs with a
+    missing or implausible start date count on their end date."""
+    w = _frac_area_wells(df, time_col, company_col, start)
+    first_year = w["date"].max().year - years + 1
+    w = w[w["date"].dt.year >= first_year - 1]
+    daily = {}
+    for r in w.itertuples():
+        s, e = r.start, r.date
+        if pd.isna(s) or s > e or (e - s).days > max_job_days:
+            s = e
+        days = pd.date_range(s.normalize(), e.normalize(), freq="D")
+        share = r.stages / len(days)
+        for d in days:
+            daily[d] = daily.get(d, 0) + share
+    s = pd.Series(daily).sort_index()
+    s = s[s.index.year >= first_year]
+    yrs = sorted({d.year for d in s.index})
+    return {
+        "unit": "stages",
+        "years": [str(y) for y in yrs],
+        "last_date": f"{w['date'].max():%Y-%m-%d}",
+        "max": round(float(s.quantile(0.98)), 1),
+        "days": [[f"{d:%Y-%m-%d}", round(float(v), 1)] for d, v in s.items() if v > 0],
+    }
+
+
+def frac_change_tree(df, time_col, company_col, start="2015-01", top_companies=8, top_areas=6):
+    """Company -> area treemap of the last full year, for frac stages and
+    lateral length, each node carrying [value, previous year, % change]."""
+    w = _frac_area_wells(df, time_col, company_col, start)
+    w["year"] = w["date"].dt.year
+    year = _last_full_year(w["date"])
+    w = w[w["year"].isin([year - 1, year])]
+    top = w[w["year"] == year].groupby(company_col)["stages"].sum().nlargest(top_companies).index
+    w["company"] = w[company_col].where(w[company_col].isin(top), "Other companies")
+
+    def node(name, cur, prev, children=None):
+        pct = None if prev == 0 else round(100.0 * (cur - prev) / prev, 1)
+        n = {"name": name, "value": [round(float(cur), 1), round(float(prev), 1), pct]}
+        if children:
+            n["children"] = children
+        return n
+
+    metrics = {}
+    for key, col, unit in [("stages", "stages", "stages"), ("lateral", "lateral", "m")]:
+        piv = w.pivot_table(index=["company", "area"], columns="year", values=col, aggfunc="sum", fill_value=0)
+        piv = piv.reindex(columns=[year - 1, year], fill_value=0)
+        tree = []
+        for comp, g in piv.groupby(level=0):
+            g = g.droplevel(0).sort_values(year, ascending=False)
+            g = g[g[year] > 0]
+            if g.empty:
+                continue
+            kids = [node(title_es(a), r[year], r[year - 1]) for a, r in g.head(top_areas).iterrows()]
+            rest = g.iloc[top_areas:]
+            if len(rest):
+                kids.append(node("Other areas", rest[year].sum(), rest[year - 1].sum()))
+            all_prev = piv.loc[comp][year - 1].sum()
+            tree.append(node(short_name(comp, 22), g[year].sum(), all_prev, kids))
+        tree.sort(key=lambda n: (n["name"] == "Other companies", -n["value"][0]))
+        metrics[key] = {"unit": unit, "tree": tree}
+    return {"year": str(year), "prev": str(year - 1), "metrics": metrics}
+
+
+def frac_sankey(df, time_col, company_col, start="2015-01", top_companies=8, top_areas=12):
+    """Total frac stages since `start`: company -> area flows."""
+    w = _frac_area_wells(df, time_col, company_col, start)
+    top_c = w.groupby(company_col)["stages"].sum().nlargest(top_companies).index
+    top_a = w.groupby("area")["stages"].sum().nlargest(top_areas).index
+    w["company"] = w[company_col].where(w[company_col].isin(top_c), "Other companies").map(
+        lambda c: c if c == "Other companies" else short_name(c, 22))
+    w["area_lbl"] = w["area"].where(w["area"].isin(top_a), "OTHER AREAS").map(title_es)
+    flows = w.groupby(["company", "area_lbl"])["stages"].sum()
+    flows = flows[flows > 0]
+    companies = w.groupby("company")["stages"].sum().sort_values(ascending=False).index.tolist()
+    areas = w.groupby("area_lbl")["stages"].sum().sort_values(ascending=False).index.tolist()
+    return {
+        "unit": "stages",
+        "period": f"{pd.Timestamp(start).year}–{w['date'].max().year}",
+        "nodes": [{"name": c, "kind": "company"} for c in companies] +
+                 [{"name": a, "kind": "area"} for a in areas],
+        "links": [{"source": c, "target": a, "value": round(float(v))} for (c, a), v in flows.items()],
+    }

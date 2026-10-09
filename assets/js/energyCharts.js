@@ -12,6 +12,10 @@
 //   'bubbles'       {years, series:[{company, points}]}         (frac_bubbles)
 //   'candles'       {indicators:[...]}; dataUrl may be an array (frac_candles,
 //                                                                monthly_candles)
+//   'radar'         {areas, max, years, values}                 (frac_radar)
+//   'calendar'      {years, days:[[date, value]], max}           (frac_calendar)
+//   'change-treemap' {year, prev, metrics:{stages, lateral}}     (frac_change_tree)
+//   'sankey'        {nodes, links}                              (frac_sankey)
 
 (function () {
   const T = window.MPDChartTheme;
@@ -326,7 +330,174 @@
     },
   };
 
-  const KINDS = { 'bar-race': barRace, 'province-map': provinceMap, treemap, bubbles, candles };
+  // ------------------------------------------------------------------- radar
+  // Wells fractured per main area, one polygon per year (previous year faint).
+  const radar = {
+    setup(chart, data, theme, opts) {
+      const ink = INK[theme];
+      const top = Math.max.apply(null, data.max);
+      const max = Math.ceil(top * 1.1 / 10) * 10;
+      const yearLabel = y => (data.partial_year && data.partial_year.startsWith(y) ? data.partial_year : y);
+      const main = PALETTE[theme][0];
+      chart.setOption({
+        baseOption: {
+          backgroundColor: 'transparent',
+          timeline: timeline(data.years.map(yearLabel), ink),
+          legend: { top: 52, left: 'center', textStyle: { color: ink.muted, fontSize: 11 } },
+          tooltip: { trigger: 'item' },
+          radar: {
+            center: ['50%', '55%'], radius: '62%', splitNumber: 4,
+            indicator: data.areas.map(a => ({ name: a, max })),
+            axisName: { color: ink.text, fontSize: 11 },
+            splitLine: { lineStyle: { color: ink.grid } },
+            splitArea: { show: false },
+            axisLine: { lineStyle: { color: ink.grid } },
+          },
+          animationDurationUpdate: 900,
+          series: [{ type: 'radar', symbolSize: 5 }],
+        },
+        options: data.years.map((y, k) => {
+          const items = [];
+          if (k > 0) {
+            items.push({ name: yearLabel(data.years[k - 1]), value: data.values[data.years[k - 1]],
+                         lineStyle: { color: ink.muted, type: 'dashed', width: 1 },
+                         itemStyle: { color: ink.muted }, areaStyle: { opacity: 0 } });
+          }
+          items.push({ name: yearLabel(y), value: data.values[y], lineStyle: { color: main, width: 2 },
+                       itemStyle: { color: main }, areaStyle: { color: main, opacity: 0.2 } });
+          return {
+            title: title(opts.title, 'Horizontal wells fractured per area · ' + yearLabel(y) +
+              (k > 0 ? ' (dashed: ' + yearLabel(data.years[k - 1]) + ')' : ''), ink),
+            legend: { data: items.map(i => i.name) },
+            series: [{ data: items }],
+          };
+        }),
+      }, true);
+    },
+  };
+
+  // -------------------------------------------------------- calendar heatmap
+  const calendar = {
+    setup(chart, data, theme, opts) {
+      const ink = INK[theme];
+      const years = data.years;
+      const top = 95;
+      const each = opts.calendarHeight || 150;
+      chart.setOption({
+        backgroundColor: 'transparent',
+        title: title(opts.title, 'Frac stages pumped per day (each well’s stages spread over its frac job) · data to ' +
+          data.last_date, ink),
+        tooltip: { formatter: p => p.value[0] + ': ' + fmtValue(p.value[1], data.unit) },
+        visualMap: { min: 0, max: data.max, calculable: true, orient: 'horizontal', left: 'center', top: 52,
+                     itemHeight: 220, itemWidth: 12, inRange: { color: SEQUENTIAL[theme].slice(0, 6) },
+                     text: ['', ''], textStyle: { color: ink.muted, fontSize: 11 },
+                     formatter: v => Math.round(v) },
+        calendar: years.map((y, k) => ({
+          range: y, top: top + k * each, left: 50, right: 10, cellSize: ['auto', 15],
+          orient: 'horizontal', splitLine: { lineStyle: { color: ink.muted, width: 1 } },
+          itemStyle: { color: ink.surface, borderColor: ink.grid, borderWidth: 1 },
+          yearLabel: { color: ink.text, fontSize: 14, margin: 30 },
+          monthLabel: { color: ink.muted, fontSize: 11 },
+          dayLabel: { color: ink.muted, fontSize: 10, firstDay: 1, nameMap: ['S', 'M', 'T', 'W', 'T', 'F', 'S'] },
+        })),
+        series: years.map((y, k) => ({
+          type: 'heatmap', coordinateSystem: 'calendar', calendarIndex: k,
+          data: data.days.filter(d => d[0].startsWith(y)),
+        })),
+        animationDuration: 1200,
+      }, true);
+    },
+  };
+
+  // ------------------------------------- change treemap (ECharts "Obama" style)
+  // Tile size = last full year; color = change vs. the previous year
+  // (orange = down, gray = flat, blue = up). The legend switches metric.
+  const changeTree = {
+    setup(chart, data, theme, opts) {
+      const ink = INK[theme];
+      const ud = UPDOWN[theme];
+      const span = opts.changeRange || 60;
+      const metrics = [['stages', 'Frac stages'], ['lateral', 'Lateral length']];
+      // A new area (nothing the previous year) shows as the strongest growth.
+      const prep = nodes => nodes.map(n => {
+        const v = n.value.slice();
+        if (v[2] == null) v[2] = span;
+        const out = { name: n.name, value: v, raw: n.value };
+        if (n.children) out.children = prep(n.children);
+        return out;
+      });
+      const tip = (info, unit) => {
+        const [cur, prev, pct] = info.data.raw || info.value;
+        return info.treePathInfo.slice(1).map(n => n.name).join(' › ') +
+          '<br>' + data.year + ': ' + fmtValue(cur, unit) +
+          '<br>' + data.prev + ': ' + fmtValue(prev, unit) +
+          '<br>Change: ' + (pct == null ? 'new' : (pct >= 0 ? '+' : '') + pct + '%');
+      };
+      chart.setOption({
+        backgroundColor: 'transparent',
+        title: title(opts.title, data.year + ' vs. ' + data.prev + ' · size = ' + data.year +
+          ' total · color = change (orange down, blue up, capped at ±' + span + '%)', ink),
+        legend: { top: 52, left: 'center', selectedMode: 'single', data: metrics.map(m => m[1]),
+                  textStyle: { color: ink.text }, itemStyle: { color: ink.muted } },
+        tooltip: {},
+        series: metrics.map(([key, label]) => {
+          const m = data.metrics[key];
+          return {
+            type: 'treemap', name: label, top: 85, bottom: 10, left: 0, right: 0, roam: false,
+            nodeClick: false, breadcrumb: { show: false },
+            visualDimension: 2, visualMin: -span, visualMax: span,
+            color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value',
+            tooltip: { formatter: info => tip(info, m.unit) },
+            label: { color: '#ffffff', fontSize: 11, overflow: 'truncate',
+                     formatter: p => p.name + '\n' + (p.data.raw && p.data.raw[2] == null ? 'new'
+                       : ((p.value[2] >= 0 ? '+' : '') + Math.round(p.value[2]) + '%')) },
+            upperLabel: { show: true, height: 22, color: ink.text, fontWeight: 600 },
+            itemStyle: { borderColor: ink.surface },
+            levels: [
+              { itemStyle: { borderWidth: 3, borderColor: ink.surface, gapWidth: 3 },
+                color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value', visualDimension: 2 },
+              { itemStyle: { gapWidth: 1 },
+                color: [ud.down, NEUTRAL[theme], ud.up], colorMappingBy: 'value', visualDimension: 2 },
+            ],
+            data: prep(m.tree),
+          };
+        }),
+      }, true);
+    },
+  };
+
+  // ------------------------------------------------------------------ sankey
+  const sankey = {
+    setup(chart, data, theme, opts) {
+      const ink = INK[theme];
+      let k = 0;
+      const nodes = data.nodes.map(n => ({
+        name: n.name,
+        itemStyle: { color: n.kind === 'company'
+          ? (brandColor(n.name, theme) || T.BRAND_FALLBACK[theme][k++ % 3])
+          : ink.muted, borderColor: ink.surface },
+        label: { color: ink.text, fontSize: 11 },
+      }));
+      chart.setOption({
+        backgroundColor: 'transparent',
+        title: title(opts.title, 'Total frac stages ' + data.period + ' · company → area', ink),
+        tooltip: { trigger: 'item',
+                   formatter: p => (p.dataType === 'edge'
+                     ? p.data.source + ' → ' + p.data.target + ': ' + fmtValue(p.data.value, data.unit)
+                     : p.name + ': ' + fmtValue(p.value, data.unit)) },
+        series: [{
+          type: 'sankey', top: 70, bottom: 10, left: 10, right: 150, nodeWidth: 14, nodeGap: 8,
+          layoutIterations: 64, draggable: false, emphasis: { focus: 'adjacency' },
+          lineStyle: { color: 'source', opacity: 0.35, curveness: 0.5 },
+          data: nodes, links: data.links,
+        }],
+        animationDuration: 1500,
+      }, true);
+    },
+  };
+
+  const KINDS = { 'bar-race': barRace, 'province-map': provinceMap, treemap, bubbles, candles,
+                  radar, calendar, 'change-treemap': changeTree, sankey };
 
   // Candle data may come from several files: their indicators are concatenated.
   function load(dataUrl) {

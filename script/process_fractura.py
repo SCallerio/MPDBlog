@@ -20,6 +20,10 @@ Output:
   data/processed/fractura_densidad_trimestral.json  [["trimestre","empresa","density"], ...]
   data/processed/fractura_burbujas.json        bubble chart: per company and year
   data/processed/fractura_velas.json           monthly activity candles
+  data/processed/fractura_radar.json           wells per main area and year (radar)
+  data/processed/fractura_calendario.json      frac stages per day (calendar heatmap)
+  data/processed/fractura_arbol_cambio.json    company -> area, last year vs. previous (treemap)
+  data/processed/fractura_sankey.json          company -> area frac stages (sankey)
 
 Usage:
   python script/process_fractura.py                # top 8 companies, from 2015-01
@@ -32,7 +36,8 @@ import re
 
 import pandas as pd
 
-from energy_charts_data import frac_bubbles, frac_candles, frac_quarterly_averages, write
+from energy_charts_data import (frac_bubbles, frac_calendar, frac_candles, frac_change_tree,
+                                frac_quarterly_averages, frac_radar, frac_sankey, write)
 from line_race_data import MAX_LABEL_LEN, load_csv
 
 WEB_LINK = (
@@ -108,6 +113,10 @@ def main():
           os.path.join(args.out_dir, "fractura_burbujas.json"))
     write(frac_candles(df, TIME_COL, start=start),
           os.path.join(args.out_dir, "fractura_velas.json"))
+    write(frac_radar(df, TIME_COL, HUE_COL, start=start), os.path.join(args.out_dir, "fractura_radar.json"))
+    write(frac_calendar(df, TIME_COL, HUE_COL, start=start), os.path.join(args.out_dir, "fractura_calendario.json"))
+    write(frac_change_tree(df, TIME_COL, HUE_COL, start=start), os.path.join(args.out_dir, "fractura_arbol_cambio.json"))
+    write(frac_sankey(df, TIME_COL, HUE_COL, start=start), os.path.join(args.out_dir, "fractura_sankey.json"))
 
 
 if __name__ == "__main__":
