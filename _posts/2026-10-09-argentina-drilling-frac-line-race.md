@@ -61,7 +61,8 @@ separate fields.
      unit="m"
      source_name="Secretaría de Energía — Metros perforados"
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
-     note="YPF monthly meters drilled (cantidad) summed per field (areayacimiento), cumulative." %}
+     note="YPF monthly meters drilled (cantidad) summed per field (areayacimiento), cumulative."
+     series_noun="fields" %}
 
 ## Cumulative lateral length
 

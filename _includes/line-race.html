@@ -10,8 +10,12 @@
        source_name="Secretaría de Energía — Metros perforados"
        source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
        note="Monthly cantidad summed per company, cumulative."
-       color_key="metros" %}   (optional: charts with the same key share company colors)
+       color_key="metros"
+       series_noun="companies" %}
 
+  Optional: color_key (charts with the same key share company colors; defaults
+  to the id) and series_noun (what the lines are, for the subtitle; defaults
+  to "companies").
   Data files are built by script/process_*.py (see the update-* workflows).
 {%- endcomment -%}
 <div style="margin: 30px 0;">
@@ -38,6 +42,7 @@
     title: {{ include.title | jsonify }},
     yAxisName: {{ include.y_axis | jsonify }},
     unit: {{ include.unit | jsonify }},
-    colorKey: {{ include.color_key | default: include.id | jsonify }}
+    colorKey: {{ include.color_key | default: include.id | jsonify }},
+    seriesNoun: {{ include.series_noun | default: "companies" | jsonify }}
   });
 </script>

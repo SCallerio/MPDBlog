@@ -116,7 +116,7 @@
       color: colors,
       title: {
         text: opts.title || '',
-        subtext: (opts.subtitle || 'Argentina \u00b7 Secretar\u00eda de Energ\u00eda') + ' \u00b7 top ' + companies.length + ' companies',
+        subtext: (opts.subtitle || 'Argentina \u00b7 Secretar\u00eda de Energ\u00eda') + ' \u00b7 top ' + companies.length + ' ' + (opts.seriesNoun || 'companies'),
         textStyle: { color: ink.text, fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: 16 },
         subtextStyle: { color: ink.muted, fontFamily: 'Poppins, sans-serif' },
       },
@@ -148,7 +148,7 @@
         axisLabel: { color: ink.muted, formatter: v => (v >= 1e6 ? v / 1e6 + ' M' : v >= 1e3 ? v / 1e3 + ' k' : v) },
         splitLine: { lineStyle: { color: ink.grid } },
       },
-      grid: { left: 60, right: 240, top: 95, bottom: 50 },
+      grid: { left: 60, right: 250, top: 95, bottom: 50 },
       series: seriesList,
     };
   }
