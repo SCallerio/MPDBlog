@@ -13,8 +13,9 @@ image_caption: 'Photo by <a href="https://unsplash.com/@thisisengineering?utm_so
 
 [//]: # (<h2 style="text-align: center; margin-bottom: 20px;">Hookload Threshold Selection</h2>)
 *This post provides the code and guide to build an MPD connections summary dashboard in jupyter notebooks, filtering the drilling 
-connections by visually setting the hookload threshold. The complete code is provided, and the notebook is available for
-download in the following link [In-Slips Detection Notebook]().*
+connections by visually setting the hookload threshold. The complete code is provided, and the notebook is available to view on
+[nbviewer](https://nbviewer.org/github/SCallerio/MPDBlog/blob/main/src/2026-01-05-connections-dashboard-notebook/2026-01-05-connections_dashboard_notebook.ipynb), or to run interactively (including the notebook's own ipywidgets slider) in
+[Google Colab](https://colab.research.google.com/github/SCallerio/MPDBlog/blob/main/src/2026-01-05-connections-dashboard-notebook/2026-01-05-connections_dashboard_notebook.ipynb).*
 <!--more-->
 
 ## Introduction
@@ -46,6 +47,8 @@ This post describes the **visual approach**, providing the guide to **code a pyt
 threshold to filter the connections, and compute the statistics per connection**.
 
 ## Hookload Threshold Selection
+
+*The interactive dashboard below runs entirely in your browser (JavaScript/Plotly, no Python kernel needed) — it always works, with no setup, on this page. The notebook linked above walks through the equivalent Python (pandas/matplotlib/ipywidgets) that produces the same result, if you want to run it yourself.*
 
 Move the slider to adjust the hookload threshold, and observe how the in-slips (connections) are identified in the plot. The
 plot is interactive, allowing to zoom and pan to inspect the data closely. After selecting the threshold, click the button to compute the
