@@ -41,7 +41,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/metros_perforados_cumsum.json
+          git add data/processed/metros_perforados_cumsum.json data/processed/metros_perforados_ypf_cumsum.json
           git diff --quiet && git diff --staged --quiet || (
             git commit -m "Update metros perforados data ($(date +'%Y-%m-%d'))" &&
             git push

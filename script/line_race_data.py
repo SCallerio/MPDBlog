@@ -64,12 +64,15 @@ def short_name(name, max_len):
 
 
 def build_cumsum(df, time_col, value_col, hue_col, name_col=None, top_n=8,
-                 max_label_len=MAX_LABEL_LEN, aliases=None, value_name="valor_acumulado"):
+                 max_label_len=MAX_LABEL_LEN, aliases=None, value_name="valor_acumulado",
+                 start=None):
     """Monthly cumulative sum of `value_col` per `hue_col`.
 
     Labels: the most frequent `name_col` spelling when it fits in
     `max_label_len`, else the `hue_col` value when that is an ID (name_col
     given), else a shortened name. `aliases` merges hue values ({old: new}).
+    `start` ("2015-01") trims the months shown; totals still include the
+    earlier history, so lines enter at their running total, not at zero.
     Returns (long DataFrame, final ranking Series).
     """
     missing = [c for c in (time_col, value_col, hue_col) if c not in df.columns]
@@ -101,6 +104,8 @@ def build_cumsum(df, time_col, value_col, hue_col, name_col=None, top_n=8,
     full_idx = pd.date_range(monthly.index.min(), monthly.index.max(), freq="MS")
     monthly = monthly.reindex(full_idx, fill_value=0)
     cumsum = monthly.cumsum()
+    if start:
+        cumsum = cumsum[cumsum.index >= pd.Timestamp(start)]
 
     # Keep the companies with the largest final total (a race with dozens of
     # lines is unreadable).
@@ -135,6 +140,6 @@ def write_json(long, out_path):
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(rows, f, ensure_ascii=False, separators=(",", ":"))
     print(f"Saved {len(rows) - 1:,} points "
-          f"({long['empresa'].nunique()} companies, {long['mes'].nunique()} months) to {out_path}")
-    print(f"\nLine labels: {list(long['empresa'].unique())}")
+          f"({long.iloc[:, 1].nunique()} lines, {long.iloc[:, 0].nunique()} months) to {out_path}")
+    print(f"\nLine labels: {list(long.iloc[:, 1].unique())}")
     return rows

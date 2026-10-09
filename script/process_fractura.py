@@ -18,7 +18,8 @@ Output:
   data/processed/fractura_etapas_cumsum.json   [["mes","empresa","etapas_acumuladas"], ...]
 
 Usage:
-  python script/process_fractura.py                # top 8 companies
+  python script/process_fractura.py                # top 8 companies, from 2015-01
+  python script/process_fractura.py --start ""     # full history
   python script/process_fractura.py --csv local.csv --top 0
 """
 import argparse
@@ -35,6 +36,9 @@ WEB_LINK = (
     "datos-de-fractura-de-pozos-de-hidrocarburos-adjunto-iv-actualizacin-diaria.csv"
 )
 OUT_DIR = os.path.join("data", "processed")
+# Reporting is sparse before 2015 (<1% of the total), so the races start
+# there; the cumulative totals still include the earlier records.
+START = "2015-01"
 
 TIME_COL = "fecha_fin_fractura"
 HUE_COL = "empresa_informante"
@@ -76,6 +80,7 @@ def main():
     parser.add_argument("--top", type=int, default=8, help="companies to keep (0 = all)")
     parser.add_argument("--max-label", type=int, default=MAX_LABEL_LEN,
                         help="longest company name shown; longer ones are shortened")
+    parser.add_argument("--start", default=START, help="first month shown (YYYY-MM); '' = all")
     parser.add_argument("--out-dir", default=OUT_DIR)
     args = parser.parse_args()
 
@@ -95,7 +100,8 @@ def main():
         print(f"\n=== {what} ===")
         long, ranking = build_cumsum(
             df, time_col=TIME_COL, value_col=value_col, hue_col=HUE_COL,
-            top_n=args.top, max_label_len=args.max_label, value_name=value_name)
+            top_n=args.top, max_label_len=args.max_label, value_name=value_name,
+            start=args.start or None)
         write_json(long, os.path.join(args.out_dir, out_file))
         print(ranking.head(args.top if args.top > 0 else 20).to_string())
 

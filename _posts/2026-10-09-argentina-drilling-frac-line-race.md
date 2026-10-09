@@ -9,9 +9,10 @@ tags: [argentina, vaca muerta, data analytics, interactive visualization, echart
 excerpt_separator: <!--more-->
 ---
 
-*Who has drilled the most in Argentina, and who is pumping the most frac stages? This post turns three open datasets
-from the Secretaría de Energía into animated "line races": the cumulative meters drilled, the cumulative horizontal
-lateral length and the cumulative frac stages for the top eight operators, month by month.*
+*Who has drilled the most in Argentina, and who is pumping the most frac stages? This post turns open data from the
+Secretaría de Energía into animated "line races": the cumulative meters drilled, the cumulative horizontal lateral
+length and the cumulative frac stages for the top eight operators, month by month, plus a closer look at where the
+market leader, YPF, has drilled.*
 
 <!--more-->
 
@@ -24,7 +25,7 @@ Each chart follows the same recipe, implemented in Python with pandas
 1. Download the CSV from [datos.energia.gob.ar](http://datos.energia.gob.ar/).
 2. Sum the value per company and calendar month.
 3. Fill in the months without activity with zero, so each line stays flat instead of breaking.
-4. Take the cumulative sum over time and keep the eight companies with the largest final total.
+4. Take the cumulative sum over time and keep the eight companies (or fields) with the largest final total.
 
 The y-axis is logarithmic: YPF is roughly ten times larger than the next operator, and on a linear scale everyone
 else would be squashed against the bottom of the chart. Press **Replay** to run a race again, and hover over the
@@ -46,11 +47,27 @@ merged here as **PAE**.
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Monthly meters drilled (cantidad) summed per company, cumulative." %}
 
+## YPF: cumulative meters drilled by field
+
+The same meters-drilled data, filtered to YPF (`idempresa` = `YPF`) and split by field (`areayacimiento`), for the
+eight fields with the most meters drilled. The dataset reports Loma Campana and the Loma Campana-LLL block as
+separate fields.
+
+{% include line-race.html
+     id="metros-ypf-line-race"
+     data="/data/processed/metros_perforados_ypf_cumsum.json"
+     title="YPF: cumulative meters drilled by field"
+     y_axis="Cumulative meters (log scale)"
+     unit="m"
+     source_name="Secretaría de Energía — Metros perforados"
+     source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
+     note="YPF monthly meters drilled (cantidad) summed per field (areayacimiento), cumulative." %}
+
 ## Cumulative lateral length
 
 Horizontal lateral length (`longitud_rama_horizontal_m`) of each fractured well, by the month the frac job ended
-(`fecha_fin_fractura`), per reporting company (`empresa_informante`). Vertical wells report a lateral length of
-zero, so they count towards the frac stages below but not here.
+(`fecha_fin_fractura`), per reporting company (`empresa_informante`), from January 2015. Vertical wells report a
+lateral length of zero, so they count towards the frac stages below but not here.
 
 {% include line-race.html
      id="fractura-lateral-line-race"
@@ -80,10 +97,11 @@ Number of frac stages (`cantidad_fracturas`) per well, on the same time axis and
 
 ## Data notes
 
-- All three datasets are refreshed monthly by GitHub Actions (`update-metros-perforados.yml` and
+- Both datasets are refreshed monthly by GitHub Actions (`update-metros-perforados.yml` and
   `update-fractura.yml`), so the charts stay current without manual work.
 - Company names longer than 22 characters are shortened in the labels: for meters drilled they fall back to the
   company code (`idempresa`), and for the frac data legal suffixes are dropped (e.g. "VISTA ENERGY ARGENTINA SAU"
   becomes "VISTA ENERGY").
-- The frac dataset has a few records from 2006 onward, but reporting only becomes substantial from about 2015, so
-  the early part of those races moves slowly.
+- The frac dataset has a few records from 2006 onward, but less than 1% of the total comes before 2015, so the frac
+  races start in January 2015. Their totals still include the earlier records, which is why the lines don't start
+  at zero.
