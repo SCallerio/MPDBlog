@@ -1,5 +1,7 @@
 title: "Under Pressure"
 subtitle: a Managed Pressure Drilling (MPD) technical blog
+# GitHub Pages builds in UTC; pin it so local builds render the same dates.
+timezone: UTC
 author:
   name: "Santiago Callerio"
   github_username: SCallerio

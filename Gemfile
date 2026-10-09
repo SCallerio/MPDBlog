@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-gemspec
 
-gem "jekyll", ENV["JEKYLL_VERSION"] if ENV["JEKYLL_VERSION"]
-gem "kramdown-parser-gfm" if ENV["JEKYLL_VERSION"] == "~> 3.9"
-gem 'jekyll-sitemap'
+# Build with the same gem set as GitHub Pages ("Deploy from a branch"):
+# Jekyll, plugins and theme versions match production.
+# See https://pages.github.com/versions/
+gem "github-pages", group: :jekyll_plugins
+
+# Jekyll 3.x `serve` needs webrick on Ruby 3+
+gem "webrick"
+
+platforms :windows do
+  gem "tzinfo-data"
+end
