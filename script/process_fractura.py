@@ -1,7 +1,8 @@
 # script/process_fractura.py
 """
-Build the data for the frac line races: cumulative lateral length and
-cumulative frac stages per company.
+Build the data for the frac charts: quarterly line races of average lateral
+length, average frac stages and stages per 1,000 m per company, plus the
+bubble chart and the activity candles.
 
 Source: Secretaría de Energía (Argentina) - Datos de fractura de pozos de
 hidrocarburos (Adjunto IV, daily update)
@@ -14,14 +15,15 @@ Columns used:
   cantidad_fracturas          -> frac stages
 
 Output:
-  data/processed/fractura_lateral_cumsum.json  [["mes","empresa","lateral_m_acumulado"], ...]
-  data/processed/fractura_etapas_cumsum.json   [["mes","empresa","etapas_acumuladas"], ...]
+  data/processed/fractura_lateral_trimestral.json   [["trimestre","empresa","lateral"], ...]
+  data/processed/fractura_etapas_trimestral.json    [["trimestre","empresa","stages"], ...]
+  data/processed/fractura_densidad_trimestral.json  [["trimestre","empresa","density"], ...]
   data/processed/fractura_burbujas.json        bubble chart: per company and year
   data/processed/fractura_velas.json           monthly activity candles
 
 Usage:
   python script/process_fractura.py                # top 8 companies, from 2015-01
-  python script/process_fractura.py --start ""     # full history
+  python script/process_fractura.py --start 2018-01
   python script/process_fractura.py --csv local.csv --top 0
 """
 import argparse
@@ -30,8 +32,8 @@ import re
 
 import pandas as pd
 
-from energy_charts_data import frac_bubbles, frac_candles, write
-from line_race_data import MAX_LABEL_LEN, build_cumsum, load_csv, write_json
+from energy_charts_data import frac_bubbles, frac_candles, frac_quarterly_averages, write
+from line_race_data import MAX_LABEL_LEN, load_csv
 
 WEB_LINK = (
     "http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7/"
@@ -39,19 +41,17 @@ WEB_LINK = (
     "datos-de-fractura-de-pozos-de-hidrocarburos-adjunto-iv-actualizacin-diaria.csv"
 )
 OUT_DIR = os.path.join("data", "processed")
-# Reporting is sparse before 2015 (<1% of the total), so the races start
-# there; the cumulative totals still include the earlier records.
+# Reporting is sparse before 2015 (<1% of the total), so the charts start there.
 START = "2015-01"
 
 TIME_COL = "fecha_fin_fractura"
 HUE_COL = "empresa_informante"
-SERIES = [
-    # (value column, output value name, output file, description)
-    ("longitud_rama_horizontal_m", "lateral_m_acumulado", "fractura_lateral_cumsum.json",
-     "cumulative lateral length (m)"),
-    ("cantidad_fracturas", "etapas_acumuladas", "fractura_etapas_cumsum.json",
-     "cumulative frac stages"),
-]
+VALUE_COLS = ["longitud_rama_horizontal_m", "cantidad_fracturas"]
+QUARTERLY_OUTPUTS = {
+    "lateral": "fractura_lateral_trimestral.json",
+    "stages": "fractura_etapas_trimestral.json",
+    "density": "fractura_densidad_trimestral.json",
+}
 
 # Same operator reported under different legal entities / spellings, merged
 # into one line (as in the meters-drilled race, PAE LLC -> Pan American Energy SL).
@@ -88,7 +88,7 @@ def main():
     args = parser.parse_args()
 
     df = load_csv(args.csv)
-    print(df[[TIME_COL, HUE_COL] + [s[0] for s in SERIES]].head(5).to_string())
+    print(df[[TIME_COL, HUE_COL] + VALUE_COLS].head(5).to_string())
 
     df[TIME_COL] = parse_dates(df[TIME_COL])
     # Drop impossible dates (typos such as year 1900 or 2205).
@@ -99,16 +99,11 @@ def main():
     df = df[~bad]
     df[HUE_COL] = df[HUE_COL].map(clean_company)
 
-    for value_col, value_name, out_file, what in SERIES:
-        print(f"\n=== {what} ===")
-        long, ranking = build_cumsum(
-            df, time_col=TIME_COL, value_col=value_col, hue_col=HUE_COL,
-            top_n=args.top, max_label_len=args.max_label, value_name=value_name,
-            start=args.start or None)
-        write_json(long, os.path.join(args.out_dir, out_file))
-        print(ranking.head(args.top if args.top > 0 else 20).to_string())
-
     start = args.start or "2015-01"
+    tables = frac_quarterly_averages(df, TIME_COL, HUE_COL, start=start, top_n=args.top,
+                                     max_label_len=args.max_label)
+    for key, out_file in QUARTERLY_OUTPUTS.items():
+        write(tables[key], os.path.join(args.out_dir, out_file))
     write(frac_bubbles(df, TIME_COL, HUE_COL, start=start, top_n=args.top),
           os.path.join(args.out_dir, "fractura_burbujas.json"))
     write(frac_candles(df, TIME_COL, start=start),

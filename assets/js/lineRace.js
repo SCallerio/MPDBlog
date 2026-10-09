@@ -4,6 +4,8 @@
 // Data: a long-format JSON table [[time, company, value], ...] with a header
 // row, as written by script/line_race_data.py (null = company not started yet).
 //
+// Needs assets/js/chartTheme.js loaded first.
+//
 // Usage:
 //   renderLineRace('metros-line-race', '/data/processed/metros_perforados_cumsum.json', {
 //     title: 'Cumulative meters drilled by company',
@@ -12,50 +14,8 @@
 //   });
 
 (function () {
-  // Fixed categorical order (never cycled): one slot per company, by final rank.
-  const PALETTE = {
-    light: ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#4a3aa7', '#e34948'],
-    dark:  ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#008300', '#9085e9', '#e66767'],
-  };
-  const INK = {
-    light: { text: '#151515', muted: '#757575', grid: '#e4e3e3', surface: '#F8F7F7' },
-    dark:  { text: '#F8F7F7', muted: '#A4A3A8', grid: '#2e2e2e', surface: '#151515' },
-  };
+  const { PALETTE, INK, BRAND_FALLBACK, brandColor } = window.MPDChartTheme;
   const RACE_MS = 12000;
-
-  // Company brand colors (opts.brandColors), matched on the line label:
-  // [pattern, light-mode color, dark-mode color]. Dark variants are lighter
-  // only where the brand color would disappear on the dark background.
-  // Sources: Shell and Sinopec published colors; YPF #0063C2 (2017 logo,
-  // third-party); Vista #414042 (Brandfetch); TotalEnergies orange from its
-  // seven-color palette (its red would clash with Sinopec); Tecpetrol dark
-  // green approximated from its trademark (green/blue bands, no published
-  // hex); Pampa Energía #1ED760 (Brandfetch, unconfirmed). Pan American
-  // Energy red #C80000, Pluspetrol dark teal #0C5678 (dark mode: its teal
-  // accent #00868B) and CAPEX electric blue #0086D6 from the blog author.
-  const BRAND_COLORS = [
-    [/^YPF\b/, '#0063C2', '#3D8BE0'],
-    [/^SHELL\b/, '#FBCE07', '#FBCE07'],
-    [/^(SINO|SINOPEC)\b/, '#ED1C24', '#F0454B'],
-    [/^TOTAL\b/, '#FF7800', '#FF7800'],
-    [/^(VST|VISTA)\b/, '#414042', '#A7A9AC'],
-    [/^TECPETROL\b/, '#00843D', '#2BA562'],
-    [/^PAMPA\b/, '#1ED760', '#1ED760'],
-    [/^(PAE|PAN AMERICAN)\b/, '#C80000', '#E0302F'],
-    [/^PLUSPETROL\b/, '#0C5678', '#00868B'],
-    [/^CAPEX\b/, '#0086D6', '#0086D6'],
-  ];
-  // Non-brand colors for companies without a brand entry: hues no brand above
-  // uses (violet, magenta, aqua), so they never read as someone's brand.
-  const BRAND_FALLBACK = {
-    light: ['#4a3aa7', '#e87ba4', '#1baf7a'],
-    dark:  ['#9085e9', '#d55181', '#199e70'],
-  };
-
-  function brandColor(company, theme) {
-    const hit = BRAND_COLORS.find(([re]) => re.test(String(company).toUpperCase()));
-    return hit ? (theme === 'dark' ? hit[2] : hit[1]) : null;
-  }
 
   // Charts sharing opts.colorKey give each company the same color slot, so a
   // company keeps its color across charts that rank it differently.
@@ -76,13 +36,7 @@
     return companies.map(c => map[c]);
   }
 
-  // 1234567 -> "1.23 M m"; 45678 -> "45.7 k m"
-  function fmtValue(v, unit) {
-    const u = unit ? ' ' + unit : '';
-    if (v >= 1e6) return (v / 1e6).toFixed(2) + ' M' + u;
-    if (v >= 1e3) return (v / 1e3).toFixed(1) + ' k' + u;
-    return Math.round(v) + u;
-  }
+  const fmtValue = window.MPDChartTheme.fmtValue;
 
   function buildOption(rawData, theme, opts) {
     const header = rawData[0];
@@ -95,7 +49,7 @@
     const lastMes = rows.reduce((m, r) => (r[iMes] > m ? r[iMes] : m), '');
     const companies = rows
       .filter(r => r[iMes] === lastMes)
-      .sort((a, b) => b[iVal] - a[iVal])
+      .sort((a, b) => (b[iVal] || 0) - (a[iVal] || 0))
       .map(r => r[iEmp]);
 
     // Companies start on different months, so give the axis every month.
@@ -131,6 +85,8 @@
         datasetId: datasetId,
         name: String(company),
         showSymbol: false,
+        // Bridge quarters in which a company had no wells (averages only).
+        connectNulls: opts.log === false,
         lineStyle: { width: 2 },
         // Lines past the available colors fall back to a neutral gray.
         color: lineColors[i],
@@ -185,6 +141,8 @@
       // linear axis flattens them.
       yAxis: {
         type: opts.log === false ? 'value' : 'log',
+        // Linear averages: fit the axis to the data instead of forcing zero in.
+        scale: opts.log === false,
         logBase: 10,
         name: opts.yAxisName || '',
         nameTextStyle: { color: ink.muted, align: 'left' },

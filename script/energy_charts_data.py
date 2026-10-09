@@ -225,3 +225,37 @@ def monthly_candles(df, key, name, unit, source, start="2009-01"):
     print(f"{name}: {months[0]}..{months[-1]}, last value {ohlc[-1][1]}")
     return {"key": key, "name": name, "unit": unit, "wicks": None, "source": source,
             "months": months, "ohlc": ohlc, "change": change, "ma12": ma}
+
+
+def frac_quarterly_averages(df, time_col, company_col, start="2015-01", top_n=8,
+                            max_label_len=22):
+    """Quarterly averages per company over its horizontal wells (lateral > 0),
+    by the quarter the frac job ended. Returns three long tables for the line
+    race ([["trimestre", "empresa", value], ...]):
+      lateral   average lateral length per well (m)
+      stages    average frac stages per well
+      density   frac stages per 1,000 m of lateral (total stages / total lateral)
+    Quarters in which a company fractured no horizontal well are null."""
+    wells = _frac_wells(df, time_col, company_col, start)
+    wells = wells[wells["lateral"] > 0].copy()
+    wells["q"] = wells["date"].dt.to_period("Q")
+    top = wells.groupby(company_col)["stages"].sum().nlargest(top_n).index
+    w = wells[wells[company_col].isin(top)]
+    g = w.groupby(["q", company_col]).agg(lateral=("lateral", "mean"), stages=("stages", "mean"),
+                                          lat_sum=("lateral", "sum"), st_sum=("stages", "sum"),
+                                          n=("lateral", "size"))
+    g["density"] = 1000 * g["st_sum"] / g["lat_sum"]
+    quarters = pd.period_range(wells["q"].min(), wells["q"].max(), freq="Q")
+    labels = {c: short_name(c, max_label_len) for c in top}
+    out = {}
+    for key, col, digits in [("lateral", "lateral", 0), ("stages", "stages", 1), ("density", "density", 2)]:
+        rows = [["trimestre", "empresa", key]]
+        for q in quarters:
+            for c in top:
+                v = g[col].get((q, c))
+                rows.append([f"{q.year} Q{q.quarter}", labels[c], None if v is None or pd.isna(v) else round(float(v), digits)])
+        out[key] = rows
+    gaps = int(sum(r[2] is None for r in out["lateral"][1:]))
+    print(f"Quarterly averages: {len(quarters)} quarters x {len(top)} companies, {gaps} empty company-quarters; "
+          f"median wells per company-quarter {int(g['n'].median())}")
+    return out
