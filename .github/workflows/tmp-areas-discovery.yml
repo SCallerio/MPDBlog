@@ -20,96 +20,60 @@ jobs:
           python3 -c "import certifi; print(certifi.where())" > ca_path
           cat "$(cat ca_path)" inter.pem > bundle.pem
           openssl x509 -in inter.pem -noout -subject -issuer
-      - name: Inspect sources (metadata only)
+      - name: Inspect Neuquén hydrocarbons GeoServer and the SIG /gis-api (metadata only)
         run: |
           python3 - <<'PY'
-          import io, json, re, zipfile, tempfile, glob, unicodedata
-          import pandas as pd, requests
+          import json, re
+          import requests
           H = {"User-Agent": "Mozilla/5.0 (MPDBlog data discovery)"}
-          V = "bundle.pem"
-          def get(url, **kw):
+          def get(url, verify=True, **kw):
               try:
-                  r = requests.get(url, headers=H, timeout=90, verify=V, **kw)
+                  r = requests.get(url, headers=H, timeout=90, verify=verify, **kw)
                   print(f"\nGET {r.url} -> {r.status_code} {r.headers.get('content-type','')} {len(r.content)} bytes")
                   return r
               except Exception as e:
-                  print(f"\nGET {url} -> ERROR {str(e)[:200]}")
+                  print(f"\nGET {url} -> ERROR {str(e)[:220]}")
                   return None
 
-          print("=" * 20, "SUPERFICIARIA: official services listed in 'Sources and licences'")
-          r = get("https://superficiaria.com/en/map/")
-          html = r.text
-          i = html.find("Sources and licences")
-          block = html[i:i + 60000] if i >= 0 else ""
-          urls = sorted(set(re.findall(r'href="(https?://[^"]+)"', block)))
-          print("SOURCE LINKS", urls[:80])
-          text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", block))
-          for kw in ("Neuquén", "áreas", "Áreas", "areas", "Secretaría de Energía", "Catastro", "concesi"):
-              for m in list(re.finditer(kw, text))[:4]:
-                  print("  CTX", text[max(0, m.start() - 100): m.end() + 200])
-
-          print("\n" + "=" * 20, "SUPERFICIARIA areas CSV vs official concessions")
-          a = pd.read_csv(io.BytesIO(requests.get("https://superficiaria.com/datos/areas-hidrocarburiferas.csv", headers=H, timeout=60).content))
-          print("tipo", a["tipo"].value_counts().to_dict())
-          print("operadora top", a["operadora"].value_counts().head(12).to_dict())
-          def key(s):
-              s = unicodedata.normalize("NFKD", str(s)).encode("ascii", "ignore").decode().upper()
-              s = re.sub(r"\(.*?\)", " ", s)
-              return re.sub(r"[^A-Z0-9]+", " ", s).strip()
-          z = requests.get("http://datos.energia.gob.ar/dataset/81cfad0a-4162-4f85-ad71-837f5a5fae57/resource/48a306a3-d5da-4f28-8ab5-7f80767ffdec/download/produccin-hidrocarburos-concesiones-de-explotacin.zip", timeout=120).content
-          import shapefile
-          with tempfile.TemporaryDirectory() as tmp:
-              zipfile.ZipFile(io.BytesIO(z)).extractall(tmp)
-              rd = shapefile.Reader(glob.glob(tmp + "/**/*.shp", recursive=True)[0], encoding="utf-8", encodingErrors="replace")
-              f = [x[0] for x in rd.fields[1:]]
-              recs = [dict(zip(f, rec)) for rec in rd.records()]
-          conc = {key(r["NOMBRE_DE_"]): r for r in recs}
-          a["k"] = a["nombre"].map(key)
-          a["match"] = a["k"].isin(conc)
-          print("Superficiaria areas matched to an official concession polygon by name:", int(a["match"].sum()), "of", len(a))
-          print("  matched by tipo:", a[a["match"]]["tipo"].value_counts().to_dict())
-          print("  unmatched examples:", a[~a["match"]][["nombre", "tipo", "operadora"]].head(12).to_dict("records"))
-          print("Official concession record sample:", {k: str(v)[:60] for k, v in recs[0].items()})
-
-          print("\n" + "=" * 20, "FIELD (YACIMIENTO) POLYGONS")
-          z = requests.get("http://datos.energia.gob.ar/dataset/7378520e-4d10-48a9-92e9-7e20e69a8277/resource/82f83e7e-5e07-4cf7-8015-0e01d2cfa51f/download/produccin-hidrocarburos-yacimientos.zip", timeout=120).content
-          with tempfile.TemporaryDirectory() as tmp:
-              zipfile.ZipFile(io.BytesIO(z)).extractall(tmp)
-              shp = glob.glob(tmp + "/**/*.shp", recursive=True)[0]
-              prj = glob.glob(tmp + "/**/*.prj", recursive=True)
-              rd = shapefile.Reader(shp, encoding="utf-8", encodingErrors="replace")
-              print("SHP", rd.shapeTypeName, len(rd), "bbox", [round(v, 3) for v in rd.bbox], "PRJ", open(prj[0]).read()[:120] if prj else None)
-              f = [x[0] for x in rd.fields[1:]]
-              print("FIELDS", f)
-              print("SAMPLE", {k: str(v)[:50] for k, v in zip(f, rd.record(0))})
-          c = pd.read_csv(io.BytesIO(requests.get("http://datos.energia.gob.ar/dataset/7378520e-4d10-48a9-92e9-7e20e69a8277/resource/6130ac5d-e78e-4aef-9925-030db6434c56/download/produccin-hidrocarburos-yacimientos.csv", timeout=120).content), low_memory=False)
-          print("YACIMIENTOS CSV rows", len(c), "columns", list(c.columns)[:40])
-
-          print("\n" + "=" * 20, "SIG ENERGIA")
-          for url in ["https://sig.energia.gob.ar/v/?t=4", "https://sig.energia.gob.ar/v/?viz=d0569623"]:
-              r = get(url)
-              if r is None or not r.ok:
+          print("=" * 20, "NEUQUEN GEOSERVER")
+          for host in ["https://hidrocarburos.energianeuquen.gob.ar", "http://hidrocarburos.energianeuquen.gob.ar",
+                       "https://hidrocarburos.energianeuquen.gov.ar"]:
+              r = get(host + "/geoserver/wfs", params={"service": "WFS", "version": "2.0.0", "request": "GetCapabilities"})
+              if r is None or not r.ok or b"FeatureType" not in r.content:
                   continue
-              eps = sorted(set(re.findall(r'(https?://[^"\'\s<>]*(?:geoserver|wms|wfs|ows|arcgis|MapServer|FeatureServer|api)[^"\'\s<>]*)', r.text, re.I)))
-              print("  SERVICE URLS", eps[:40])
-              scripts = sorted(set(re.findall(r'src="([^"]+\.js[^"]*)"', r.text)))
-              print("  SCRIPTS", scripts[:20])
-              for s in scripts:
-                  u = s if s.startswith("http") else "https://sig.energia.gob.ar" + (s if s.startswith("/") else "/v/" + s)
-                  js = get(u)
-                  if js is not None and js.ok:
-                      found = sorted(set(re.findall(r'["\'`]((?:https?://[^"\'`]*)?/[^"\'`\s]*(?:geoserver|wms|wfs|ows|arcgis|api|geojson|\.json)[^"\'`\s]*)["\'`]', js.text, re.I)))
-                      if found:
-                          print("  ENDPOINTS in", u, found[:40])
-          for base in ["https://sig.energia.gob.ar/geoserver/ows", "https://sig.energia.gob.ar/geoserver/wfs"]:
-              r = get(base, params={"service": "WFS", "request": "GetCapabilities"})
-              if r is not None and r.ok and b"FeatureType" in r.content:
-                  types = re.findall(r"<(?:wfs:)?FeatureType[^>]*>(.*?)</(?:wfs:)?FeatureType>", r.text, re.S)
-                  print("  WFS feature types", len(types))
-                  for t in types:
-                      n = re.search(r"<(?:wfs:)?Name>([^<]+)", t); ti = re.search(r"<(?:wfs:)?Title>([^<]+)", t)
-                      n, ti = (n.group(1) if n else ""), (ti.group(1) if ti else "")
-                      if re.search(r"vaca|permis|concesi|area|yacim|lote|bloque|explor", n + ti, re.I):
-                          print("   ", n, "|", ti)
-                  break
+              types = re.findall(r"<(?:wfs:)?FeatureType[^>]*>(.*?)</(?:wfs:)?FeatureType>", r.text, re.S)
+              print("WFS feature types:", len(types))
+              for t in types:
+                  n = re.search(r"<(?:wfs:)?Name>([^<]+)", t); ti = re.search(r"<(?:wfs:)?Title>([^<]+)", t)
+                  print("  ", n.group(1) if n else "", "|", ti.group(1) if ti else "")
+              for layer in ["Hidrocarburos:Areas"]:
+                  r = get(host + "/geoserver/wfs", params={"service": "WFS", "version": "2.0.0", "request": "GetFeature",
+                                                           "typeNames": layer, "outputFormat": "application/json", "count": 3})
+                  if r is not None and r.ok:
+                      try:
+                          j = r.json()
+                          print("  totalFeatures", j.get("totalFeatures"), "numberMatched", j.get("numberMatched"), "crs", j.get("crs"))
+                          for f in j["features"][:3]:
+                              print("  PROPS", {k: str(v)[:60] for k, v in f["properties"].items()}, "GEOM", f["geometry"]["type"])
+                      except Exception as e:
+                          print("  not JSON", r.text[:300])
+                  r = get(host + "/geoserver/wfs", params={"service": "WFS", "version": "2.0.0", "request": "GetFeature",
+                                                           "typeNames": layer, "resultType": "hits"})
+                  if r is not None and r.ok:
+                      print("  HITS", re.findall(r'numberMatched="(\d+)"', r.text))
+              break
+          r = get("http://hidrocarburos.energianeuquen.gov.ar/gis")
+          if r is not None and r.ok:
+              text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r.text))
+              for kw in ("licen", "Licen", "uso", "Uso", "condicion", "Condicion", "término", "Término", "atribu", "CC "):
+                  for m in list(re.finditer(kw, text))[:2]:
+                      print("  GIS PAGE…", text[max(0, m.start() - 150): m.end() + 200])
+              print("  GIS PAGE LINKS", sorted(set(re.findall(r'href="([^"]+(?:\.zip|\.kml|\.kmz|wfs|wms|shp)[^"]*)"', r.text)))[:30])
+
+          print("\n" + "=" * 20, "SIG ENERGIA /gis-api")
+          js = get("https://sig.energia.gob.ar/v/app.js", verify="bundle.pem")
+          if js is not None and js.ok:
+              t = js.text
+              for m in list(re.finditer(r"gis-api", t))[:12]:
+                  print("  CTX", t[max(0, m.start() - 160): m.end() + 220].replace("\n", " "))
           PY
