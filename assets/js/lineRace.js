@@ -30,9 +30,9 @@
   // third-party); Vista #414042 (Brandfetch); TotalEnergies orange from its
   // seven-color palette (its red would clash with Sinopec); Tecpetrol dark
   // green approximated from its trademark (green/blue bands, no published
-  // hex); Pampa Energía #1ED760 (Brandfetch, unconfirmed).
-  // TODO: Pan American Energy, Pluspetrol and CAPEX have no confirmed brand
-  // color yet; they fall back to BRAND_FALLBACK below.
+  // hex); Pampa Energía #1ED760 (Brandfetch, unconfirmed). Pan American
+  // Energy red #C80000, Pluspetrol dark teal #0C5678 (dark mode: its teal
+  // accent #00868B) and CAPEX electric blue #0086D6 from the blog author.
   const BRAND_COLORS = [
     [/^YPF\b/, '#0063C2', '#3D8BE0'],
     [/^SHELL\b/, '#FBCE07', '#FBCE07'],
@@ -41,6 +41,9 @@
     [/^(VST|VISTA)\b/, '#414042', '#A7A9AC'],
     [/^TECPETROL\b/, '#00843D', '#2BA562'],
     [/^PAMPA\b/, '#1ED760', '#1ED760'],
+    [/^(PAE|PAN AMERICAN)\b/, '#C80000', '#E0302F'],
+    [/^PLUSPETROL\b/, '#0C5678', '#00868B'],
+    [/^CAPEX\b/, '#0086D6', '#0086D6'],
   ];
   // Non-brand colors for companies without a brand entry: hues no brand above
   // uses (violet, magenta, aqua), so they never read as someone's brand.
