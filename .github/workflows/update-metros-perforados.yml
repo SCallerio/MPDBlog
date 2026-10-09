@@ -5,9 +5,6 @@ on:
     # Run on the 2nd of every month at 06:00 UTC
     - cron: '0 6 2 * *'
   workflow_dispatch:
-  push:
-    branches: ['claude/**']
-    paths: ['.github/workflows/update-metros-perforados.yml']
 
 permissions:
   contents: write
@@ -44,7 +41,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f data/raw/metros-perforados.csv
           git add data/processed/metros_perforados_cumsum.json
           git diff --quiet && git diff --staged --quiet || (
             git commit -m "Update metros perforados data ($(date +'%Y-%m-%d'))" &&

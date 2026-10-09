@@ -39,6 +39,9 @@
       .sort((a, b) => b[iVal] - a[iVal])
       .map(r => r[iEmp]);
 
+    // Companies start on different months, so give the axis every month.
+    const months = Array.from(new Set(rows.map(r => r[iMes]))).sort();
+
     const colors = PALETTE[theme];
     const ink = INK[theme];
 
@@ -65,7 +68,8 @@
         endLabel: {
           show: true,
           color: ink.text,
-          formatter: p => p.value[iEmp] + ': ' + fmtMeters(p.value[iVal]),
+          // No label until the company has drilled (null months).
+          formatter: p => (p.value[iVal] == null ? '' : p.value[iEmp] + ': ' + fmtMeters(p.value[iVal])),
         },
         labelLayout: { moveOverlap: 'shiftY' },
         emphasis: { focus: 'series' },
@@ -85,8 +89,8 @@
       dataset: [{ id: 'dataset_raw', source: rawData }].concat(datasetWithFilters),
       color: colors,
       title: {
-        text: 'Metros perforados acumulados por empresa',
-        subtext: 'Argentina \u00b7 Secretar\u00eda de Energ\u00eda \u00b7 top ' + companies.length + ' empresas',
+        text: 'Cumulative meters drilled by company',
+        subtext: 'Argentina \u00b7 Secretar\u00eda de Energ\u00eda \u00b7 top ' + companies.length + ' companies',
         textStyle: { color: ink.text, fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: 16 },
         subtextStyle: { color: ink.muted, fontFamily: 'Poppins, sans-serif' },
       },
@@ -103,17 +107,21 @@
       },
       xAxis: {
         type: 'category',
+        data: months,
         nameLocation: 'middle',
         axisLine: { lineStyle: { color: ink.muted } },
         axisLabel: { color: ink.muted },
       },
+      // Log scale: YPF is ~10x most companies; a linear axis flattens them.
       yAxis: {
-        name: 'Metros acumulados',
-        nameTextStyle: { color: ink.muted },
+        type: 'log',
+        logBase: 10,
+        name: 'Cumulative meters (log scale)',
+        nameTextStyle: { color: ink.muted, align: 'left' },
         axisLabel: { color: ink.muted, formatter: v => (v >= 1e6 ? v / 1e6 + ' M' : v >= 1e3 ? v / 1e3 + ' k' : v) },
         splitLine: { lineStyle: { color: ink.grid } },
       },
-      grid: { left: 60, right: 190, top: 95, bottom: 50 },
+      grid: { left: 60, right: 240, top: 95, bottom: 50 },
       series: seriesList,
     };
   }
