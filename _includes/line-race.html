@@ -15,7 +15,8 @@
 
   Optional: color_key (charts with the same key share company colors; defaults
   to the id) and series_noun (what the lines are, for the subtitle; defaults
-  to "companies").
+  to "companies"), brand_colors="true" (color company lines with their brand
+  colors, see BRAND_COLORS in assets/js/lineRace.js).
   Data files are built by script/process_*.py (see the update-* workflows).
 {%- endcomment -%}
 <div style="margin: 30px 0;">
@@ -43,6 +44,7 @@
     yAxisName: {{ include.y_axis | jsonify }},
     unit: {{ include.unit | jsonify }},
     colorKey: {{ include.color_key | default: include.id | jsonify }},
-    seriesNoun: {{ include.series_noun | default: "companies" | jsonify }}
+    seriesNoun: {{ include.series_noun | default: "companies" | jsonify }},
+    brandColors: {% if include.brand_colors == "true" %}true{% else %}false{% endif %}
   });
 </script>

@@ -23,6 +23,37 @@
   };
   const RACE_MS = 12000;
 
+  // Company brand colors (opts.brandColors), matched on the line label:
+  // [pattern, light-mode color, dark-mode color]. Dark variants are lighter
+  // only where the brand color would disappear on the dark background.
+  // Sources: Shell and Sinopec published colors; YPF #0063C2 (2017 logo,
+  // third-party); Vista #414042 (Brandfetch); TotalEnergies orange from its
+  // seven-color palette (its red would clash with Sinopec); Tecpetrol dark
+  // green approximated from its trademark (green/blue bands, no published
+  // hex); Pampa Energía #1ED760 (Brandfetch, unconfirmed).
+  // TODO: Pan American Energy, Pluspetrol and CAPEX have no confirmed brand
+  // color yet; they fall back to BRAND_FALLBACK below.
+  const BRAND_COLORS = [
+    [/^YPF\b/, '#0063C2', '#3D8BE0'],
+    [/^SHELL\b/, '#FBCE07', '#FBCE07'],
+    [/^(SINO|SINOPEC)\b/, '#ED1C24', '#F0454B'],
+    [/^TOTAL\b/, '#FF7800', '#FF7800'],
+    [/^(VST|VISTA)\b/, '#414042', '#A7A9AC'],
+    [/^TECPETROL\b/, '#00843D', '#2BA562'],
+    [/^PAMPA\b/, '#1ED760', '#1ED760'],
+  ];
+  // Non-brand colors for companies without a brand entry: hues no brand above
+  // uses (violet, magenta, aqua), so they never read as someone's brand.
+  const BRAND_FALLBACK = {
+    light: ['#4a3aa7', '#e87ba4', '#1baf7a'],
+    dark:  ['#9085e9', '#d55181', '#199e70'],
+  };
+
+  function brandColor(company, theme) {
+    const hit = BRAND_COLORS.find(([re]) => re.test(String(company).toUpperCase()));
+    return hit ? (theme === 'dark' ? hit[2] : hit[1]) : null;
+  }
+
   // Charts sharing opts.colorKey give each company the same color slot, so a
   // company keeps its color across charts that rank it differently.
   const colorMaps = {};
@@ -68,7 +99,16 @@
     const months = Array.from(new Set(rows.map(r => r[iMes]))).sort();
 
     const colors = PALETTE[theme];
-    const slots = colorSlots(companies, opts.colorKey);
+    let lineColors;
+    if (opts.brandColors) {
+      const others = companies.filter(c => !brandColor(c, theme));
+      const otherSlots = colorSlots(others, opts.colorKey && opts.colorKey + ':fallback');
+      lineColors = companies.map(c => brandColor(c, theme) ||
+        BRAND_FALLBACK[theme][otherSlots[others.indexOf(c)]] || ink.muted);
+    } else {
+      const slots = colorSlots(companies, opts.colorKey);
+      lineColors = slots.map(k => colors[k] || ink.muted);
+    }
     const ink = INK[theme];
 
     const datasetWithFilters = [];
@@ -89,8 +129,8 @@
         name: String(company),
         showSymbol: false,
         lineStyle: { width: 2 },
-        // Companies past the 8 categorical slots fall back to a neutral gray.
-        color: colors[slots[i]] || ink.muted,
+        // Lines past the available colors fall back to a neutral gray.
+        color: lineColors[i],
         endLabel: {
           show: true,
           color: ink.text,

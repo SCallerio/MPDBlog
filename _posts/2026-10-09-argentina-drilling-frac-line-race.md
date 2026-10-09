@@ -45,7 +45,8 @@ merged here as **PAE**.
      unit="m"
      source_name="Secretaría de Energía — Metros perforados"
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
-     note="Monthly meters drilled (cantidad) summed per company, cumulative." %}
+     note="Monthly meters drilled (cantidad) summed per company, cumulative."
+     brand_colors="true" %}
 
 ## YPF: cumulative meters drilled by field
 
@@ -79,6 +80,7 @@ lateral length of zero, so they count towards the frac stages below but not here
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Horizontal lateral length per fractured well, by frac end month, cumulative."
+     brand_colors="true"
      color_key="fractura" %}
 
 ## Cumulative frac stages
@@ -94,6 +96,7 @@ Number of frac stages (`cantidad_fracturas`) per well, on the same time axis and
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Frac stages per well, by frac end month, cumulative."
+     brand_colors="true"
      color_key="fractura" %}
 
 ## Data notes
