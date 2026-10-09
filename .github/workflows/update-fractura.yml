@@ -1,0 +1,50 @@
+name: Update Fractura Data (Monthly)
+
+on:
+  schedule:
+    # Run on the 3rd of every month at 06:00 UTC
+    - cron: '0 6 3 * *'
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['.github/workflows/update-fractura.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  update-and-process:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas requests
+
+      - name: Download latest raw data
+        run: |
+          mkdir -p data/raw data/processed
+          wget "http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7/resource/2280ad92-6ed3-403e-a095-50139863ab0d/download/datos-de-fractura-de-pozos-de-hidrocarburos-adjunto-iv-actualizacin-diaria.csv" -O data/raw/fractura.csv
+          ls -la data/raw/fractura.csv
+
+      - name: Run processing script
+        run: python script/process_fractura.py --csv data/raw/fractura.csv
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed/fractura_lateral_cumsum.json data/processed/fractura_etapas_cumsum.json
+          git diff --quiet && git diff --staged --quiet || (
+            git commit -m "Update fractura data ($(date +'%Y-%m-%d'))" &&
+            git push
+          )
