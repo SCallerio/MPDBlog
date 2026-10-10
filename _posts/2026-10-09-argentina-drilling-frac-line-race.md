@@ -401,10 +401,11 @@ Candlesticks borrowed from finance, applied to activity: each candle goes from t
 this month's (close), blue when activity rose and orange when it fell. The lower panel shows the change itself,
 positive or negative. Pick the indicator in the menu:
 
-- **Active rigs** from the Baker Hughes Worldwide Rig Count (Argentina, land and offshore), the industry's
-  standard activity gauge.
-- **Wells being drilled** each month, the official counterpart from the Secretaría de Energía (one rig drills one
-  well at a time, so it tracks the rig count closely).
+- **Active rigs in Argentina** from the Baker Hughes Worldwide Rig Count (land and offshore, since 2013), the
+  industry's standard activity gauge, and **active rigs in Latin America** (since 2007) for context.
+- **Wells being drilled** each month, the official counterpart from the Secretaría de Energía. It follows the same
+  cycles as the rig count (correlation 0.7 since 2013) but has pulled away from it in recent years: with pad
+  drilling, each rig works on more than one well in a month.
 - **Wells completed** per month.
 - **Frac stages**, **wells fractured** and **lateral length fractured** per month, from the frac data. These have
   daily dates, so their wicks show the lowest and highest weekly pace within the month.
@@ -417,14 +418,17 @@ positive or negative. Pick the indicator in the menu:
      default_indicator="rig_count"
      zoom_months="60"
      height="620px"
-     source_name="Baker Hughes Worldwide Rig Count; Secretaría de Energía — Perforación de pozos and Datos de fractura de pozos (Adjunto IV)"
+     source_name="Secretaría de Energía — Perforación de pozos and Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
-     note="Drag the slider to see the full history." %}
+     note="Rig counts: Baker Hughes Worldwide Rig Count (rigcount.bakerhughes.com), monthly reports of July 2025 and September 2026 and the 2007–2024 regional history. Drag the slider to see the full history." %}
 
 ## Notes on the data
 
 - Companies are shown in their brand colors (YPF blue, Shell yellow, Pan American Energy red, and so on).
 - Recent months of the frac data may be revised upward as late reports come in.
+- The Baker Hughes country breakdown has no row for Argentina in April 2020 (the COVID lockdown); the candles show
+  it as zero rigs. Rig counts come from the [Baker Hughes Worldwide Rig Count](https://rigcount.bakerhughes.com/intl-rig-count)
+  workbooks (sheet *WW Monthly*, region Latin America, country Argentina, active rigs).
 - All datasets are refreshed monthly by GitHub Actions (`update-metros-perforados.yml`, `update-fractura.yml` and
   `update-produccion.yml`), so the charts stay current without manual work.
 - The production races cover unconventional wells only, the scope of the per-well production file used. The well
