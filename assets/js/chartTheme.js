@@ -17,6 +17,19 @@
     light: ['#e6effa', '#b7d3f6', '#86b6ef', '#5598e7', '#2a78d6', '#1c5cab', '#104281'],
     dark:  ['#1f2a38', '#184f95', '#1c5cab', '#2a78d6', '#5598e7', '#86b6ef', '#cde2fb'],
   };
+  // The blog's own colors (README design system): accent red/orange and the
+  // ink grays, for charts whose colors don't stand for a company. In dark mode
+  // the accent steps up to the orange so it holds contrast on #151515.
+  const BLOG = {
+    light: { accent: '#D23810', accent2: '#E64E28', ink: '#151515', gray: '#757575', soft: '#A4A3A8', surface: '#F8F7F7' },
+    dark:  { accent: '#E64E28', accent2: '#F07A5A', ink: '#F8F7F7', gray: '#A4A3A8', soft: '#757575', surface: '#151515' },
+  };
+  // One-hue sequential ramp from the accent (light -> dark on light pages,
+  // dark -> light on dark pages), for maps of a magnitude.
+  const BLOG_RAMP = {
+    light: ['#f7ebe6', '#f0cfc3', '#e6a790', '#dc7c5e', '#D23810', '#a32b0c', '#701d07'],
+    dark:  ['#3a2620', '#5a2e22', '#843521', '#b53d1c', '#E64E28', '#f08465', '#f7b6a2'],
+  };
   // Up / down pair for candles and +/- bars: blue and orange stay apart for
   // red-green color blindness (unlike the usual green/red).
   const UPDOWN = {
@@ -106,7 +119,7 @@
   }
 
   window.MPDChartTheme = {
-    PALETTE, INK, SEQUENTIAL, UPDOWN, BRAND_COLORS, BRAND_FALLBACK, NEUTRAL,
+    PALETTE, INK, SEQUENTIAL, UPDOWN, BLOG, BLOG_RAMP, BRAND_COLORS, BRAND_FALLBACK, NEUTRAL,
     brandColor, fmtValue, fmtAxis, currentTheme, onThemeChange, fetchJson, title,
   };
 })();

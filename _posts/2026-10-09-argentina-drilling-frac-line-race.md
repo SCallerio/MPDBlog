@@ -286,9 +286,13 @@ area to highlight its flows.
 ## Unconventional production by area
 
 Monthly production of unconventional wells per concession area (`areapermisoconcesion`), converted to daily rates,
-for the fifteen areas that reached the highest rates, showing the top ten in each month. Each bar is colored by the
-area's main operator (the company with the most production there).
+for the fifteen areas that reached the highest rates. Each area is colored by its main operator (the company with the
+most production there). On the left, the bar race ranks the top ten in each month; on the right, the line race
+draws the history of the eight biggest areas today, so you can see both who leads at any moment and how each one
+got there.
 
+<div style="display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start;">
+<div style="flex:1 1 480px; min-width:0;">
 {% include energy-chart.html
      kind="bar-race"
      id="produccion-petroleo-bar-race"
@@ -300,9 +304,29 @@ area's main operator (the company with the most production there).
      source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
      source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="prod_pet (m³ per month) × 6.29 / days in the month; unconventional wells only." %}
+</div>
+<div style="flex:1 1 480px; min-width:0;">
+{% include line-race.html
+     id="produccion-petroleo-line-race"
+     data="/data/processed/produccion_petroleo_areas.json"
+     title="Unconventional oil production over time"
+     y_axis="Oil production (bbl/d)"
+     unit="bbl/d"
+     log="false"
+     top="8"
+     brand_colors="true"
+     duration_ms="24000"
+     series_noun="areas"
+     source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
+     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     note="Top eight areas by latest rate." %}
+</div>
+</div>
 
-The same race for gas:
+The same pair for gas:
 
+<div style="display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start;">
+<div style="flex:1 1 480px; min-width:0;">
 {% include energy-chart.html
      kind="bar-race"
      id="produccion-gas-bar-race"
@@ -314,12 +338,30 @@ The same race for gas:
      source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
      source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="prod_gas (thousand m³ per month) / 1,000 / days in the month; unconventional wells only." %}
+</div>
+<div style="flex:1 1 480px; min-width:0;">
+{% include line-race.html
+     id="produccion-gas-line-race"
+     data="/data/processed/produccion_gas_areas.json"
+     title="Unconventional gas production over time"
+     y_axis="Gas production (MMm³/d)"
+     unit="MMm³/d"
+     log="false"
+     top="8"
+     brand_colors="true"
+     duration_ms="24000"
+     series_noun="areas"
+     source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
+     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     note="Top eight areas by latest rate." %}
+</div>
+</div>
 
 ## Wells drilled since 2010
 
 How Vaca Muerta filled up, year by year. Each dot is a well whose drilling started since 2010
-(`adjiv_fecha_inicio_perf`), placed at its location from the Capítulo IV well register: orange for unconventional,
-teal for conventional (`tipo_recurso`), with the wells drilled in the selected year drawn larger. The concession areas
+(`adjiv_fecha_inicio_perf`), placed at its location from the Capítulo IV well register: in the blog's accent orange for unconventional,
+in the text color for conventional (`tipo_recurso`), with the wells drilled in the selected year drawn larger. The concession areas
 are shaded by the unconventional wells drilled in them so far, and the bars on the right rank the areas by that
 same count. Press play or drag the year slider; the map keeps your zoom and position from one year to the next.
 It opens on the core of Vaca Muerta, but you can drag it to the rest of the country.

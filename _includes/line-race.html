@@ -17,7 +17,8 @@
   to the id) and series_noun (what the lines are, for the subtitle; defaults
   to "companies"), brand_colors="true" (color company lines with their brand
   colors, see BRAND_COLORS in assets/js/chartTheme.js), log="false" (linear
-  y axis, for averages rather than cumulative totals).
+  y axis, for averages rather than cumulative totals), top (show only the N
+  lines with the largest final value), duration_ms (race length, default 12 s).
   Data files are built by script/process_*.py (see the update-* workflows).
 {%- endcomment -%}
 <div style="margin: 30px 0;">
@@ -47,6 +48,8 @@
     colorKey: {{ include.color_key | default: include.id | jsonify }},
     seriesNoun: {{ include.series_noun | default: "companies" | jsonify }},
     brandColors: {% if include.brand_colors == "true" %}true{% else %}false{% endif %},
-    log: {% if include.log == "false" %}false{% else %}true{% endif %}
+    log: {% if include.log == "false" %}false{% else %}true{% endif %},
+    top: {{ include.top | default: 0 }},
+    durationMs: {{ include.duration_ms | default: 0 }}
   });
 </script>

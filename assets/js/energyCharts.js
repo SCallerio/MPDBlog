@@ -23,7 +23,7 @@
 
 (function () {
   const T = window.MPDChartTheme;
-  const { INK, PALETTE, SEQUENTIAL, UPDOWN, NEUTRAL, brandColor, fmtValue, fmtAxis, title } = T;
+  const { INK, PALETTE, SEQUENTIAL, UPDOWN, NEUTRAL, BLOG, BLOG_RAMP, brandColor, fmtValue, fmtAxis, title } = T;
 
   const baseText = ink => ({ color: ink.text, fontFamily: 'Poppins, sans-serif' });
 
@@ -41,7 +41,7 @@
       label: { color: ink.muted, fontSize: 11 },
       lineStyle: { color: ink.grid },
       itemStyle: { color: ink.muted },
-      checkpointStyle: { color: PALETTE.light[0], borderColor: ink.surface },
+      checkpointStyle: { color: ink === INK.dark ? BLOG.dark.accent : BLOG.light.accent, borderColor: ink.surface },
       controlStyle: { color: ink.muted, borderColor: ink.muted },
       progress: { lineStyle: { color: ink.muted }, itemStyle: { color: ink.muted } },
       emphasis: { label: { color: ink.text }, itemStyle: { color: ink.text } },
@@ -66,11 +66,15 @@
       const frameMs = opts.frameMs || 120;
       const ink = INK[theme];
       const color = c => brandColor(operator[c] || c, theme) || NEUTRAL[theme];
+      // The full style goes with every frame: a partial style would drop the font.
+      // Separate font properties: with fontFamily set, a 'font' shorthand is ignored.
+      const monthStyle = text => ({ text, fontFamily: 'Poppins, sans-serif', fontSize: 64, fontWeight: 700,
+                                    fill: ink.text, opacity: 0.8 });
       const frame = i => {
         const m = months[i];
         return {
           series: [{ data: companies.map(c => ({ value: byMonth[m][c] || 0, itemStyle: { color: color(c) } })) }],
-          graphic: [{ id: 'month', style: { text: m } }],
+          graphic: [{ id: 'month', style: monthStyle(m) }],
         };
       };
       chart.setOption({
@@ -96,8 +100,7 @@
         animationEasing: 'linear',
         animationEasingUpdate: 'linear',
         graphic: [{ id: 'month', type: 'text', right: 100, bottom: 60, z: 100,
-                    style: Object.assign(baseText(ink), { text: months[0], font: '700 64px Poppins, sans-serif',
-                                                          fill: ink.text, opacity: 0.8 }) }],
+                    style: monthStyle(months[0]) }],
       }, true);
       chart.setOption(frame(0));
       let i = 0;
@@ -115,7 +118,7 @@
     setup(chart, data, theme, opts, geo) {
       if (!echarts.getMap('argentina')) echarts.registerMap('argentina', geo);
       const ink = INK[theme];
-      const ramp = SEQUENTIAL[theme];
+      const ramp = BLOG_RAMP[theme];
       // Neuquén is an order of magnitude above the rest: fixed log-like bins
       // keep the other provinces readable and the colors comparable by year.
       const bins = opts.bins || [1, 10e3, 50e3, 200e3, 500e3, 1e6, 2e6];
@@ -521,11 +524,13 @@
   // selected year) and, beside the map, a bar race of unconventional wells per
   // area. A custom player updates only the data, so zoom/pan and the dots
   // already drawn stay put from one year to the next.
+  // Blog colors: accent red (orange on dark pages) for unconventional wells and
+  // the bars, the blog's ink for conventional wells, its grays for the areas.
   const WELLS_COLORS = {
     light: { areas: ['#ecebe8', '#d9d8d4', '#c3c2bd', '#aaa9a3', '#8f8e88', '#72716c'],
-             unconv: '#e0531f', conv: '#178f66', ring: '#ffffff' },
+             unconv: BLOG.light.accent, conv: BLOG.light.ink, ring: '#ffffff' },
     dark:  { areas: ['#25252a', '#303036', '#3d3d44', '#4b4b53', '#5b5b64', '#6d6d77'],
-             unconv: '#ff7a3d', conv: '#35c294', ring: '#151515' },
+             unconv: BLOG.dark.accent, conv: BLOG.dark.ink, ring: '#151515' },
   };
   const wellsMap = {
     setup(chart, data, theme, opts, geos, el) {
@@ -577,8 +582,12 @@
 
       const wide = el.clientWidth >= 860;
       const mapBox = wide ? { left: 10, right: '40%', top: 120, bottom: 20 } : { left: 10, right: 10, top: 120, bottom: '42%' };
-      const barGrid = wide ? { left: '62%', right: 70, top: 130, bottom: 40, containLabel: true }
-                           : { left: 10, right: 70, top: '62%', bottom: 20, containLabel: true };
+      // Fixed room for the area names (containLabel misjudges it when the
+      // chart starts mid-timeline).
+      const W = el.clientWidth;
+      const barGrid = wide ? { left: Math.round(W * 0.6) + 170, right: 60, top: 130, bottom: 40 }
+                           : { left: 180, right: 60, top: '62%', bottom: 20 };
+      const yearStyle = text => ({ text, font: '700 64px Poppins, sans-serif', fill: ink.text, opacity: 0.85 });
 
       const scatter = (name, color, current) => ({
         type: 'scatter', coordinateSystem: 'geo', geoIndex: 0, name,
@@ -591,8 +600,9 @@
       chart.setOption({
         backgroundColor: 'transparent',
         title: Object.assign(title(opts.title, '', ink), { z: 20 }),
-        legend: { top: 52, left: 0, z: 20, textStyle: { color: ink.text, fontSize: 12 },
-                  data: ['Unconventional', 'Conventional'], selectedMode: true },
+        legend: { top: 52, left: 0, z: 20, textStyle: { color: ink.text, fontSize: 12 }, selectedMode: true,
+                  data: [{ name: 'Unconventional', itemStyle: { color: C.unconv, opacity: 1 } },
+                         { name: 'Conventional', itemStyle: { color: C.conv, opacity: 1 } }] },
         tooltip: {
           trigger: 'item',
           formatter: p => (p.seriesType === 'map' && !String(p.name).startsWith('prov:')
@@ -615,14 +625,13 @@
         xAxis: { type: 'value', max: 'dataMax', axisLabel: { color: ink.muted, showMaxLabel: false },
                  splitLine: { lineStyle: { color: ink.grid } } },
         yAxis: { type: 'category', data: areaNames, inverse: true, max: 9,
-                 axisLabel: { color: ink.text, fontSize: 11, width: 150, overflow: 'truncate' },
+                 axisLabel: { color: ink.text, fontSize: 11, width: 160, overflow: 'truncate' },
                  axisLine: { lineStyle: { color: ink.grid } }, animationDurationUpdate: 500 },
         graphic: [
           // Solid band under the title: ECharts does not clip a zoomed map.
           { type: 'rect', left: 0, top: 0, z: 10, silent: true, shape: { width: 4000, height: 112 }, style: { fill: ink.surface } },
           { id: 'year', type: 'text', z: 21, silent: true,
-            right: wide ? '41%' : 20, top: 122,
-            style: { text: '', font: '700 56px Poppins, sans-serif', fill: ink.text, opacity: 0.85 } },
+            left: 16, top: wide ? 128 : 124, style: yearStyle('') },
         ],
         series: [
           { type: 'map', map: 'ar-concesiones', geoIndex: 0, name: 'areas', animation: false },
@@ -657,7 +666,7 @@
         chart.setOption({
           title: { subtext: 'Wells drilled ' + years[0] + '–' + yearLabel(y) + ' · bright dots: ' +
                   (now[0].length + now[1].length) + ' drilled in ' + yearLabel(y) + ' · drag to pan, scroll to zoom' },
-          graphic: [{ id: 'year', style: { text: yearLabel(y) } }],
+          graphic: [{ id: 'year', style: yearStyle(yearLabel(y)) }],
           series: [
             { data: counts[y] },
             { data: dotsUpTo(y, 0, false) }, { data: dotsUpTo(y, 1, false) },
@@ -699,7 +708,7 @@
   const vmBlocks = {
     setup(chart, data, theme, opts, geos, el) {
       const ink = INK[theme];
-      const ramp = SEQUENTIAL[theme];
+      const ramp = BLOG_RAMP[theme];
       const [prov, nqn] = geos;
       const windows = nqn.windows || [];
       if (!echarts.getMap('nqn-blocks')) {
@@ -783,7 +792,10 @@
       const legendEl = controls.lastChild;
       if (!select.value) select.value = 'operator';
 
-      const windowColors = [PALETTE[theme][5], PALETTE[theme][3], PALETTE[theme][7], PALETTE[theme][6], PALETTE[theme][1]];
+      // Outline colors kept clear of the red ramp used by the metric views.
+      const windowColors = theme === 'dark'
+        ? ['#F8F7F7', '#86b6ef', '#35c294', '#9085e9', '#A4A3A8']
+        : ['#151515', '#2a78d6', '#178f66', '#4a3aa7', '#757575'];
       const windowRegions = windows.map((w, k) => ({
         name: w.properties.name, silent: true, label: { show: false },
         itemStyle: { areaColor: 'transparent', borderColor: windowColors[k % 5], borderWidth: 2.5, borderType: 'dashed' },

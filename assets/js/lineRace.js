@@ -42,15 +42,30 @@
     const header = rawData[0];
     const [dimTime, dimCompany, dimValue] = header;
     const iMes = 0, iEmp = 1, iVal = 2;
-    const rows = rawData.slice(1);
+    const ink = INK[theme];
     const fmt = v => fmtValue(v, opts.unit);
+
+    // Optional 4th column: the operator of an area, used for its brand color.
+    const operator = {};
+    rawData.slice(1).forEach(r => { if (r[3]) operator[r[iEmp]] = r[3]; });
+    // Before a line's first non-zero value there is nothing to draw: blank it,
+    // so rates (unlike cumulative totals) don't crowd the zero line early on.
+    const started = {};
+    const rows = rawData.slice(1)
+      .sort((a, b) => (a[iMes] < b[iMes] ? -1 : a[iMes] > b[iMes] ? 1 : 0))
+      .map(r => {
+        if (r[iVal]) started[r[iEmp]] = true;
+        return started[r[iEmp]] ? r : [r[iMes], r[iEmp], null].concat(r.slice(3));
+      });
+    rawData = [header].concat(rows);
 
     // Companies ordered by final cumulative meters -> stable color slots.
     const lastMes = rows.reduce((m, r) => (r[iMes] > m ? r[iMes] : m), '');
     const companies = rows
       .filter(r => r[iMes] === lastMes)
       .sort((a, b) => (b[iVal] || 0) - (a[iVal] || 0))
-      .map(r => r[iEmp]);
+      .map(r => r[iEmp])
+      .slice(0, opts.top || undefined);
 
     // Companies start on different months, so give the axis every month.
     const months = Array.from(new Set(rows.map(r => r[iMes]))).sort();
@@ -58,18 +73,23 @@
     const colors = PALETTE[theme];
     let lineColors;
     if (opts.brandColors) {
-      const others = companies.filter(c => !brandColor(c, theme));
+      const brandOf = c => brandColor(operator[c] || c, theme);
+      const others = companies.filter(c => !brandOf(c));
       const otherSlots = colorSlots(others, opts.colorKey && opts.colorKey + ':fallback');
-      lineColors = companies.map(c => brandColor(c, theme) ||
+      lineColors = companies.map(c => brandOf(c) ||
         BRAND_FALLBACK[theme][otherSlots[others.indexOf(c)]] || ink.muted);
     } else {
       const slots = colorSlots(companies, opts.colorKey);
       lineColors = slots.map(k => colors[k] || ink.muted);
     }
-    const ink = INK[theme];
 
     const datasetWithFilters = [];
     const seriesList = [];
+    // Half-width charts (side by side with another) get shorter end labels.
+    const compact = opts.width > 0 && opts.width < 800;
+    // The unit is already in the axis name, so the label keeps only the number.
+    const clip = name => (compact && String(name).length > 22 ? String(name).slice(0, 21) + '…' : name);
+    const endFmt = v => (compact ? fmtValue(v, '').trim() : fmt(v));
     companies.forEach(function (company, i) {
       const datasetId = 'dataset_' + company;
       datasetWithFilters.push({
@@ -93,7 +113,7 @@
           show: true,
           color: ink.text,
           // No label until the company has started (null months).
-          formatter: p => (p.value[iVal] == null ? '' : p.value[iEmp] + ': ' + fmt(p.value[iVal])),
+          formatter: p => (p.value[iVal] == null ? '' : clip(p.value[iEmp]) + ': ' + endFmt(p.value[iVal])),
         },
         labelLayout: { moveOverlap: 'shiftY' },
         emphasis: { focus: 'series' },
@@ -148,7 +168,7 @@
         axisLabel: { color: ink.muted, formatter: v => (v >= 1e6 ? v / 1e6 + ' M' : v >= 1e3 ? v / 1e3 + ' k' : v) },
         splitLine: { lineStyle: { color: ink.grid } },
       },
-      grid: { left: 60, right: 250, top: 95, bottom: 50 },
+      grid: { left: 60, right: compact ? 175 : 250, top: 95, bottom: 50 },
       series: seriesList,
     };
   }
@@ -172,7 +192,7 @@
       .then(rawData => {
         let chart = echarts.init(el);
         let theme = currentTheme();
-        const draw = () => chart.setOption(buildOption(rawData, theme, opts), true);
+        const draw = () => chart.setOption(buildOption(rawData, theme, Object.assign({}, opts, { width: el.clientWidth })), true);
         draw();
 
         window.addEventListener('resize', () => chart.resize());
