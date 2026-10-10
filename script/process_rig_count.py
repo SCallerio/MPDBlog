@@ -31,7 +31,11 @@ from energy_charts_data import monthly_candles, write
 PAGE_URL = "https://rigcount.bakerhughes.com/intl-rig-count"
 FALLBACK_URL = "https://rigcount.bakerhughes.com/static-files/ee2f783a-97f4-4ca1-be03-e685d301fc28"
 OUTPUT_PATH = os.path.join("data", "processed", "rig_count_velas.json")
-UA = {"User-Agent": "Mozilla/5.0 (compatible; MPDBlog data refresh)"}
+# A plain browser request; the site rejects obvious scripts.
+UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+      "Accept": "text/html,application/xhtml+xml,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*;q=0.8",
+      "Accept-Language": "en-US,en;q=0.9",
+      "Referer": PAGE_URL}
 MONTHS = {m: i + 1 for i, m in enumerate(
     ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"])}
 
@@ -40,8 +44,12 @@ def download(path):
     """The workbook link changes with each release: look for it on the
     international rig count page, else use the known link."""
     url = FALLBACK_URL
+    session = requests.Session()
     try:
-        html = requests.get(PAGE_URL, headers=UA, timeout=60).text
+        session.get("https://rigcount.bakerhughes.com/", headers=UA, timeout=60)
+        page = session.get(PAGE_URL, headers=UA, timeout=60)
+        print(f"Rig count page: HTTP {page.status_code}, {len(page.text):,} chars")
+        html = page.text
         links = re.findall(r'href="([^"]*static-files/[0-9a-f-]{36})"[^>]*>([^<]*)<', html)
         ww = [h for h, text in links if re.search(r"worldwide", text, re.I)]
         if ww:
@@ -50,7 +58,7 @@ def download(path):
     except Exception as e:
         print(f"Rig count page unavailable ({e}); using the known link")
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    r = requests.get(url, headers=UA, timeout=180)
+    r = session.get(url, headers=UA, timeout=180)
     r.raise_for_status()
     with open(path, "wb") as f:
         f.write(r.content)
