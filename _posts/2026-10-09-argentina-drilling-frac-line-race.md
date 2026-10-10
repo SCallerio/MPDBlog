@@ -317,18 +317,20 @@ The same race for gas:
 
 ## Wells drilled since 2010
 
-Every well whose drilling started since 2010 (`adjiv_fecha_inicio_perf`), placed at its location from the
-Capítulo IV well register, over the official concession areas. The color of each area is the number of those wells
-drilled in it so far; the bright dots are the wells drilled in the selected year, blue for conventional and orange for
-unconventional (`tipo_recurso`). The map starts on the Neuquén basin: drag to pan and scroll to zoom.
+How Vaca Muerta filled up, year by year. Each dot is a well whose drilling started since 2010
+(`adjiv_fecha_inicio_perf`), placed at its location from the Capítulo IV well register: orange for unconventional,
+teal for conventional (`tipo_recurso`), with the wells drilled in the selected year drawn larger. The concession areas
+are shaded by the unconventional wells drilled in them so far, and the bars on the right rank the areas by that
+same count. Press play or drag the year slider; the map keeps your zoom and position from one year to the next.
+It opens on the core of Vaca Muerta, but you can drag it to the rest of the country.
 
 {% include energy-chart.html
      kind="wells-map"
      id="pozos-mapa"
      data="/data/processed/pozos_mapa.json"
      geo="/assets/data/argentina-provinces.json,/assets/data/argentina-concesiones.json"
-     title="Wells drilled by concession area"
-     height="720px"
+     title="Wells drilled since 2010 in Vaca Muerta and beyond"
+     height="760px"
      source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
      source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="Wells with a drilling start date since 2010. Concession outlines: Secretaría de Energía, Concesiones de Explotación." %}

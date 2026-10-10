@@ -195,10 +195,15 @@ def wells_map(wells, geo):
     matched = wells["area_name"].notna().mean()
     print(f"Wells matched to a concession polygon by area name: {matched:.0%}")
     years = list(range(START_YEAR, int(wells["year"].max()) + 1))
-    areas = {}
+    areas, unconv_areas = {}, {}
+    placed = wells.dropna(subset=["area_name"])
     for y in years:
-        c = wells[wells["year"] <= y].dropna(subset=["area_name"]).groupby("area_name").size()
+        upto = placed[placed["year"] <= y]
+        c = upto.groupby("area_name").size()
         areas[str(y)] = [{"name": a, "value": int(v)} for a, v in c.items()]
+        # Unconventional wells only: the Vaca Muerta growth (choropleth + bar race).
+        u = upto[upto["type"] == "Unconventional"].groupby("area_name").size()
+        unconv_areas[str(y)] = [{"name": a, "value": int(v)} for a, v in u.items()]
     last = wells["start"].max()
     partial = None if (last.month == 12) else f"{last.year} (Jan–{last:%b})"
     return {
@@ -206,6 +211,7 @@ def wells_map(wells, geo):
         "partial_year": partial,
         "types": ["Conventional", "Unconventional", "Other"],
         "areas": areas,
+        "unconv_areas": unconv_areas,
         "wells": [[round(float(r.lon), 4), round(float(r.lat), 4), int(r.year),
                    ["Conventional", "Unconventional", "Other"].index(r.type)]
                   for r in wells.itertuples()],

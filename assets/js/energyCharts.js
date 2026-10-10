@@ -95,9 +95,9 @@
         animationDurationUpdate: frameMs,
         animationEasing: 'linear',
         animationEasingUpdate: 'linear',
-        graphic: [{ id: 'month', type: 'text', right: 100, bottom: 50, z: 100,
-                    style: Object.assign(baseText(ink), { text: months[0], font: '600 40px Poppins, sans-serif',
-                                                          fill: ink.muted, opacity: 0.6 }) }],
+        graphic: [{ id: 'month', type: 'text', right: 100, bottom: 60, z: 100,
+                    style: Object.assign(baseText(ink), { text: months[0], font: '700 64px Poppins, sans-serif',
+                                                          fill: ink.text, opacity: 0.8 }) }],
       }, true);
       chart.setOption(frame(0));
       let i = 0;
@@ -515,13 +515,22 @@
   };
 
   // -------------------------------------------- wells over concession areas
-  // Choropleth: wells drilled since the first year, cumulative, per concession
-  // area. Dots: the wells themselves (faint = earlier years, bright = drilled
-  // in the selected year), blue = conventional, orange = unconventional.
+  // Vaca Muerta growth: concession areas shaded (neutral grays, so the dots
+  // carry the color) by unconventional wells drilled so far, wells as dots
+  // (orange = unconventional, teal = conventional; bright = drilled in the
+  // selected year) and, beside the map, a bar race of unconventional wells per
+  // area. A custom player updates only the data, so zoom/pan and the dots
+  // already drawn stay put from one year to the next.
+  const WELLS_COLORS = {
+    light: { areas: ['#ecebe8', '#d9d8d4', '#c3c2bd', '#aaa9a3', '#8f8e88', '#72716c'],
+             unconv: '#e0531f', conv: '#178f66', ring: '#ffffff' },
+    dark:  { areas: ['#25252a', '#303036', '#3d3d44', '#4b4b53', '#5b5b64', '#6d6d77'],
+             unconv: '#ff7a3d', conv: '#35c294', ring: '#151515' },
+  };
   const wellsMap = {
-    setup(chart, data, theme, opts, geos) {
+    setup(chart, data, theme, opts, geos, el) {
       const ink = INK[theme];
-      const ramp = SEQUENTIAL[theme];
+      const C = WELLS_COLORS[theme];
       if (!echarts.getMap('ar-concesiones')) {
         // Provinces first (background outlines), then the concession areas.
         const [prov, conc] = geos;
@@ -531,70 +540,155 @@
       }
       const provRegions = geos[0].features.map(f => ({
         name: 'prov:' + f.properties.name, silent: true,
-        itemStyle: { areaColor: 'transparent', borderColor: ink.muted, borderWidth: 1 },
+        itemStyle: { areaColor: 'transparent', borderColor: ink.muted, borderWidth: 1.2 },
         emphasis: { disabled: true }, label: { show: false },
       }));
+      const years = data.years;
+      const counts = data.unconv_areas || data.areas;
       const bins = opts.bins || [1, 10, 50, 100, 250, 500];
       const pieces = bins.map((lo, k) => {
         const hi = bins[k + 1];
-        return { min: lo, max: hi ? hi - 1 : undefined, color: ramp[k + 1] || ramp[ramp.length - 1],
+        return { min: lo, max: hi ? hi - 1 : undefined, color: C.areas[k],
                  label: hi ? lo + '–' + (hi - 1) : lo + '+' };
       });
-      const typeColor = [PALETTE[theme][0], PALETTE[theme][1], ink.muted];
       const yearLabel = y => (data.partial_year && data.partial_year.startsWith(y) ? data.partial_year : y);
-      const dots = (y, current) => data.types.map((t, k) => data.wells
-        .filter(w => w[3] === k && (current ? String(w[2]) === y : String(w[2]) < y))
-        .map(w => [w[0], w[1]]));
-      const scatter = (name, k, current) => ({
-        type: 'scatter', coordinateSystem: 'geo', geoIndex: 0, name, large: !current, silent: !current,
-        symbolSize: current ? 4 : 2,
-        itemStyle: { color: typeColor[k], opacity: current ? 0.95 : 0.3 },
+
+      // Dots split once by type and year, so each step only hands ECharts arrays.
+      const byYear = {};
+      data.wells.forEach(w => {
+        if (w[3] > 1) return;  // 'Other' wells (water, disposal...) stay off the map
+        const key = w[2] + ':' + w[3];
+        (byYear[key] = byYear[key] || []).push([w[0], w[1]]);
+      });
+      const dotsUpTo = (y, type, current) => {
+        if (current) return byYear[y + ':' + type] || [];
+        let out = [];
+        years.forEach(yy => { if (yy < y) out = out.concat(byYear[yy + ':' + type] || []); });
+        return out;
+      };
+
+      // Bar race: every area that ever has unconventional wells, top 10 shown.
+      const areaNames = Array.from(new Set(years.flatMap(y => counts[y].map(d => d.name))));
+      const barValues = y => {
+        const m = {};
+        counts[y].forEach(d => { m[d.name] = d.value; });
+        return areaNames.map(n => m[n] || 0);
+      };
+
+      const wide = el.clientWidth >= 860;
+      const mapBox = wide ? { left: 10, right: '40%', top: 120, bottom: 20 } : { left: 10, right: 10, top: 120, bottom: '42%' };
+      const barGrid = wide ? { left: '62%', right: 70, top: 130, bottom: 40, containLabel: true }
+                           : { left: 10, right: 70, top: '62%', bottom: 20, containLabel: true };
+
+      const scatter = (name, color, current) => ({
+        type: 'scatter', coordinateSystem: 'geo', geoIndex: 0, name,
+        large: !current, silent: !current, animation: false,
+        symbolSize: current ? 6 : 3,
+        itemStyle: current ? { color, opacity: 1, borderColor: C.ring, borderWidth: 1 } : { color, opacity: 0.45 },
         tooltip: { show: false }, z: current ? 4 : 3,
       });
+
       chart.setOption({
-        baseOption: {
-          backgroundColor: 'transparent',
-          timeline: timeline(data.years.map(yearLabel), ink, { z: 20 }),
-          legend: { top: 52, left: 'center', textStyle: { color: ink.muted, fontSize: 11 }, z: 20,
-                    data: ['Conventional', 'Unconventional'] },
-          tooltip: { trigger: 'item',
-                     formatter: p => (p.seriesType === 'map' && !String(p.name).startsWith('prov:')
-                       ? p.name + ': ' + (p.value > 0 ? p.value + ' wells' : 'no wells') : '') },
-          geo: {
-            map: 'ar-concesiones', roam: true, top: 130, bottom: 60,
-            center: opts.center || [-68.9, -38.2], zoom: opts.zoom || 5, scaleLimit: { min: 1, max: 40 },
-            itemStyle: { areaColor: ink.surface, borderColor: ink.grid, borderWidth: 0.5 },
-            emphasis: { itemStyle: { areaColor: PALETTE[theme][3] }, label: { show: false } },
-            select: { disabled: true },
-            regions: provRegions,
-          },
-          visualMap: { type: 'piecewise', pieces, seriesIndex: 0, left: 10, bottom: 70, showLabel: true,
-                       itemWidth: 14, itemHeight: 10, text: ['Wells per area', ''], z: 20, padding: 6,
-                       backgroundColor: ink.surface, textStyle: { color: ink.muted, fontSize: 11 } },
-          // ECharts does not clip a zoomed map to its box: solid bands above
-          // and below keep the outlines off the title, legend and timeline.
-          graphic: [
-            { type: 'rect', left: 0, top: 0, z: 10, silent: true,
-              shape: { width: 4000, height: 128 }, style: { fill: ink.surface } },
-            { type: 'rect', left: 0, bottom: 0, z: 10, silent: true,
-              shape: { width: 4000, height: 60 }, style: { fill: ink.surface } },
-          ],
-          series: [
-            { type: 'map', map: 'ar-concesiones', geoIndex: 0, name: 'Wells per area' },
-            scatter('Conventional', 0, false), scatter('Unconventional', 1, false),
-            scatter('Conventional', 0, true), scatter('Unconventional', 1, true),
-          ],
+        backgroundColor: 'transparent',
+        title: Object.assign(title(opts.title, '', ink), { z: 20 }),
+        legend: { top: 52, left: 0, z: 20, textStyle: { color: ink.text, fontSize: 12 },
+                  data: ['Unconventional', 'Conventional'], selectedMode: true },
+        tooltip: {
+          trigger: 'item',
+          formatter: p => (p.seriesType === 'map' && !String(p.name).startsWith('prov:')
+            ? p.name + ': ' + (p.value > 0 ? p.value + ' unconventional wells' : 'no unconventional wells')
+            : p.seriesType === 'bar' ? p.name + ': ' + p.value + ' unconventional wells' : ''),
         },
-        options: data.years.map(y => {
-          const before = dots(y, false);
-          const now = dots(y, true);
-          return {
-            title: Object.assign(title(opts.title, 'Wells drilled ' + data.years[0] + '–' + yearLabel(y) +
-              ' · bright dots: drilled in ' + yearLabel(y) + ' (' + (now[0].length + now[1].length) + ')', ink), { z: 20 }),
-            series: [{ data: data.areas[y] }, { data: before[0] }, { data: before[1] }, { data: now[0] }, { data: now[1] }],
-          };
-        }),
+        geo: Object.assign({
+          map: 'ar-concesiones', roam: true, scaleLimit: { min: 0.5, max: 40 },
+          // Opens on Vaca Muerta: the Neuquén basin core.
+          boundingCoords: opts.bounds || [[-70.5, -36.9], [-67.6, -39.5]],
+          itemStyle: { areaColor: ink.surface, borderColor: theme === 'dark' ? '#3a3a40' : '#d4d3cf', borderWidth: 0.6 },
+          emphasis: { itemStyle: { areaColor: PALETTE[theme][3] }, label: { show: false } },
+          select: { disabled: true },
+          regions: provRegions,
+        }, mapBox),
+        visualMap: { type: 'piecewise', pieces, seriesIndex: 0, left: 10, bottom: wide ? 20 : '44%', showLabel: true,
+                     itemWidth: 14, itemHeight: 10, z: 20, padding: 6, backgroundColor: ink.surface,
+                     text: ['Unconventional wells per area', ''], textStyle: { color: ink.muted, fontSize: 11 } },
+        grid: barGrid,
+        xAxis: { type: 'value', max: 'dataMax', axisLabel: { color: ink.muted, showMaxLabel: false },
+                 splitLine: { lineStyle: { color: ink.grid } } },
+        yAxis: { type: 'category', data: areaNames, inverse: true, max: 9,
+                 axisLabel: { color: ink.text, fontSize: 11, width: 150, overflow: 'truncate' },
+                 axisLine: { lineStyle: { color: ink.grid } }, animationDurationUpdate: 500 },
+        graphic: [
+          // Solid band under the title: ECharts does not clip a zoomed map.
+          { type: 'rect', left: 0, top: 0, z: 10, silent: true, shape: { width: 4000, height: 112 }, style: { fill: ink.surface } },
+          { id: 'year', type: 'text', z: 21, silent: true,
+            right: wide ? '41%' : 20, top: 122,
+            style: { text: '', font: '700 56px Poppins, sans-serif', fill: ink.text, opacity: 0.85 } },
+        ],
+        series: [
+          { type: 'map', map: 'ar-concesiones', geoIndex: 0, name: 'areas', animation: false },
+          scatter('Conventional', C.conv, false), scatter('Unconventional', C.unconv, false),
+          scatter('Conventional', C.conv, true), scatter('Unconventional', C.unconv, true),
+          { type: 'bar', name: 'Unconventional wells', realtimeSort: true, barMaxWidth: 22,
+            itemStyle: { color: C.unconv, borderRadius: [0, 4, 4, 0] },
+            label: { show: true, position: 'right', color: ink.text, valueAnimation: true },
+            animationDurationUpdate: 700, animationEasingUpdate: 'linear', data: [] },
+        ],
       }, true);
+
+      // ---- player: play/pause, a year slider and the big year label --------
+      let controls = document.getElementById(el.id + '-controls');
+      if (!controls) {
+        controls = document.createElement('div');
+        controls.id = el.id + '-controls';
+        controls.style.cssText = 'display:flex;align-items:center;gap:12px;margin:0 0 8px 0;font:14px Poppins,sans-serif;';
+        controls.innerHTML =
+          '<button type="button" aria-label="Play or pause" style="font:14px Poppins,sans-serif;padding:4px 12px;' +
+          'border:1px solid #A4A3A8;border-radius:6px;background:transparent;color:inherit;cursor:pointer;min-width:84px"></button>' +
+          '<input type="range" aria-label="Year" style="flex:1;max-width:520px">' +
+          '<strong style="font-size:18px;min-width:120px"></strong>';
+        el.parentNode.insertBefore(controls, el);
+      }
+      const [btn, slider, label] = controls.children;
+      slider.min = 0; slider.max = years.length - 1; slider.step = 1;
+
+      const show = k => {
+        const y = years[k];
+        const now = [dotsUpTo(y, 0, true), dotsUpTo(y, 1, true)];
+        chart.setOption({
+          title: { subtext: 'Wells drilled ' + years[0] + '–' + yearLabel(y) + ' · bright dots: ' +
+                  (now[0].length + now[1].length) + ' drilled in ' + yearLabel(y) + ' · drag to pan, scroll to zoom' },
+          graphic: [{ id: 'year', style: { text: yearLabel(y) } }],
+          series: [
+            { data: counts[y] },
+            { data: dotsUpTo(y, 0, false) }, { data: dotsUpTo(y, 1, false) },
+            { data: now[0] }, { data: now[1] },
+            { data: barValues(y) },
+          ],
+        });
+        slider.value = k;
+        label.textContent = yearLabel(y);
+        el.__wellsYear = k;
+      };
+
+      let timer = null;
+      const pause = () => { clearInterval(timer); timer = null; btn.textContent = '▶ Play'; };
+      const play = () => {
+        if (el.__wellsYear >= years.length - 1) show(0);
+        btn.textContent = '❚❚ Pause';
+        timer = setInterval(() => {
+          if (el.__wellsYear >= years.length - 1) { pause(); return; }
+          show(el.__wellsYear + 1);
+        }, opts.stepMs || 1300);
+      };
+      btn.onclick = () => (timer ? pause() : play());
+      slider.oninput = () => { pause(); show(Number(slider.value)); };
+
+      // Replay (or first draw) starts from the first year; a theme switch keeps
+      // the year the reader was on.
+      const restart = opts._restart || el.__wellsYear == null;
+      show(restart ? 0 : el.__wellsYear);
+      if (restart) play(); else pause();
+      return pause;
     },
   };
 
@@ -786,9 +880,15 @@
           stop = impl.setup(chart, data, theme, opts, extraData, el) || null;
         };
         draw();
-        window.addEventListener('resize', () => chart.resize());
+        let wide = el.clientWidth >= 860;
+        window.addEventListener('resize', () => {
+          chart.resize();
+          // Charts whose layout depends on the width (map beside or above the
+          // bars) are redrawn when they cross the breakpoint.
+          if (kind === 'wells-map' && (el.clientWidth >= 860) !== wide) { wide = !wide; draw(); }
+        });
         const replay = document.getElementById(containerId + '-replay');
-        if (replay) replay.addEventListener('click', draw);
+        if (replay) replay.addEventListener('click', () => { opts._restart = true; draw(); opts._restart = false; });
         T.onThemeChange(t => { theme = t; draw(); });
       })
       .catch(err => { el.textContent = 'Could not load chart data (' + err.message + ').'; });
