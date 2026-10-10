@@ -17,6 +17,25 @@ drilled since 2010 and monthly activity candles.*
 
 <!--more-->
 
+## Why now: new money keeps arriving in Vaca Muerta
+
+On August 20, 2026, Continental Resources signed a non-binding heads of agreement with Mercuria Energy Group to take a
+50% stake in Phoenix Global Resources, Mercuria's Argentine upstream company, and run it as a 50/50 joint venture
+([JPT](https://jpt.spe.org/continental-resources-inks-hoa-with-mercuria-energy-for-vaca-muerta-shale-joint-venture);
+[company announcement](https://www.prnewswire.com/news-releases/continental-resources-to-acquire-50-interest-in-phoenix-global-resources-forming-joint-venture-operating-company-with-mercuria-energy-group-302855550.html)).
+The joint venture would hold about 163,000 net acres across six blocks, combining Phoenix's Mata Mora Norte, Mata Mora
+Sur, Confluencia Norte and Confluencia Sur with Continental's operated Los Toldos II Oeste and interests being acquired
+in Bajo del Toro Este. The partners plan more than US$4 billion of capital to grow production from about 28,000 boe/d
+to over 100,000 boe/d within five years
+([OGJ](https://www.ogj.com/general-interest/news/55399601/continental-resources-mercuria-envision-equal-partnership-jv-to-boost-vaca-muerta-oil-production)).
+The deal is still subject to definitive agreements and regulatory approvals.
+
+Deals like this are why it is worth watching the public data closely: they turn into rigs, frac crews and
+production that show up, month by month, in the charts below. Four of the joint venture's blocks are on the
+[Vaca Muerta block map](#vaca-muerta-block-by-block): Mata Mora Norte, already producing about 14,000 bbl/d of
+unconventional oil over the last twelve months, Los Toldos II Oeste, and the exploration permits Mata Mora Sur and
+Bajo del Toro Este.
+
 ## How the charts are built
 
 The data is processed in Python with pandas (`script/`) and drawn with
