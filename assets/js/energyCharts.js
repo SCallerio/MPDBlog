@@ -870,8 +870,9 @@
   // Candle data may come from several files: their indicators are concatenated.
   function load(dataUrl) {
     if (!Array.isArray(dataUrl)) return T.fetchJson(dataUrl);
-    return Promise.all(dataUrl.map(T.fetchJson)).then(parts =>
-      ({ indicators: parts.reduce((acc, p) => acc.concat(p.indicators), []) }));
+    // A missing file (e.g. an optional indicator not built yet) is skipped.
+    return Promise.all(dataUrl.map(u => T.fetchJson(u).catch(() => ({ indicators: [] })))).then(parts =>
+      ({ indicators: parts.reduce((acc, p) => acc.concat(p.indicators || []), []) }));
   }
 
   window.renderEnergyChart = function (kind, containerId, dataUrl, opts) {

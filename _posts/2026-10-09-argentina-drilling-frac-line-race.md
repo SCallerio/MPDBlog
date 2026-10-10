@@ -401,8 +401,10 @@ Candlesticks borrowed from finance, applied to activity: each candle goes from t
 this month's (close), blue when activity rose and orange when it fell. The lower panel shows the change itself,
 positive or negative. Pick the indicator in the menu:
 
-- **Wells being drilled** each month, the closest official proxy for the active rig count (one rig drills one well
-  at a time).
+- **Active rigs** from the Baker Hughes Worldwide Rig Count (Argentina, land and offshore), the industry's
+  standard activity gauge.
+- **Wells being drilled** each month, the official counterpart from the Secretaría de Energía (one rig drills one
+  well at a time, so it tracks the rig count closely).
 - **Wells completed** per month.
 - **Frac stages**, **wells fractured** and **lateral length fractured** per month, from the frac data. These have
   daily dates, so their wicks show the lowest and highest weekly pace within the month.
@@ -410,12 +412,12 @@ positive or negative. Pick the indicator in the menu:
 {% include energy-chart.html
      kind="candles"
      id="activity-candles"
-     data="/data/processed/pozos_velas.json,/data/processed/fractura_velas.json"
+     data="/data/processed/rig_count_velas.json,/data/processed/pozos_velas.json,/data/processed/fractura_velas.json"
      title="Activity candles"
-     default_indicator="wells_drilling"
+     default_indicator="rig_count"
      zoom_months="60"
      height="620px"
-     source_name="Secretaría de Energía — Perforación de pozos and Datos de fractura de pozos (Adjunto IV)"
+     source_name="Baker Hughes Worldwide Rig Count; Secretaría de Energía — Perforación de pozos and Datos de fractura de pozos (Adjunto IV)"
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Drag the slider to see the full history." %}
 

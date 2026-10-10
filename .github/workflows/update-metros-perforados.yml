@@ -5,6 +5,10 @@ on:
     # Run on the 2nd of every month at 06:00 UTC
     - cron: '0 6 2 * *'
   workflow_dispatch:
+  # One-off run for the new rig count step; removed before merging.
+  push:
+    branches: ['claude/**']
+    paths: ['script/process_rig_count.py']
 
 permissions:
   contents: write
@@ -25,7 +29,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install pandas requests
+        run: pip install pandas requests openpyxl
 
       - name: Download latest raw data
         run: |
@@ -45,11 +49,17 @@ jobs:
           python script/process_metros_perforados.py --csv data/raw/metros-perforados.csv
           python script/process_pozos.py --perforacion data/raw/pozos-en-perforacion.csv --terminados data/raw/pozos-terminados.csv
 
+      - name: Baker Hughes rig count (Argentina)
+        # Optional: on failure the previous rig_count_velas.json is kept.
+        continue-on-error: true
+        run: python script/process_rig_count.py
+
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/processed/metros_perforados_*.json data/processed/pozos_velas.json
+          git add data/processed/rig_count_velas.json 2>/dev/null || true
           git diff --quiet && git diff --staged --quiet || (
             git commit -m "Update metros perforados data ($(date +'%Y-%m-%d'))" &&
             git pull --rebase origin "${GITHUB_REF_NAME}" &&
