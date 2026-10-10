@@ -5,9 +5,6 @@ on:
     # Run on the 4th of every month at 06:00 UTC (national files + Neuquén GeoServer blocks and fluid windows)
     - cron: '0 6 4 * *'
   workflow_dispatch:
-  push:
-    branches: ['claude/**']
-    paths: ['.github/workflows/update-produccion.yml']
 
 permissions:
   contents: write
