@@ -17,26 +17,32 @@ drilled since 2010 and monthly activity candles.*
 
 <!--more-->
 
-## Why now: new money keeps arriving in Vaca Muerta
+## Continental and Mercuria team up in Vaca Muerta
 
-On August 20, 2026, Continental Resources signed a non-binding heads of agreement with Mercuria Energy Group to take a
-50% stake in Phoenix Global Resources, Mercuria's Argentine upstream company, and run it as a 50/50 joint venture
-([JPT](https://jpt.spe.org/continental-resources-inks-hoa-with-mercuria-energy-for-vaca-muerta-shale-joint-venture);
-[company announcement](https://www.prnewswire.com/news-releases/continental-resources-to-acquire-50-interest-in-phoenix-global-resources-forming-joint-venture-operating-company-with-mercuria-energy-group-302855550.html)).
-The joint venture would hold about 163,000 net acres across six blocks, combining Phoenix's Mata Mora Norte, Mata Mora
-Sur, Confluencia Norte and Confluencia Sur with Continental's operated Los Toldos II Oeste and interests being acquired
-in Bajo del Toro Este. The partners plan more than US$4 billion of capital to grow production from about 28,000 boe/d
-to over 100,000 boe/d within five years
-([OGJ](https://www.ogj.com/general-interest/news/55399601/continental-resources-mercuria-envision-equal-partnership-jv-to-boost-vaca-muerta-oil-production)).
-The deal is still subject to definitive agreements and regulatory approvals.
+In August, Continental Resources, the largest privately held E&P company in the US, signed a heads of agreement with
+Mercuria Energy Group to run Phoenix Global Resources as a 50-50 operating joint venture
+([JPT, 28 August 2026](https://jpt.spe.org/continental-resources-inks-hoa-with-mercuria-energy-for-vaca-muerta-shale-joint-venture)).
+Phoenix brings its interests in Mata Mora Norte, Mata Mora Sur, Confluencia Norte and Confluencia Sur, Continental
+brings its operated interest in Los Toldos II Oeste, and the partners plan to buy more of Bajo del Toro Este from
+Integra Capital: nearly 163,000 net acres in six blocks. The target is to take Phoenix from 28,000 BOED to more than
+100,000 BOED within five years, with over US$4 billion of new capital. The deal is not closed yet; it still needs
+definitive agreements and regulatory approvals.
 
-Deals like this are why it is worth watching the public data closely: they turn into rigs, frac crews and
-production that show up, month by month, in the charts below. Four of the joint venture's blocks are on the
-[Vaca Muerta block map](#vaca-muerta-block-by-block): Mata Mora Norte, already producing about 14,000 bbl/d of
-unconventional oil over the last twelve months, Los Toldos II Oeste, and the exploration permits Mata Mora Sur and
-Bajo del Toro Este.
+Doug Lawler, Continental's CEO, said the reforms of President Milei's government are what brought the company to
+Argentina. One of them is the Large Investment Incentive Regime (RIGI), which the joint venture expects to qualify
+for: 30 years of tax, customs and foreign-exchange stability for projects that invest at least 40% of an agreed
+minimum within two years. JPT, citing BNAmericas, puts the energy projects under RIGI review at US$116 billion,
+including YPF's LLL Oil (US$25 billion), Chevron's El Trapial (US$13.8 billion), Pluspetrol's Bajo del
+Choique-La Invernada (US$12 billion), Vista's Bandurria Norte (US$5.8 billion), Tecpetrol's Los Toldos II Este
+(US$2.4 billion) and GeoPark's Loma Jarillosa Este and Puesto Silva Oeste (US$1 billion).
 
-## How the charts are built
+All of those blocks are on the [Neuquén block map](#neuquén-blocks-and-the-vaca-muerta-fluid-windows) further down,
+and so are four of the joint venture's six: Mata Mora Norte, which produced about 14,000 bbl/d of unconventional
+oil over the last twelve months, Los Toldos II Oeste, and the exploration permits Mata Mora Sur and Bajo del Toro
+Este. If these plans go ahead, the public data will show them first as more rigs and frac crews, and then as
+production.
+
+## Data and method
 
 The data is processed in Python with pandas (`script/`) and drawn with
 [Apache ECharts](https://echarts.apache.org/examples/en/index.html). The meters-drilled races follow the
@@ -51,7 +57,7 @@ Their y-axis is logarithmic: YPF is roughly ten times larger than the next opera
 else would be squashed against the bottom of the chart. The frac races further down show quarterly averages
 instead, on a linear axis. Press **Replay** to run any chart again, and hover over it to compare operators.
 
-## Cumulative meters drilled
+## Meters drilled by operator since 2009
 
 Monthly meters drilled (`cantidad`) per company (`idempresa`), from January 2009. Pan American Energy appears as two
 legal entities in the data, with the LLC (PAE) ending in December 2018 just as Pan American Energy SL starts. Both are
@@ -68,7 +74,7 @@ merged here as **PAE**.
      note="Monthly meters drilled (cantidad) summed per company, cumulative."
      brand_colors="true" %}
 
-## YPF: cumulative meters drilled by field
+## Where YPF drills
 
 The same meters-drilled data, filtered to YPF (`idempresa` = `YPF`) and split by field (`areayacimiento`), for the
 eight fields with the most meters drilled. The dataset reports Loma Campana and the Loma Campana-LLL block as
@@ -85,7 +91,7 @@ separate fields.
      note="YPF monthly meters drilled (cantidad) summed per field (areayacimiento), cumulative."
      series_noun="fields" %}
 
-## Longer laterals: average lateral length per well
+## Lateral length per well
 
 From here on the frac data is averaged rather than summed: totals mostly measure how many wells a company fractured,
 while averages show how its wells are changing. Each point is one company at the end of one quarter, averaged over
@@ -107,7 +113,7 @@ gap in the line.
      brand_colors="true"
      color_key="fractura" %}
 
-## More stages: average frac stages per well
+## Frac stages per well
 
 The average number of frac stages (`cantidad_fracturas`) per horizontal well, with the same trailing four-quarter
 window and companies.
@@ -125,7 +131,7 @@ window and companies.
      brand_colors="true"
      color_key="fractura" %}
 
-## Tighter spacing: frac stages per 1,000 m of lateral
+## Stages per 1,000 m of lateral
 
 Longer laterals naturally carry more stages, so the two charts above partly measure the same thing. Dividing them
 removes that: stages per 1,000 m of lateral is the completion intensity. A rising line means stages are being
@@ -145,7 +151,7 @@ divided by the total lateral length of its horizontal wells in the trailing four
      brand_colors="true"
      color_key="fractura" %}
 
-## The same race, as bars
+## The ten biggest drillers, month by month
 
 A bar race of the same cumulative meters drilled, for the fifteen largest companies, showing the top ten in each
 month. Bars make overtakes easier to follow than lines, and the scale is linear, so the gap between YPF and everyone
@@ -162,7 +168,7 @@ else shows at its true size.
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Monthly meters drilled (cantidad) summed per company, cumulative." %}
 
-## Where the drilling happens: meters drilled by province
+## Meters drilled by province
 
 Meters drilled per province (`provincia`) in each calendar year. Neuquén, home of Vaca Muerta, is an order of
 magnitude above every other province, so the color scale uses fixed, roughly logarithmic bins. That keeps the
@@ -180,7 +186,7 @@ smaller provinces visible and makes the colors comparable from year to year. Off
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Meters drilled per province and calendar year. Province outlines: jazzido/Polymaps-Argentina." %}
 
-## Basin, province, company: a drill-down
+## Basins, provinces and operators
 
 The same meters, split by basin (`cuenca`), then province, then company. Click a tile to zoom in, use the
 breadcrumb to go back up, and pick a year on the timeline (or *All* for the whole period). Small basins are grouped
@@ -196,7 +202,7 @@ as *Other basins*, and within a province, companies past the top six as *Other c
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Meters drilled (cantidad) by basin, province and company." %}
 
-## Laterals vs. stages, company by company
+## Lateral length against stage count
 
 A Gapminder-style bubble chart of the frac data: each bubble is one company in one year, placed by the average
 lateral length (x) and the average number of frac stages (y) of the horizontal wells it fractured, with the bubble
@@ -212,7 +218,7 @@ area proportional to the number of those wells. Press play to watch the industry
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Horizontal wells (lateral length > 0), grouped by the year the frac job ended. One point per company and year." %}
 
-## Where the wells are fractured: the main areas
+## The busiest frac areas
 
 A radar of the eight concession areas (`areapermisoconcesion`) with the most horizontal wells fractured since 2015.
 Each spoke is one area and the polygon shows how many wells were fractured there in the selected year, with the
@@ -228,7 +234,7 @@ previous year dashed for comparison. All spokes share one scale, so a longer spo
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Horizontal wells (lateral length > 0) by the year the frac job ended." %}
 
-## Every frac day: a calendar heatmap
+## Stages pumped per day
 
 Frac stages pumped per day over the last three years. The dataset gives a start and an end date for each frac job,
 so each well's stages are spread evenly across its job; jobs with a missing start date count on their end date.
@@ -244,7 +250,7 @@ Weekends, holidays and slow periods stand out as pale cells.
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Stages spread evenly from fecha_inicio_fractura to fecha_fin_fractura; the color scale tops out at the 98th percentile day." %}
 
-## Who grew, who shrank: last year vs. the year before
+## Year-over-year change by operator and area
 
 In the style of the [ECharts "Obama budget" treemap](https://echarts.apache.org/examples/en/editor.html?c=treemap-obama):
 each tile is a company, split into its areas. Tile size is last full year's total, and the color is the change from
@@ -261,7 +267,7 @@ length with the legend.
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Companies by frac stages in the last full year; within each, the top six areas and the rest as Other areas." %}
 
-## From companies to areas: a Sankey of frac stages
+## Which operators frac where
 
 All frac stages since 2015, flowing from the companies that pumped them to the areas where they were pumped. The
 eight companies and twelve areas with the most stages are shown; the rest are grouped. Hover over a company or an
@@ -277,7 +283,7 @@ area to highlight its flows.
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Total cantidad_fracturas per company and areapermisoconcesion since 2015." %}
 
-## Production race: the top unconventional areas
+## Unconventional production by area
 
 Monthly production of unconventional wells per concession area (`areapermisoconcesion`), converted to daily rates,
 for the fifteen areas that reached the highest rates, showing the top ten in each month. Each bar is colored by the
@@ -309,7 +315,7 @@ The same race for gas:
      source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="prod_gas (thousand m³ per month) / 1,000 / days in the month; unconventional wells only." %}
 
-## Wells on the map
+## Wells drilled since 2010
 
 Every well whose drilling started since 2010 (`adjiv_fecha_inicio_perf`), placed at its location from the
 Capítulo IV well register, over the official concession areas. The color of each area is the number of those wells
@@ -327,7 +333,7 @@ unconventional (`tipo_recurso`). The map starts on the Neuquén basin: drag to p
      source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="Wells with a drilling start date since 2010. Concession outlines: Secretaría de Energía, Concesiones de Explotación." %}
 
-## Vaca Muerta block by block
+## Neuquén blocks and the Vaca Muerta fluid windows
 
 Every hydrocarbon block in Neuquén, as published by the province's Ministry of Energy, with the Vaca Muerta fluid
 windows drawn on top as dashed outlines. Use the menu to color the blocks by operator (brand colors), by contract
@@ -345,7 +351,7 @@ and its contract dates. Production and wells come from the national Capítulo IV
      source_url="https://hidrocarburos.energianeuquen.gob.ar/gis"
      note="Blocks and fluid windows simplified for the web." %}
 
-## Activity candles: month-over-month ups and downs
+## Month-over-month activity
 
 Candlesticks borrowed from finance, applied to activity: each candle goes from the previous month's value (open) to
 this month's (close), blue when activity rose and orange when it fell. The lower panel shows the change itself,
@@ -369,7 +375,7 @@ positive or negative. Pick the indicator in the menu:
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Drag the slider to see the full history." %}
 
-## Data notes
+## Notes on the data
 
 - Companies are shown in their brand colors (YPF blue, Shell yellow, Pan American Energy red, and so on).
 - Recent months of the frac data may be revised upward as late reports come in.
