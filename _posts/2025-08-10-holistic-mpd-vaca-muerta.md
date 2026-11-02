@@ -23,7 +23,7 @@ The relentless drive for longer laterals in Argentina's *Vaca Muerta* field is a
      alt="Year-on-Year mean reported drilled horizontal length and total frac stages per well, for Argentina unconventional Wells"
      style="display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;">
 *<small class="fig-caption">Fig. 1 &mdash; Year-on-Year mean reported drilled horizontal length and total frac stages per well, for Argentina unconventional Wells<br />
-Source: [Secretaría de Energía (2025)](http://datos.energia.gob.ar/dataset/datos-de-fractura-de-pozos-adjunto-iv/archivo/2280ad92-6ed3-403e-a095-50139863ab0d)</small>*
+Source: [Secretaría de Energía (2025)](https://datos.energia.gob.ar/dataset/datos-de-fractura-de-pozos-adjunto-iv/archivo/2280ad92-6ed3-403e-a095-50139863ab0d)</small>*
 
 A new paper, to be presented at the [*IAPG 5to Congreso Latinoamericano de Perforacion, Terminacion e Intervencion de Pozos*](https://perforacion.iapg.org.ar/), reframes this challenge. Authored by a team from The University of Texas at Austin and SLB, the work argues for a paradigm shift: viewing Managed Pressure Drilling (MPD) not as a reactive tool for managing influx, but as a proactive, holistic system for optimizing the entire well construction process.
 
@@ -126,4 +126,4 @@ Medina, J., Romero Mc Intosh, C., & Krasuk, R. (2015). Cementing operation in un
 
 Tecpetrol. (2022). *Notching up another milestone on the road to optimization*. [https://www.tecpetrol.com/en/news/2022/notching-up-another-milestone-on-the-road-to-optimization](https://www.tecpetrol.com/en/news/2022/notching-up-another-milestone-on-the-road-to-optimization)
 
-Secretaría de Energía. (2025). *Datos de fractura de pozos de hidrocarburos (Adjunto IV) - Actualización diaria*. [http://datos.energia.gob.ar/dataset/datos-de-fractura-de-pozos-adjunto-iv/archivo/2280ad92-6ed3-403e-a095-50139863ab0d](http://datos.energia.gob.ar/dataset/datos-de-fractura-de-pozos-adjunto-iv/archivo/2280ad92-6ed3-403e-a095-50139863ab0d)
+Secretaría de Energía. (2025). *Datos de fractura de pozos de hidrocarburos (Adjunto IV) - Actualización diaria*. [https://datos.energia.gob.ar/dataset/datos-de-fractura-de-pozos-adjunto-iv/archivo/2280ad92-6ed3-403e-a095-50139863ab0d](https://datos.energia.gob.ar/dataset/datos-de-fractura-de-pozos-adjunto-iv/archivo/2280ad92-6ed3-403e-a095-50139863ab0d)

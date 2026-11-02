@@ -28,17 +28,19 @@ jobs:
         run: pip install pandas requests openpyxl
 
       - name: Download latest raw data
+        timeout-minutes: 15
         run: |
           mkdir -p data/raw data/processed
-          wget "http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/resource/712805f3-35d4-4825-93c6-98d03aeca203/download/metros-perforados.csv" -O data/raw/metros-perforados.csv
+          wget --timeout=60 --tries=3 --waitretry=30 --retry-connrefused "https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/resource/712805f3-35d4-4825-93c6-98d03aeca203/download/metros-perforados.csv" -O data/raw/metros-perforados.csv
           ls -la data/raw/metros-perforados.csv
           head -5 data/raw/metros-perforados.csv
 
       - name: Download well counts (same dataset)
+        timeout-minutes: 15
         run: |
-          BASE="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/resource"
-          wget "$BASE/af6838ef-f675-4409-ac6a-e7c391a5dbab/download/pozos-en-perforacin.csv" -O data/raw/pozos-en-perforacion.csv
-          wget "$BASE/a2ce14af-5c56-45c2-9b9c-c7a1e5156dff/download/pozos-terminados.csv" -O data/raw/pozos-terminados.csv
+          BASE="https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/resource"
+          wget --timeout=60 --tries=3 --waitretry=30 --retry-connrefused "$BASE/af6838ef-f675-4409-ac6a-e7c391a5dbab/download/pozos-en-perforacin.csv" -O data/raw/pozos-en-perforacion.csv
+          wget --timeout=60 --tries=3 --waitretry=30 --retry-connrefused "$BASE/a2ce14af-5c56-45c2-9b9c-c7a1e5156dff/download/pozos-terminados.csv" -O data/raw/pozos-terminados.csv
 
       - name: Run processing scripts
         run: |

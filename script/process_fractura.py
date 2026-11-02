@@ -6,7 +6,7 @@ bubble chart and the activity candles.
 
 Source: Secretaría de Energía (Argentina) - Datos de fractura de pozos de
 hidrocarburos (Adjunto IV, daily update)
-  http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7
+  https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7
 
 Columns used:
   fecha_fin_fractura          -> time (frac end date, binned by month)
@@ -41,7 +41,7 @@ from energy_charts_data import (frac_bubbles, frac_calendar, frac_candles, frac_
 from line_race_data import MAX_LABEL_LEN, load_csv
 
 WEB_LINK = (
-    "http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7/"
+    "https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7/"
     "resource/2280ad92-6ed3-403e-a095-50139863ab0d/download/"
     "datos-de-fractura-de-pozos-de-hidrocarburos-adjunto-iv-actualizacin-diaria.csv"
 )

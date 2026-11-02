@@ -28,9 +28,10 @@ jobs:
         run: pip install pandas requests
 
       - name: Download latest raw data
+        timeout-minutes: 15
         run: |
           mkdir -p data/raw data/processed
-          wget "http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7/resource/2280ad92-6ed3-403e-a095-50139863ab0d/download/datos-de-fractura-de-pozos-de-hidrocarburos-adjunto-iv-actualizacin-diaria.csv" -O data/raw/fractura.csv
+          wget --timeout=60 --tries=3 --waitretry=30 --retry-connrefused "https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7/resource/2280ad92-6ed3-403e-a095-50139863ab0d/download/datos-de-fractura-de-pozos-de-hidrocarburos-adjunto-iv-actualizacin-diaria.csv" -O data/raw/fractura.csv
           ls -la data/raw/fractura.csv
 
       - name: Run processing script

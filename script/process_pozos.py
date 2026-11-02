@@ -18,7 +18,7 @@ import os
 from energy_charts_data import monthly_candles, write
 from line_race_data import load_csv
 
-BASE = "http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/resource/"
+BASE = "https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/resource/"
 PERFORACION_URL = BASE + "af6838ef-f675-4409-ac6a-e7c391a5dbab/download/pozos-en-perforacin.csv"
 TERMINADOS_URL = BASE + "a2ce14af-5c56-45c2-9b9c-c7a1e5156dff/download/pozos-terminados.csv"
 OUTPUT_PATH = os.path.join("data", "processed", "pozos_velas.json")

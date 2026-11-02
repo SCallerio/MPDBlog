@@ -3,7 +3,7 @@
 Build the data for the "meters drilled" ECharts line race.
 
 Source: Secretaría de Energía (Argentina) - Metros perforados
-  http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21
+  https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21
 
 Columns used:
   indice_tiempo -> time (monthly)
@@ -32,7 +32,7 @@ from energy_charts_data import drilldown_tree, province_year_map, write
 from line_race_data import MAX_LABEL_LEN, build_cumsum, load_csv, write_json
 
 WEB_LINK = (
-    "http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/"
+    "https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21/"
     "resource/712805f3-35d4-4825-93c6-98d03aeca203/download/metros-perforados.csv"
 )
 OUTPUT_PATH = os.path.join("data", "processed", "metros_perforados_cumsum.json")

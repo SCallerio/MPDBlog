@@ -48,7 +48,7 @@ The data is processed in Python with pandas (`script/`) and drawn with
 [Apache ECharts](https://echarts.apache.org/examples/en/index.html). The meters-drilled races follow the
 [ECharts line race](https://echarts.apache.org/examples/en/editor.html?c=line-race) recipe:
 
-1. Download the CSV from [datos.energia.gob.ar](http://datos.energia.gob.ar/).
+1. Download the CSV from [datos.energia.gob.ar](https://datos.energia.gob.ar/).
 2. Sum the value per company and calendar month.
 3. Fill in the months without activity with zero, so each line stays flat instead of breaking.
 4. Take the cumulative sum over time and keep the eight companies (or fields) with the largest final total.
@@ -70,7 +70,7 @@ merged here as **PAE**.
      y_axis="Cumulative meters (log scale)"
      unit="m"
      source_name="Secretaría de Energía — Metros perforados"
-     source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
+     source_url="https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Monthly meters drilled (cantidad) summed per company, cumulative."
      brand_colors="true" %}
 
@@ -87,7 +87,7 @@ separate fields.
      y_axis="Cumulative meters (log scale)"
      unit="m"
      source_name="Secretaría de Energía — Metros perforados"
-     source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
+     source_url="https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="YPF monthly meters drilled (cantidad) summed per field (areayacimiento), cumulative."
      series_noun="fields" %}
 
@@ -108,7 +108,7 @@ gap in the line.
      unit="m"
      log="false"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     source_url="https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Mean longitud_rama_horizontal_m of the company's horizontal wells fractured in the trailing four quarters."
      brand_colors="true"
      color_key="fractura" %}
@@ -126,7 +126,7 @@ window and companies.
      unit="stages"
      log="false"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     source_url="https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Mean cantidad_fracturas of the company's horizontal wells fractured in the trailing four quarters."
      brand_colors="true"
      color_key="fractura" %}
@@ -146,7 +146,7 @@ divided by the total lateral length of its horizontal wells in the trailing four
      unit="stages/km"
      log="false"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     source_url="https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Total stages / total lateral length × 1,000 over the trailing four quarters (horizontal wells)."
      brand_colors="true"
      color_key="fractura" %}
@@ -165,7 +165,7 @@ else shows at its true size.
      unit="m"
      height="560px"
      source_name="Secretaría de Energía — Metros perforados"
-     source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
+     source_url="https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Monthly meters drilled (cantidad) summed per company, cumulative." %}
 
 ## Meters drilled by province
@@ -183,7 +183,7 @@ smaller provinces visible and makes the colors comparable from year to year. Off
      title="Meters drilled by province"
      height="720px"
      source_name="Secretaría de Energía — Metros perforados"
-     source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
+     source_url="https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Meters drilled per province and calendar year. Province outlines: jazzido/Polymaps-Argentina." %}
 
 ## Basins, provinces and operators
@@ -199,7 +199,7 @@ as *Other basins*, and within a province, companies past the top six as *Other c
      title="Meters drilled: basin › province › company"
      height="640px"
      source_name="Secretaría de Energía — Metros perforados"
-     source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
+     source_url="https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Meters drilled (cantidad) by basin, province and company." %}
 
 ## Lateral length against stage count
@@ -215,7 +215,7 @@ area proportional to the number of those wells. Press play to watch the industry
      title="Lateral length vs. frac stages per well"
      height="620px"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     source_url="https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Horizontal wells (lateral length > 0), grouped by the year the frac job ended. One point per company and year." %}
 
 ## The busiest frac areas
@@ -231,7 +231,7 @@ previous year dashed for comparison. All spokes share one scale, so a longer spo
      title="Horizontal wells fractured in the main areas"
      height="600px"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     source_url="https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Horizontal wells (lateral length > 0) by the year the frac job ended." %}
 
 ## Stages pumped per day
@@ -247,7 +247,7 @@ Weekends, holidays and slow periods stand out as pale cells.
      title="Frac stages per day"
      height="590px"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     source_url="https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Stages spread evenly from fecha_inicio_fractura to fecha_fin_fractura; the color scale tops out at the 98th percentile day." %}
 
 ## Year-over-year change by operator and area
@@ -264,7 +264,7 @@ length with the legend.
      title="Frac activity by company and area: year-over-year change"
      height="640px"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     source_url="https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Companies by frac stages in the last full year; within each, the top six areas and the rest as Other areas." %}
 
 ## Which operators frac where
@@ -280,7 +280,7 @@ area to highlight its flows.
      title="Frac stages: company → area"
      height="640px"
      source_name="Secretaría de Energía — Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
+     source_url="https://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Total cantidad_fracturas per company and areapermisoconcesion since 2015." %}
 
 ## Unconventional production by area
@@ -302,7 +302,7 @@ got there.
      series_noun="areas"
      height="560px"
      source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
-     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     source_url="https://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="prod_pet (m³ per month) × 6.29 / days in the month; unconventional wells only." %}
 </div>
 <div style="flex:1 1 480px; min-width:0;">
@@ -318,7 +318,7 @@ got there.
      duration_ms="24000"
      series_noun="areas"
      source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
-     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     source_url="https://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="Top eight areas by latest rate." %}
 </div>
 </div>
@@ -336,7 +336,7 @@ The same pair for gas:
      series_noun="areas"
      height="560px"
      source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
-     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     source_url="https://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="prod_gas (thousand m³ per month) / 1,000 / days in the month; unconventional wells only." %}
 </div>
 <div style="flex:1 1 480px; min-width:0;">
@@ -352,7 +352,7 @@ The same pair for gas:
      duration_ms="24000"
      series_noun="areas"
      source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
-     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     source_url="https://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="Top eight areas by latest rate." %}
 </div>
 </div>
@@ -374,7 +374,7 @@ It opens on the core of Vaca Muerta, but you can drag it to the rest of the coun
      title="Wells drilled since 2010 in Vaca Muerta and beyond"
      height="760px"
      source_name="Secretaría de Energía — Producción de petróleo y gas por pozo (Capítulo IV)"
-     source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
+     source_url="https://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="Wells with a drilling start date since 2010. Concession outlines: Secretaría de Energía, Concesiones de Explotación." %}
 
 ## Neuquén blocks and the Vaca Muerta fluid windows
@@ -419,7 +419,7 @@ positive or negative. Pick the indicator in the menu:
      zoom_months="60"
      height="620px"
      source_name="Secretaría de Energía — Perforación de pozos and Datos de fractura de pozos (Adjunto IV)"
-     source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
+     source_url="https://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Rig counts: Baker Hughes Worldwide Rig Count (rigcount.bakerhughes.com), monthly reports of July 2025 and September 2026 and the 2007–2024 regional history. Drag the slider to see the full history." %}
 
 ## Notes on the data
