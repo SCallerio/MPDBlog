@@ -1,0 +1,128 @@
+# Headline figures for the Vaca Muerta post, drawn as stat tiles by
+# _includes/stat-tiles.html (one group per tile row). Every figure is cited in
+# the post body; `source` is shown under the tile.
+#   value    the big number, as it should read
+#   label    what it measures (sentence case)
+#   context  one line of comparison (optional)
+#   meter    0-100: draws a share bar (optional); meter_from: earlier share, drawn as a tick
+headline:
+  - value: "30.2 bn bbl"
+    label: "Remaining recoverable oil in Vaca Muerta (best estimate)"
+    context: "Only 0.56 bn bbl produced to end-2024"
+    meter: 1.8
+    meter_note: "1.8% of the recoverable oil produced so far"
+    source: "IAPG, July 2026"
+  - value: "3.6×"
+    label: "Frac stages pumped per year, 2019 → 2025"
+    context: "≈6,300 → ≈22,500 stages"
+    source: "Secretaría de Energía, Adjunto IV"
+  - value: "≈24×"
+    label: "Unconventional oil from the 15 largest areas, end-2015 → Aug 2026"
+    context: "≈23,500 → ≈573,000 bbl/d"
+    source: "Secretaría de Energía, Capítulo IV"
+  - value: "US$130 bn"
+    label: "Planned Vaca Muerta investment, 2025–2031"
+    context: "Industry-wide, led by YPF"
+    source: "YPF keynote, IAPG Houston 2026"
+
+landscape:
+  - value: "887,000 bbl/d"
+    label: "Argentina's oil output, May 2026 (record)"
+    context: "+19% year on year; ≈70% from shale"
+    source: "Ministry of Economy via Gulf News; Oilprice"
+  - value: "85%"
+    label: "Neuquén's share of meters drilled in Argentina, 2025"
+    context: "From 18% in 2010; national total flat at ≈3 M m/yr"
+    meter: 85
+    meter_from: 18
+    source: "Secretaría de Energía, metros perforados"
+  - value: "65%"
+    label: "Unconventional share of Argentina's oil and gas output, 2025"
+    context: "From ≈10% in 2015"
+    meter: 65
+    meter_from: 10
+    source: "S&P Global Energy, IAPG Houston 2026"
+  - value: "1.7 M bbl/d"
+    label: "Argentina oil production target from 2031"
+    context: "≈2.2× 2025; gas 250 MMm³/d (≈1.9×)"
+    source: "YPF keynote, IAPG Houston 2026"
+
+capital:
+  - value: "≈US$200 bn"
+    label: "RIGI applications, all industries (Aug 2026)"
+    context: "US$47 bn approved (21 projects) · US$152 bn pending (22)"
+    meter: 24
+    meter_note: "24% approved by value"
+    source: "S&P Global Energy, IAPG Houston 2026"
+  - value: "≈500 bp"
+    label: "Argentina's sovereign spread (JP Morgan EMBI), mid-2026"
+    context: "Down from ≈2,600 bp in 2023 (−80%)"
+    source: "IAPG Houston 2026 (JP Morgan EMBI)"
+  - value: "US$45 bn"
+    label: "Projected energy trade surplus from 2031"
+    context: "Additional exports above US$30 bn a year"
+    source: "YPF keynote, IAPG Houston 2026"
+
+drilling:
+  - value: "105 → 41"
+    label: "Active rigs in Argentina, 2015 → 2025 (annual average)"
+    context: "While unconventional output kept climbing"
+    source: "Baker Hughes rig count"
+  - value: "≈5×"
+    label: "Lateral fractured per active rig, 2019 → 2025"
+    context: "≈6 km → ≈33 km per rig a year"
+    source: "Secretaría de Energía; Baker Hughes"
+  - value: "−28%"
+    label: "MPD-related flat time per well with rig-integrated MPD"
+    context: "32.7 → 23.5 h (2022 → late 2023); ROP +36%"
+    source: "Nabors case study"
+  - value: "50 vs 300"
+    label: "Wells to Chevron's drilling-efficiency gains, Argentina vs Permian"
+    context: "Capital per barrel down ≈25%"
+    source: "Chevron, IAPG Houston 2026"
+
+completion:
+  - value: "2.8×"
+    label: "YPF average lateral length, 2015 → 2026"
+    context: "≈1,170 m → ≈3,300 m"
+    source: "Secretaría de Energía, Adjunto IV"
+  - value: "3.8×"
+    label: "YPF average frac stages per well, 2015 → 2026"
+    context: "≈15 → ≈58 stages"
+    source: "Secretaría de Energía, Adjunto IV"
+  - value: "+30%"
+    label: "Cost to bring a well online vs the Permian"
+    context: "Partly offset by higher oil productivity"
+    source: "Chevron via Reuters, Oct 2026"
+  - value: "≈2,000 km"
+    label: "Truck haul for Chevron's frac sand"
+    context: "Local sand not yet qualified for high-pressure fracs"
+    source: "Chevron via Reuters, Oct 2026"
+
+chevron:
+  - value: "1 → 3"
+    label: "Chevron rigs at El Trapial by early 2029"
+    context: "2nd rig June 2027 enables continuous fracking"
+    source: "Reuters, Oct 2026"
+  - value: "195,000 boe/d"
+    label: "Chevron's Argentina output target by 2035"
+    context: "≈3× today; possibly 1–2 years sooner"
+    source: "Reuters, Oct 2026"
+  - value: "US$13.8 bn"
+    label: "El Trapial investment plan over 30 years (RIGI)"
+    context: "El Trapial produces ≈40,000 boe/d today"
+    source: "Reuters, Oct 2026"
+
+lng:
+  - value: "18 → 24 MTPA"
+    label: "YPF-led LNG program, base → with expansion"
+    context: "SESA ≈6 + Argentina LNG ≈12 (+6)"
+    source: "YPF keynote, IAPG Houston 2026"
+  - value: "≈1,400"
+    label: "Wells to supply the first 12 MTPA of Argentina LNG"
+    context: "≈20 Tcf, peak ≈60 MMm³/d"
+    source: "YPF keynote, IAPG Houston 2026"
+  - value: "176 MTPA"
+    label: "New global LNG supply capacity needed by 2050"
+    context: "A new wave needed in the early 2030s"
+    source: "S&P Global Energy, IAPG Houston 2026"

@@ -21,6 +21,10 @@ outside North America.**
 
 <!--more-->
 
+{% include stat-tiles.html group="headline" %}
+
+{% include takeaway.html title="Main takeaways" items="**The rock is first tier, and barely tapped.** About 30 billion barrels of oil remain technically recoverable, and less than 2% has been produced; productivity per lateral foot rivals the best US plays.||**Efficiency, not rig count, drives growth.** Factory pad drilling, rig-integrated MPD and real-time operations let about 40 rigs deliver what more than 100 could not a decade ago.||**Completions have scaled at commodity cost.** Laterals are almost three times longer and stages per well almost four times higher than in 2015, but sand logistics and a roughly 30% well-cost premium over the Permian are still to be closed.||**The constraint is now midstream and capital.** Pipeline capacity, LNG and the durability of RIGI will decide whether production can double by 2030; the next 24 months set the pace." %}
+
 ## The market landscape: from resource proof to capital race
 
 Four structural shifts frame the current moment.
@@ -32,6 +36,8 @@ all-time high and nearly 19% above the year before, with shale accounting for ro
 Activity has concentrated accordingly: Neuquén's share of the meters drilled in the country rose from 18% in 2010
 to 85% in 2025, while total national meters drilled stayed broadly flat at about 3 million meters a year. The
 industry did not drill more; it redeployed almost all of its effort into one basin.
+
+{% include stat-tiles.html group="landscape" %}
 
 {% include energy-chart.html
      kind="province-map"
@@ -102,6 +108,18 @@ investment in Vaca Muerta between 2025 and 2031, lifting Argentina to about 1.7 
 times 2025) and 250 MMm³/d of gas (about 1.9 times) from 2031, with additional exports above US$30 billion a year
 and an energy trade surplus of about US$45 billion.<sup><a href="#about-the-data">1</a></sup>
 
+{% include stat-tiles.html group="capital" %}
+
+{% include energy-chart.html
+     kind="bars"
+     id="vm-investment-projects"
+     data="/data/processed/vm_investment_projects.json"
+     title="The project pipeline: announced and submitted investments"
+     height="560px"
+     source_name="JPT/BNAmericas; YPF, TGS and Camuzzi at IAPG Houston 2026; Reuters"
+     source_url="#about-the-data"
+     note="Amounts as cited in this post; they cover different time spans and should not be added up." %}
+
 **The binding constraint has shifted from the subsurface to midstream.** The Vaca Muerta Oil Sur (VMOS) pipeline is
 designed for 550,000 bbl/d, expandable to 700,000 bbl/d, with a first phase of 180,000 bbl/d
 ([Industrial Info](https://www.industrialinfo.com/news/article/argentina-breaks-oil-production-record-led-by-vaca-muerta--360725)).
@@ -165,10 +183,14 @@ about 85% of unconventional oil and 82% of unconventional gas.<sup><a href="#abo
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Monthly meters drilled (cantidad) summed per company, cumulative." %}
 
+{% include takeaway.html title="Key takeaway" text="Vaca Muerta has the geology and, increasingly, the fiscal framework of a first-tier play. What it lacks is the midstream and the track record of rule stability that turn a resource into cash flow at scale." %}
+
 ## Pillar 1 — Near-term capital efficiency: well construction as a factory
 
 The first lever is the cost and cycle time of each well. Vaca Muerta's operators have moved from drilling individual
 wells to running a manufacturing system, and the data shows the results in output per rig rather than in rig count.
+
+{% include stat-tiles.html group="drilling" %}
 
 - **Lever: factory pad drilling and lean execution.** Multi-well pads, batch drilling and standardized well designs
   let rigs walk between wellheads instead of rigging down. YPF's "Toyota Well" program, which applies the Toyota
@@ -180,7 +202,10 @@ wells to running a manufacturing system, and the data shows the results in outpu
   ([EconoJournal](https://econojournal.com.ar/oilgas/mejora-en-la-competitividad-de-vaca-muerta-ypf-perforo-un-pozo-horizontal-de-1747-metros-en-menos-24-horas/)).
   In Houston, Marín described the center as staffed by more than 1,000 engineers across upstream and downstream,
   and service companies described real-time monitoring hubs covering up to about 130 rigs and AI-assisted drilling
-  optimization.<sup><a href="#about-the-data">1</a></sup>
+  optimization.<sup><a href="#about-the-data">1</a></sup> Chevron is applying the same logic at El Trapial: a
+  second rig in June 2027 will build an inventory of drilled wells so that a frac crew can work continuously instead
+  of intermittently, the change its president of shale and tight called a game changer in the Permian. "The same
+  will happen in Vaca Muerta. I'm 100% convinced of that," he told Reuters ([Reuters, 23 October 2026](https://chevron.co/li-argentina-shale)).
   - *Impact:* Argentina's active rig count averaged about 105 in 2015 and 41 in 2025 (Baker Hughes), yet the
     lateral length fractured per active rig rose roughly 5x between 2019 and 2025, from about 6 km to about 33 km a
     year. Fewer, higher-specification rigs now deliver the basin's growth.
@@ -252,10 +277,14 @@ the roughly 4,900 unconventional wells drilled since 2010, followed by La Amarga
      source_url="http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
      note="Wells with a drilling start date since 2010. Concession outlines: Secretaría de Energía, Concesiones de Explotación." %}
 
+{% include takeaway.html title="Key takeaway" text="The basin grows on output per rig, not on rig count. Pad drilling, MPD integrated into the rig and continuous drill-then-frac sequencing turn a narrow drilling window into factory-pace laterals; operators that run them as one system move fastest down the learning curve." %}
+
 ## Pillar 2 — Medium-term structural margin: completion intensity at commodity cost
 
 The second lever is the completion, which is the largest single cost of a shale well. Vaca Muerta operators have
 increased completion intensity on every axis while working to turn the frac itself into a commodity service.
+
+{% include stat-tiles.html group="completion" %}
 
 - **Lever: more reservoir contact per well.** YPF's average lateral length rose from about 1,170 m in early 2015 to
   about 3,300 m in 2026, a 2.8x increase, and its average frac stages per well from about 15 to about 58 (3.8x).
@@ -271,8 +300,11 @@ increased completion intensity on every axis while working to turn the frac itse
   pumping up to about 60% more stages per day than conventional zipper fracturing
   ([El Economista](https://eleconomista.com.ar/energia/vaca-muerta-modo-record-fracking-alcanza-2616-etapas-podria-superar-30000-ano-n93828)).
   About 15 frac fleets now serve the basin ([World Oil](https://worldoil.com/news/2026/8/11/tenaris-deploys-third-vaca-muerta-fracing-fleet-after-110-million-investment/)),
-  local sand supply has expanded, and wet-sand pilots have reduced the cost per tonne of processed proppant
+  and wet-sand pilots have reduced the cost per tonne of processed proppant
   ([SLB, with Vista](https://www.slb.com/resource-library/case-study-with-navigation/rpst/wet-sand-fracturing-vista-energy-argentina-vaca-muerta-basin-cs)).
+  Sand logistics remain the open item: Chevron still trucks its frac sand nearly 2,000 km from north of Buenos
+  Aires because local sources have not yet performed under high-pressure fracturing, and bringing a well online
+  costs about 30% more than in the Permian, a gap that better well productivity only partly closes ([Reuters, 23 October 2026](https://chevron.co/li-argentina-shale)).
   Switching fleets from diesel to local gas is estimated by one supplier at about US$30 million a year per fleet
   ([LM Neuquén](https://mase.lmneuquen.com/vaca-muerta-marcelo-guiscardo-ahorro-sets-fractura)).
   The service panel in Houston framed the next gains in the same terms: more value from each unit of capacity
@@ -389,6 +421,8 @@ complete shows how concentrated the completion market remains.
      source_url="http://datos.energia.gob.ar/dataset/71fa2e84-0316-4a1b-af68-7f35e41f58d7"
      note="Total cantidad_fracturas per company and areapermisoconcesion since 2015." %}
 
+{% include takeaway.html title="Key takeaway" text="Completion intensity has largely converged with US practice; the remaining margin sits in the supply chain. Qualified local sand, gas-fired or electric fleets and continuous simul-frac utilization are the levers that can close the roughly 30% well-cost gap with the Permian." %}
+
 ## Pillar 3 — Long-term portfolio value: scale, blocks and export monetization
 
 The third lever is how the resource is monetized. The first two pillars lowered the cost of each barrel and each
@@ -481,8 +515,15 @@ markets.
   ExxonMobil's Vaca Muerta assets and divesting conventional fields, and GeoPark described its entry into the
   black-oil window, where it started drilling in March 2026 with a plan of 50 to 55 wells at 10 to 15 a year from a
   single high-specification rig, relying on VMOS to evacuate its oil.<sup><a href="#about-the-data">1</a></sup>
+  The majors are scaling up with the same playbook. Chevron, which fully owns and operates El Trapial (about 40,000
+  boe/d) and holds 50% of Loma Campana (about 110,000 boe/d) and Narambuena alongside YPF, has submitted a US$13.8
+  billion, 30-year investment plan for El Trapial, plans to go from one to three rigs there by early 2029 and
+  targets tripling its Argentine output to 195,000 boe/d by 2035, possibly a year or two sooner; it also holds a
+  stake in VMOS ([Reuters, 23 October 2026](https://chevron.co/li-argentina-shale)).
   - *Impact:* Capital is concentrating where the cost per barrel is lowest; for newer entrants, access to
     evacuation capacity is as important as the acreage itself.
+
+{% include stat-tiles.html group="chevron" %}
 
 {% include energy-chart.html
      kind="vm-blocks"
@@ -529,6 +570,8 @@ markets.
     significant LNG supply sources by the early 2030s. The milestones are still ahead, and execution risk on
     financing, offtake and construction remains material.
 
+{% include stat-tiles.html group="lng" %}
+
 {% include energy-chart.html
      kind="bars"
      id="iapgh-lng-capacity"
@@ -538,6 +581,8 @@ markets.
      source_name="McKinsey Energy Insights, as shown at IAPG Houston's Shale in Argentina 2026"
      source_url="#about-the-data"
      note="Re-plotted from the conference slide; values as printed on it." %}
+
+{% include takeaway.html title="Key takeaway" text="With about 20 MTPA of announced LNG capacity and an oil export pipeline ramping to about 700,000 bbl/d by 2028, Vaca Muerta is positioned to become a significant oil and LNG exporter by the early 2030s. Execution on financing, offtake and construction, not the resource, is now the critical path." %}
 
 ## The path forward
 
@@ -576,7 +621,10 @@ in this post are refreshed monthly so that progress can be tracked as it happens
   open data, without reproducing the original slides: the size-of-the-prize comparison (IAPG reports and Pickering
   Energy Partners), oil production against evacuation capacity (TGS), frac stages with projections (Fundación
   Contactos Energéticos), announced LNG capacity (McKinsey Energy Insights) and MPD flat time (Nabors case study).
-  Their values are in `script/reference_chart_data.py`, with each source and which values were read off a chart. The resource estimate is from the IAPG Comisión de
+  Their values are in `script/reference_chart_data.py`, with each source and which values were read off a chart.
+- **Headline figures.** The stat tiles repeat figures cited in the text, with the source under each tile; they are
+  kept in `_data/vm_figures.yml`. Chevron's plans and the Permian comparisons come from Reuters' 23 October 2026
+  report, distributed by Chevron. The resource estimate is from the IAPG Comisión de
   Exploración y Desarrollo de Hidrocarburos, *Estimación de los Recursos Remanentes Técnicamente Recuperables de
   Petróleo de la Fm. Vaca Muerta disponibles al 31 de diciembre de 2024* (July 2026), best estimate (Pmean).
 - **Method.** Data is processed in Python with pandas (`script/`) and drawn with

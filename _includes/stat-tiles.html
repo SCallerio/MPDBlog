@@ -1,0 +1,51 @@
+{%- comment -%}
+  A row of stat tiles for headline figures (value, label, context, optional
+  share meter, source), read from _data/vm_figures.yml:
+
+    {% include stat-tiles.html group="landscape" %}
+
+  A tile with `meter` (0-100) draws a share bar in the blog accent on a lighter
+  track of the same hue; `meter_from` adds a tick at an earlier share.
+  Styles are emitted once per page and follow the site's light/dark toggle
+  (body.dark). Divs only: the dark theme recolors every plain <span>.
+{%- endcomment -%}
+{%- assign tiles = site.data.vm_figures[include.group] -%}
+{%- unless stat_tiles_css -%}
+<style>
+  .vm-tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px; margin:24px 0 28px; }
+  .vm-tile { border:1px solid #e4e3e3; border-top:3px solid #D23810; border-radius:8px; padding:14px 14px 12px;
+             background:#ffffff; display:flex; flex-direction:column; gap:6px; }
+  .vm-tile-value { font-family:Poppins, sans-serif; font-weight:600; font-size:1.65rem; line-height:1.15; color:#151515; }
+  .vm-tile-label { font-size:0.86rem; line-height:1.35; color:#151515; }
+  .vm-tile-context { font-size:0.8rem; line-height:1.35; color:#757575; }
+  .vm-tile-source { font-size:0.7rem; color:#757575; margin-top:auto; padding-top:4px; font-style:italic; }
+  .vm-meter { position:relative; height:8px; border-radius:999px; background:#f0cfc3; margin-top:2px; }
+  .vm-meter-fill { position:absolute; left:0; top:0; bottom:0; border-radius:999px; background:#D23810; }
+  .vm-meter-tick { position:absolute; top:-3px; width:2px; height:14px; background:#151515; border-radius:1px; }
+  .vm-meter-note { font-size:0.72rem; color:#757575; }
+  body.dark .vm-tile { background:#1d1d1d; border-color:#2e2e2e; border-top-color:#E64E28; }
+  body.dark .vm-tile-value, body.dark .vm-tile-label { color:#F8F7F7; }
+  body.dark .vm-tile-context, body.dark .vm-tile-source, body.dark .vm-meter-note { color:#A4A3A8; }
+  body.dark .vm-meter { background:#5a2e22; }
+  body.dark .vm-meter-fill { background:#E64E28; }
+  body.dark .vm-meter-tick { background:#F8F7F7; }
+</style>
+{%- assign stat_tiles_css = true -%}
+{%- endunless -%}
+<div class="vm-tiles" role="list">
+{%- for t in tiles %}
+  <div class="vm-tile" role="listitem">
+    <div class="vm-tile-value">{{ t.value }}</div>
+    <div class="vm-tile-label">{{ t.label }}</div>
+    {%- if t.meter %}
+    <div class="vm-meter" role="img" aria-label="{{ t.meter }}%{% if t.meter_from %}, up from {{ t.meter_from }}%{% endif %}">
+      <div class="vm-meter-fill" style="width:{{ t.meter }}%;"></div>
+      {%- if t.meter_from %}<div class="vm-meter-tick" style="left:calc({{ t.meter_from }}% - 1px);" title="{{ t.meter_from }}% earlier"></div>{% endif %}
+    </div>
+    {%- if t.meter_note %}<div class="vm-meter-note">{{ t.meter_note }}</div>{% elsif t.meter_from %}<div class="vm-meter-note">Tick: {{ t.meter_from }}% earlier</div>{% endif %}
+    {%- endif %}
+    {%- if t.context %}<div class="vm-tile-context">{{ t.context }}</div>{% endif %}
+    {%- if t.source %}<div class="vm-tile-source">{{ t.source }}</div>{% endif %}
+  </div>
+{%- endfor %}
+</div>

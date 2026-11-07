@@ -1,0 +1,34 @@
+{%- comment -%}
+  A highlighted takeaway callout.
+
+    {% include takeaway.html title="Key takeaway" text="One or two sentences, **markdown** allowed." %}
+
+  For a list, pass `items` as a "||"-separated string; each item is rendered
+  as markdown. Styles are emitted once per page and follow body.dark.
+{%- endcomment -%}
+{%- unless takeaway_css -%}
+<style>
+  .vm-takeaway { border-left:4px solid #D23810; background:#fbefea; border-radius:0 8px 8px 0; padding:14px 18px; margin:26px 0; }
+  .vm-takeaway-title { font-family:Poppins, sans-serif; font-weight:600; font-size:0.78rem; letter-spacing:0.06em;
+                       text-transform:uppercase; color:#a32b0c; margin-bottom:6px; }
+  .vm-takeaway-body, .vm-takeaway-body p, .vm-takeaway-body li { color:#151515; font-size:0.98rem; line-height:1.55; margin:0; }
+  .vm-takeaway-body ol { margin:0; padding-left:1.25rem; list-style:decimal; }
+  .vm-takeaway-body li { margin:0 0 6px; }
+  .vm-takeaway-body li:last-child { margin-bottom:0; }
+  body.dark .vm-takeaway { background:#2a1d18; border-left-color:#E64E28; }
+  body.dark .vm-takeaway-title { color:#f08465; }
+  body.dark .vm-takeaway-body, body.dark .vm-takeaway-body p, body.dark .vm-takeaway-body li { color:#F8F7F7; }
+</style>
+{%- assign takeaway_css = true -%}
+{%- endunless -%}
+<div class="vm-takeaway" role="note">
+  <div class="vm-takeaway-title">{{ include.title | default: "Key takeaway" }}</div>
+  <div class="vm-takeaway-body">
+  {%- if include.items -%}
+    {%- assign parts = include.items | split: "||" -%}
+    <ol>{%- for it in parts -%}<li>{{ it | strip | markdownify | remove: "<p>" | remove: "</p>" | strip }}</li>{%- endfor -%}</ol>
+  {%- else -%}
+    {{ include.text | markdownify }}
+  {%- endif -%}
+  </div>
+</div>

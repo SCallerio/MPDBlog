@@ -891,7 +891,9 @@
       const side = n > 1 && wide;
       // On narrow screens the title and subtitle wrap, so everything below moves down.
       const narrow = el.clientWidth < 700;
-      const top = narrow ? 150 : 96;
+      // A single series needs no legend (the title names it), and frees its row.
+      const showLegend = !!data.legend || panels.some(pn => pn.series.length > 1);
+      const top = (narrow ? 150 : 96) - (showLegend ? 0 : 28);
       const legendTop = narrow ? 104 : 52;
       const grids = [], xAxes = [], yAxes = [], series = [];
       const head0 = title(opts.title, data.subtitle + (data.approximate ? ' · values read from the slide, approximate' : ''), ink);
@@ -904,7 +906,7 @@
         const head = pn.title ? 28 : 0;
         const g = side
           ? { left: (k * 100 / n + 1) + '%', width: (100 / n - 6) + '%', top: top + head, bottom: 40, containLabel: true }
-          : { left: 0, right: data.horizontal ? 150 : 30, top: top + head + k * panelH, height: panelH - head - 40,
+          : { left: 0, right: data.horizontal && !narrow ? 150 : 30, top: top + head + k * panelH, height: panelH - head - 40,
               containLabel: true };
         grids.push(g);
         if (pn.title) {
@@ -914,7 +916,10 @@
         }
         const cat = { type: 'category', data: pn.categories, gridIndex: k,
                       axisLabel: { color: ink.text, fontSize: 11, interval: 0,
-                                   rotate: narrow && !data.horizontal && pn.categories.length > 6 ? 45 : 0 },
+                                   rotate: narrow && !data.horizontal && pn.categories.length > 6 ? 45 : 0,
+                                   // Long category names wrap instead of squeezing the bars.
+                                   width: data.horizontal ? (narrow ? 120 : 280) : undefined,
+                                   overflow: data.horizontal ? 'break' : 'none', lineHeight: 13 },
                       axisLine: { lineStyle: { color: ink.grid } }, axisTick: { show: false } };
         // The unit is in the panel title or the subtitle, so the axis carries none.
         const val = { type: 'value', gridIndex: k,
@@ -972,7 +977,7 @@
       chart.setOption({
         backgroundColor: 'transparent',
         title: titles,
-        legend: { top: legendTop, left: 0, icon: 'roundRect', textStyle: { color: ink.muted, fontSize: 11 },
+        legend: { show: showLegend, top: legendTop, left: 0, icon: 'roundRect', textStyle: { color: ink.muted, fontSize: 11 },
                   data: legendData || undefined, selectedMode: !data.legend },
         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' },
                    valueFormatter: v => (v == null ? '–' : num(v)) },

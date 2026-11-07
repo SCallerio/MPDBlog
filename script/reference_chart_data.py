@@ -17,6 +17,7 @@ Outputs (data/processed/, drawn by the 'bars' kind in assets/js/energyCharts.js)
   iapgh2026_frac_stages.json       VM frac stages per year, history and projection
   iapgh2026_lng_capacity.json      Argentina LNG export capacity by announced project
   nabors_mpd_flat_time.json        MPD-related flat time per well, conventional vs integrated MPD
+  vm_investment_projects.json      project-level investment amounts cited in the post (US$ bn)
 
 Usage:
   python script/reference_chart_data.py
@@ -136,11 +137,45 @@ def mpd_flat_time():
     }
 
 
+def investment_projects():
+    # Project-level amounts cited in the post, each from the source given:
+    # RIGI submissions as reported by JPT/BNAmericas (Aug 2026) and YPF's IAPG
+    # Houston keynote; Chevron via Reuters (Oct 2026); Camuzzi (LNG del Plata)
+    # and TGS slides at IAPG Houston; Continental Resources via JPT ("over US$4
+    # billion"); VMOS per YPF ("US$3 billion-plus"). Lower bounds are marked.
+    rows = [
+        ("Argentina LNG (YPF, Eni, XRG)", 51.0, "RIGI submission"),
+        ("LLL Oil (YPF)", 25.0, "RIGI review"),
+        ("El Trapial (Chevron)", 13.8, "RIGI, 30 years"),
+        ("Bajo del Choique-La Invernada (Pluspetrol)", 12.0, "RIGI review"),
+        ("Bandurria Norte (Vista)", 5.8, "RIGI review"),
+        ("LNG del Plata (Camuzzi)", 4.1, "2.4 MTPA, pre-FID"),
+        ("Continental-Mercuria JV", 4.0, "over US$4 bn, 5 years"),
+        ("VMOS oil pipeline", 3.0, "US$3 bn-plus"),
+        ("TGS NGL project", 3.0, "RIGI framework"),
+        ("Los Toldos II Este (Tecpetrol)", 2.4, "RIGI review"),
+        ("San Matias gas pipeline (SESA)", 1.3, "RIGI approved"),
+        ("Loma Jarillosa Este & Puesto Silva Oeste (GeoPark)", 1.0, "RIGI review"),
+    ]
+    return {
+        "horizontal": True,
+        "panels": [{
+            "unit": "US$ bn", "categories": [r[0] for r in rows],
+            "series": [{"name": "Investment", "type": "bar", "role": "accent",
+                        "data": [{"value": r[1], "status": r[2]} for r in rows]}],
+        }],
+        "subtitle": "Announced or submitted investment, US$ bn (different time spans; not additive)",
+        "source": "JPT/BNAmericas; YPF, TGS and Camuzzi at IAPG Houston 2026; Reuters",
+        "approximate": False,
+    }
+
+
 def main():
     for name, fn in [("size_of_prize", size_of_prize), ("oil_evacuation", oil_evacuation),
                      ("frac_stages", frac_stages), ("lng_capacity", lng_capacity)]:
         write(fn(), os.path.join(OUT, f"iapgh2026_{name}.json"))
     write(mpd_flat_time(), os.path.join(OUT, "nabors_mpd_flat_time.json"))
+    write(investment_projects(), os.path.join(OUT, "vm_investment_projects.json"))
 
 
 if __name__ == "__main__":
