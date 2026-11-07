@@ -1,6 +1,6 @@
 ---
 title: "Vaca Muerta at Scale: How Continuous Optimization Is Turning a World-Class Shale Resource into a Global Export Platform"
-description: "Fifteen years of open data on drilling, frac and production show how Vaca Muerta moved down the cost curve through factory pad drilling, managed pressure drilling and commoditized completions, and why the Argentina LNG build-out could make it one of the world's main LNG suppliers."
+description: "Fifteen years of open data on drilling, frac and production show how Vaca Muerta moved down the cost curve through factory pad drilling, managed pressure drilling and commoditized completions, and why the Argentina LNG build-out could make it one of the world's main LNG suppliers, with insights from IAPG Houston's Shale in Argentina 2026 conference and the IAPG's new resource estimate."
 author: Santiago Callerio
 layout: post
 published: false
@@ -11,15 +11,16 @@ excerpt_separator: <!--more-->
 
 **Vaca Muerta has crossed from appraisal to industrial scale. Argentina now fractures 3.6 times more stages a year than
 it did in 2019 with fewer drilling rigs than in 2015, and the fifteen largest unconventional areas produce roughly
-24 times the oil they did a decade ago. The next horizon is no longer technical proof but capital and export
-capacity: operators that keep compounding efficiency gains while securing a position in the oil pipeline and LNG
-build-out are best placed to capture the value of one of the highest-quality shale resources outside North America.**
+24 times the oil they did a decade ago, yet less than 2% of the formation's estimated recoverable oil has been
+produced. The next horizon is no longer technical proof but capital and export capacity: operators that keep compounding efficiency gains while securing a position in the oil pipeline and LNG
+build-out over the next 24 months are best placed to capture the value of one of the highest-quality shale resources
+outside North America.**
 
 <!--more-->
 
 ## The market landscape: from resource proof to capital race
 
-Three structural shifts frame the current moment.
+Four structural shifts frame the current moment.
 
 **Production has moved to records.** Argentina produced about 887,000 barrels of oil per day in May 2026, an
 all-time high and nearly 19% above the year before, with shale accounting for roughly 70% of national output
@@ -50,6 +51,23 @@ industry did not drill more; it redeployed almost all of its effort into one bas
      source_url="http://datos.energia.gob.ar/dataset/7ea2ac77-d7a0-4129-9fbf-6f1a25d94e21"
      note="Meters drilled (cantidad) by basin, province and company." %}
 
+**The resource is deeper than the production record suggests.** A July 2026 study by the IAPG's Exploration and
+Development Commission, prepared at the Secretaría de Energía's request with seven operators and two universities,
+estimates Vaca Muerta's remaining technically recoverable oil at 30.2 billion barrels in its best estimate (18.1
+billion low, 45.1 billion high) as of the end of 2024
+(IAPG, *Estimación de los Recursos Remanentes Técnicamente Recuperables de Petróleo de la Fm. Vaca Muerta*). Only
+558 million barrels had been produced by then. Of the remaining volume, 4.5 billion barrels are reserves, 3.6
+billion contingent resources and 22.0 billion prospective resources, normalized to wells with 3,000 m laterals at
+300 m spacing. Roughly three-quarters of the prize is still to be appraised, which keeps exploration and
+appraisal, and not only development, at the center of capital allocation. Set against the US benchmarks presented
+at IAPG Houston's *Shale in Argentina 2026* conference (Houston, 3 September 2026), Vaca Muerta's mid-case remaining
+oil approaches the Midland Basin's and is about three times the Eagle Ford's, and its remaining gas, at roughly
+260 Tcf in the mid case, exceeds the Delaware Basin's; YPF's keynote placed it fourth among the world's shale oil
+resources and second for shale gas.<sup><a href="#about-the-data">1</a></sup> In S&P Global Energy's assessment at the same event, peak
+productivity per 1,000 lateral feet now rivals the premier US oil and gas plays, oil recovery per foot is among the
+highest of the group, and wellhead breakevens of about US$35–40/bbl for oil and about US$2/Mcf for gas sit within
+the US range: "the remaining discount is increasingly above ground and midstream, not geological."<sup><a href="#about-the-data">1</a></sup>
+
 **Capital is arriving under a new fiscal framework.** The Large Investment Incentive Regime (RIGI) offers 30 years of
 tax, customs and foreign-exchange stability, and energy projects under RIGI review add up to about US$116 billion,
 including YPF's LLL Oil (US$25 billion), Chevron's El Trapial (US$13.8 billion), Pluspetrol's Bajo del
@@ -59,17 +77,37 @@ Choique-La Invernada (US$12 billion), Vista's Bandurria Norte (US$5.8 billion), 
 citing BNAmericas). New entrants are following. Continental Resources and Mercuria signed a heads of agreement for a
 50-50 operating joint venture around Phoenix Global Resources, assembling nearly 163,000 net acres in six blocks
 with a target of lifting output from 28,000 BOED to more than 100,000 BOED within five years on over US$4 billion of
-new capital (same source; the deal still requires definitive agreements and regulatory approvals).
+new capital (same source; the deal still requires definitive agreements and regulatory approvals). Across all
+industries, S&P Global Energy counted about US$200 billion in RIGI applications as of August 2026: 21 approved
+projects worth US$47 billion, including VMOS, Southern Energy LNG, Rincón de Aranda and the Perito Moreno pipeline
+expansion, and 22 pending projects worth US$152 billion, including Argentina LNG, TGS's NGL project, the LLL oil
+cluster and Bandurria Norte.<sup><a href="#about-the-data">1</a></sup> The cost of capital is following: Argentina's sovereign spread on the JP
+Morgan EMBI fell from about 2,600 basis points in 2023 to about 500 by mid-2026, and S&P Global's above-ground risk
+ranking of 113 countries shows Argentina climbing since 2014, with the potential to reach the top 10% by 2031.<sup><a href="#about-the-data">1</a></sup>
+In his Houston keynote, YPF CEO Horacio Marín framed the scale of the effort: about US$130 billion of cumulative
+investment in Vaca Muerta between 2025 and 2031, lifting Argentina to about 1.7 million bbl/d of oil (about 2.2
+times 2025) and 250 MMm³/d of gas (about 1.9 times) from 2031, with additional exports above US$30 billion a year
+and an energy trade surplus of about US$45 billion.<sup><a href="#about-the-data">1</a></sup>
 
 **The binding constraint has shifted from the subsurface to midstream.** The Vaca Muerta Oil Sur (VMOS) pipeline is
 designed for 550,000 bbl/d, expandable to 700,000 bbl/d, with a first phase of 180,000 bbl/d
 ([Industrial Info](https://www.industrialinfo.com/news/article/argentina-breaks-oil-production-record-led-by-vaca-muerta--360725)).
+In Houston, Marín reported the US$3 billion-plus pipeline to Punta Colorada as about 80% complete, with first
+loading planned for January 2027 and capacity ramping from about 180,000 bbl/d in the first quarter of 2027 to about
+390,000 and 550,000 bbl/d later that year and about 700,000 bbl/d from 2028, worth roughly US$4.6 billion, US$10.0
+billion, US$14.1 billion and US$17.9 billion a year in exports at each step.<sup><a href="#about-the-data">1</a></sup> Across the basin, S&P Global
+Energy's outlook has egress capacity more than doubling by the early 2030s, by about 108% for oil and 114% for gas,
+supporting a path toward about 2.7 million boe/d of national production, with unconventional output more than
+doubling its 2025 level by 2030.<sup><a href="#about-the-data">1</a></sup>
 On the gas side, the Argentina LNG project (discussed in the third pillar) would turn a domestic, seasonal market
 into an export business.
 
 The operator landscape behind these numbers is concentrated. YPF has drilled more than twice the cumulative meters
 of the next operator since 2009, and since 2021 about 90% of the meters it drilled in its eight largest fields went
-to its Vaca Muerta blocks: La Amarga Chica, Bandurria Sur and Loma Campana.
+to its Vaca Muerta blocks: La Amarga Chica, Bandurria Sur and Loma Campana. S&P Global Energy's figures make the
+same point at national scale: unconventional production rose from about 10% of Argentina's oil and gas output in
+2015 to about 65% in 2025, growing about 9% a year since 2020, and YPF and the regional independents account for
+about 85% of unconventional oil and 82% of unconventional gas.<sup><a href="#about-the-data">1</a></sup>
 
 {% include line-race.html
      id="metros-line-race"
@@ -117,9 +155,16 @@ wells to running a manufacturing system, and the data shows the results in outpu
   ([EconoJournal](https://econojournal.com.ar/oilgas/ypf-inauguro-el-real-time-intelligence-center-para-controlar-e-intervenir-la-perforacion-y-fractura-de-sus-pozos-en-vaca-muerta-de-forma-remota/)).
   YPF has reported drilling a 1,747 m horizontal section in under 24 hours
   ([EconoJournal](https://econojournal.com.ar/oilgas/mejora-en-la-competitividad-de-vaca-muerta-ypf-perforo-un-pozo-horizontal-de-1747-metros-en-menos-24-horas/)).
+  In Houston, Marín described the center as staffed by more than 1,000 engineers across upstream and downstream,
+  and service companies described real-time monitoring hubs covering up to about 130 rigs and AI-assisted drilling
+  optimization.<sup><a href="#about-the-data">1</a></sup>
   - *Impact:* Argentina's active rig count averaged about 105 in 2015 and 41 in 2025 (Baker Hughes), yet the
     lateral length fractured per active rig rose roughly 5x between 2019 and 2025, from about 6 km to about 33 km a
     year. Fewer, higher-specification rigs now deliver the basin's growth.
+  - *Impact:* The learning curve is steep. Chevron's president of shale and tight told the conference that the
+    company's Argentine drilling efficiency improved within about 50 wells, against roughly 300 wells for a
+    comparable gain in the Permian, and that running shale as one integrated portfolio across basins, with the
+    same service contracts and shared know-how, cut capital per barrel by about 25%.<sup><a href="#about-the-data">1</a></sup>
 - **Lever: managed pressure drilling (MPD) as a system, not a contingency.** Longer laterals raise equivalent
   circulating density and surge and swab pressures, narrowing an already tight pore-to-fracture window in the
   Quintuco and Vaca Muerta formations. MPD has become standard in the basin for this reason
@@ -135,7 +180,9 @@ wells to running a manufacturing system, and the data shows the results in outpu
   rig count through the cycle (correlation of 0.7 since 2013) but has pulled away from it since 2021: with pad
   drilling, each rig works on more than one well a month.
   - *Impact:* Rig count alone now understates activity. Boards tracking the basin should read rigs, wells and frac
-    stages together.
+    stages together. The headroom is large: the activity comparison shown in Houston put Vaca Muerta's active rigs
+    at about 16% of the Permian's and its annual frac stages at about 4% of US land, and service companies expected
+    12 to 14 new rigs to arrive by late 2027 or early 2028, which would require about three more frac fleets.<sup><a href="#about-the-data">1</a></sup>
 
 {% include energy-chart.html
      kind="candles"
@@ -188,6 +235,10 @@ increased completion intensity on every axis while working to turn the frac itse
   ([SLB, with Vista](https://www.slb.com/resource-library/case-study-with-navigation/rpst/wet-sand-fracturing-vista-energy-argentina-vaca-muerta-basin-cs)).
   Switching fleets from diesel to local gas is estimated by one supplier at about US$30 million a year per fleet
   ([LM Neuquén](https://mase.lmneuquen.com/vaca-muerta-marcelo-guiscardo-ahorro-sets-fractura)).
+  The service panel in Houston framed the next gains in the same terms: more value from each unit of capacity
+  through simul-frac, lower non-productive time and more stages per day, with one provider citing about 1,200 frac
+  stages a month and another about 30% of its fleet converted to dual fuel. The binding constraint they named was
+  people: skilled crews, and engineers and data specialists able to turn real-time data into decisions.<sup><a href="#about-the-data">1</a></sup>
   - *Impact:* Frac stages pumped in Argentina rose from about 6,300 in 2019 to about 22,500 in 2025, a 3.6x increase,
     while the number of wells fractured rose only about 1.4x. Forecasts point to about 28,000 stages in 2026 and
     about 39,000 in 2027 ([El Economista](https://eleconomista.com.ar/energia/fucello-vaca-muerta-ya-demostro-recurso-ahora-debe-demostrar-escala-n98006)).
@@ -374,6 +425,14 @@ markets.
   14,000 bbl/d of unconventional oil over the last twelve months.
   - *Impact:* With the core largely held, the next value pools sit in exploration permits and underdeveloped
     concessions, where partnering structures and RIGI qualification will decide the pace of development.
+- **Lever: active portfolio management.** Operators are high-grading toward shale. Marín contrasted conventional
+  lifting costs of about US$20–90/bbl with about US$3–4/bbl in Vaca Muerta to explain YPF's exit from mature
+  conventional blocks (and from Metrogas). Pluspetrol presented itself as a pure shale player after acquiring
+  ExxonMobil's Vaca Muerta assets and divesting conventional fields, and GeoPark described its entry into the
+  black-oil window, where it started drilling in March 2026 with a plan of 50 to 55 wells at 10 to 15 a year from a
+  single high-specification rig, relying on VMOS to evacuate its oil.<sup><a href="#about-the-data">1</a></sup>
+  - *Impact:* Capital is concentrating where the cost per barrel is lowest; for newer entrants, access to
+    evacuation capacity is as important as the acreage itself.
 
 {% include energy-chart.html
      kind="vm-blocks"
@@ -386,18 +445,35 @@ markets.
      source_url="https://hidrocarburos.energianeuquen.gob.ar/gis"
      note="Blocks and fluid windows simplified for the web." %}
 
-- **Lever: LNG as the upside option.** YPF's "4x4" strategy rests on four pillars, with the Argentina LNG export
-  project alongside the acceleration of Vaca Muerta
-  ([YPF Form 20-F, FY2025](https://www.sec.gov/Archives/edgar/data/904851/000119312526126363/d95578d20f.htm)). The
+- **Lever: LNG as the upside option.** YPF's "4x4" strategy
+  ([YPF Form 20-F, FY2025](https://www.sec.gov/Archives/edgar/data/904851/000119312526126363/d95578d20f.htm)) rests
+  on four pillars, as presented in Houston: focus on the most profitable business (Vaca Muerta oil), active
+  portfolio management, upstream and downstream efficiency, and the Argentina LNG project.<sup><a href="#about-the-data">1</a></sup> The
   project's first stage, with Eni and XRG, is designed around two 6 MTPA floating LNG units for 12 MTPA in total,
   with YPF retaining 36% and Eni and XRG holding 32% each
   ([Pipeline & Gas Journal](https://pgjonline.com/news/2026/february/ypf-eni-xrg-advance-12-mmtpy-argentina-lng-toward-fid)).
   With a reported cost of about US$51 billion, the project had 27 of its 28 required contracts agreed as of early
   November 2026 and a final investment decision targeted for late November, with first cargo expected around 2030
   ([The Rio Times](https://www.riotimesonline.com/argentina-ypf-argentina-lng-27-of-28-contracts-2026/),
-  [Latin Times](https://www.latintimes.com/ypf-argentina-lng-project-offtake-contracts-600874)). Separately, a
-  27 MMm³/d pipeline from Tratayén to the Southern Energy consortium's floating LNG vessel is targeted for mid-2028
-  ([NGI](https://naturalgasintel.com/news/ypf-eyes-year-end-pipeline-fid-as-vaca-muerta-natural-gas-expansion-advances/)).
+  [Latin Times](https://www.latintimes.com/ypf-argentina-lng-project-offtake-contracts-600874)).
+  YPF's Houston keynote set out the full program at about 18 MTPA, expandable to about 24 MTPA:<sup><a href="#about-the-data">1</a></sup>
+  - *Southern Energy (SESA), about 6 MTPA, tolling:* two chartered FLNG vessels, Hilli (2.45 MTPA, start-up in the
+    second half of 2027) and MKII (3.5 MTPA, second half of 2028), fed by the RIGI-approved San Matías pipeline
+    (about US$1.3 billion, 27 MMm³/d, about 470 km from Tratayén, mid-2028;
+    [NGI](https://naturalgasintel.com/news/ypf-eyes-year-end-pipeline-fid-as-vaca-muerta-natural-gas-expansion-advances/)), with YPF holding 25%. Marín's first cargo is bound
+    for Germany in the third quarter of 2027.
+  - *Argentina LNG, about 12 MTPA:* two owned 6 MTPA FLNG units, about US$24 billion of infrastructure capex, final
+    investment decision in 2026 and start-up in 2030–31, supplied by five shale blocks with about 20 Tcf, about
+    1,400 wells and peak gas production of about 60 MMm³/d, through a multi-product pipeline that also carries
+    ethane, LPG and condensate.
+  - *Expansion, about 6 MTPA:* one more FLNG unit for about US$8 billion, decision in 2027–28 and start-up around
+    2032, needing about 10 Tcf, 30 MMm³/d and 600 more wells.
+
+  The demand side was set out by S&P Global Energy: about 176 MTPA of new LNG supply capacity will be required by
+  2050, with a new wave needed in the early 2030s, just as Argentine volumes would arrive and as US Lower 48 output
+  matures. The midstream panel added that LNG buyers increasingly value flexibility, reliability and protection
+  from geopolitical risk, and that NGLs can become a source of value and diversification rather than a
+  by-product.<sup><a href="#about-the-data">1</a></sup>
   - *Impact:* LNG would decouple gas development from Argentina's seasonal domestic demand and give the dry- and
     wet-gas windows an export outlet. If the build-out proceeds, it would place Vaca Muerta among the world's
     significant LNG supply sources by the early 2030s. The milestones are still ahead, and execution risk on
@@ -405,12 +481,16 @@ markets.
 
 ## The path forward
 
-The basin's economics are now proven; the open question is who converts them into durable returns. Three
-diagnostic questions can help boards and management teams prioritize:
+S&P Global Energy summarized Vaca Muerta's progress as a sequence of de-risking milestones: the geology and the
+repeatability of production at scale are proven, market access is being built, and the durability of the rules for
+capital is now being tested, with the next 24 months critical.<sup><a href="#about-the-data">1</a></sup> The open question is who converts the
+basin's economics into durable returns. Three diagnostic questions can help boards and management teams
+prioritize:
 
 1. **Is our well-construction system improving at the basin's rate?** Compare lateral meters and stages delivered
    per rig and per frac fleet against the leaders, and test whether MPD, pad design and real-time operations are
-   deployed as one system or as separate projects.
+   deployed as one system or as separate projects, and whether the people and data skills behind them can scale
+   with 12 to 14 additional rigs.
 2. **Where are we on the completion cost curve, and what is still not commoditized?** Separate the gains already
    captured from intensity (lateral length and stage density) from those still available through fleet energy,
    sand logistics and simul-frac utilization.
@@ -427,6 +507,14 @@ in this post are refreshed monthly so that progress can be tracked as it happens
   (Capítulo IV). Neuquén blocks and Vaca Muerta fluid windows: the Neuquén Ministry of Energy's public GeoServer.
   Rig counts: the [Baker Hughes Worldwide Rig Count](https://rigcount.bakerhughes.com/intl-rig-count) (*WW Monthly*,
   Latin America, Argentina, active rigs; July 2025 and September 2026 reports and the 2007–2024 regional history).
+- **Conference insights.** <sup>1</sup> Figures and statements from IAPG Houston's 5th *Shale in Argentina:
+  Unleashing Vaca Muerta to the World* conference (Houston, 3 September 2026) come from the presentations shown
+  there (YPF's keynote, S&P Global Energy and the IAPG/IAPG Houston context slides, which cite the IAPG reports,
+  Pickering Energy Partners, Fundación Contactos Energéticos, the Secretaría de Energía, USGS and JP Morgan) and
+  from the author's session notes, which are paraphrased. Values read from charts are approximate, and the figures
+  are as presented, not independently verified. The resource estimate is from the IAPG Comisión de
+  Exploración y Desarrollo de Hidrocarburos, *Estimación de los Recursos Remanentes Técnicamente Recuperables de
+  Petróleo de la Fm. Vaca Muerta disponibles al 31 de diciembre de 2024* (July 2026), best estimate (Pmean).
 - **Method.** Data is processed in Python with pandas (`script/`) and drawn with
   [Apache ECharts](https://echarts.apache.org/examples/en/index.html). Meters-drilled races are cumulative sums per
   company with a logarithmic axis, because YPF is roughly ten times larger than most operators. Frac races are
