@@ -7,6 +7,9 @@ published: false
 categories: Data_Analytics
 tags: [argentina, vaca muerta, unconventional, managed pressure drilling, lng, data analytics, interactive visualization, echarts]
 excerpt_separator: <!--more-->
+image: {path: "/images/iapgh-2026-shale-in-argentina_bw.jpg", width: 2000, height: 1500, alt: "The author on stage at IAPG Houston's Shale in Argentina 2026 conference"}
+image_position: 40%
+image_caption: 'IAPG Houston, Shale in Argentina 2026 (Houston, 3 September 2026). Photo by Santiago Callerio'
 ---
 
 **Vaca Muerta has crossed from appraisal to industrial scale. Argentina now fractures 3.6 times more stages a year than
@@ -68,6 +71,16 @@ productivity per 1,000 lateral feet now rivals the premier US oil and gas plays,
 highest of the group, and wellhead breakevens of about US$35–40/bbl for oil and about US$2/Mcf for gas sit within
 the US range: "the remaining discount is increasingly above ground and midstream, not geological."<sup><a href="#about-the-data">1</a></sup>
 
+{% include energy-chart.html
+     kind="bars"
+     id="iapgh-size-of-prize"
+     data="/data/processed/iapgh2026_size_of_prize.json"
+     title="Vaca Muerta against the main US shale basins"
+     height="540px"
+     source_name="IAPG reports and Pickering Energy Partners, as shown at IAPG Houston's Shale in Argentina 2026"
+     source_url="#about-the-data"
+     note="Re-plotted from the conference slide; US-basin values read from the chart and approximate. Vaca Muerta oil: IAPG, July 2026." %}
+
 **Capital is arriving under a new fiscal framework.** The Large Investment Incentive Regime (RIGI) offers 30 years of
 tax, customs and foreign-exchange stability, and energy projects under RIGI review add up to about US$116 billion,
 including YPF's LLL Oil (US$25 billion), Chevron's El Trapial (US$13.8 billion), Pluspetrol's Bajo del
@@ -101,6 +114,16 @@ supporting a path toward about 2.7 million boe/d of national production, with un
 doubling its 2025 level by 2030.<sup><a href="#about-the-data">1</a></sup>
 On the gas side, the Argentina LNG project (discussed in the third pillar) would turn a domestic, seasonal market
 into an export business.
+
+{% include energy-chart.html
+     kind="bars"
+     id="iapgh-oil-evacuation"
+     data="/data/processed/iapgh2026_oil_evacuation.json"
+     title="Vaca Muerta oil production vs evacuation capacity"
+     height="460px"
+     source_name="TGS, as shown at IAPG Houston's Shale in Argentina 2026"
+     source_url="#about-the-data"
+     note="Re-plotted from the conference slide; values as printed on it." %}
 
 The operator landscape behind these numbers is concentrated. YPF has drilled more than twice the cumulative meters
 of the next operator since 2009, and since 2021 about 90% of the meters it drilled in its eight largest fields went
@@ -173,9 +196,26 @@ wells to running a manufacturing system, and the data shows the results in outpu
   integrated MPD systems ([Drilling Contractor](https://drillingcontractor.org/archer-wins-five-year-ypf-drilling-award-in-vaca-muerta-76168)).
   As discussed in [Beyond the Bit: How Holistic Managed Pressure Drilling Is Redefining the Well Construction
   Playbook in Vaca Muerta]({% post_url 2025-08-10-holistic-mpd-vaca-muerta %}), extending MPD from influx management to the full well lifecycle can safely extend lateral reach by about 70%, cut
-  tripping time in half and take cementing off the critical path.
+  tripping time in half and take cementing off the critical path. Integration with the rig matters as much as
+  the technique: in a Nabors case study comparing two Vaca Muerta operators, MPD built into the rig, with a dual
+  choke manifold and automated pump ramp-ups and ramp-downs, cut MPD-related flat time per well from 32.7 to 23.5
+  hours between 2022 and late 2023 (28%) and stayed 6.5 hours below conventional MPD, while rotary ROP rose 36%,
+  weight-to-weight connection times fell 40% and the automation suite saved about 10 days per well cycle
+  ([Nabors](https://www.nabors.com/wp-content/uploads/2024/08/CASE-STUDY-Integra-MPD-Ready-Argentina-1211-2024-Final.pdf)).
   - *Impact:* MPD is what makes the step-change in lateral length below drillable at factory pace; without it,
-    longer wells would buy reservoir contact at the expense of non-productive time.
+    longer wells would buy reservoir contact at the expense of non-productive time. Deployed as part of the rig
+    rather than as a third-party add-on, it also removes rig-up time and flat time from every pad move.
+
+{% include energy-chart.html
+     kind="bars"
+     id="nabors-mpd-flat-time"
+     data="/data/processed/nabors_mpd_flat_time.json"
+     title="MPD-related flat time per well: conventional vs rig-integrated MPD"
+     height="420px"
+     source_name="Nabors, Integra MPD Ready & SmartDRILL case study (2024)"
+     source_url="https://www.nabors.com/wp-content/uploads/2024/08/CASE-STUDY-Integra-MPD-Ready-Argentina-1211-2024-Final.pdf"
+     note="Re-plotted from the case study; Operator 1 with non-Nabors MPD vs Operator 2 with Nabors MPD, rig 1211." %}
+
 - **Lever: wells, not rigs, as the activity unit.** The official count of wells being drilled each month follows the
   rig count through the cycle (correlation of 0.7 since 2013) but has pulled away from it since 2021: with pad
   drilling, each rig works on more than one well a month.
@@ -242,6 +282,16 @@ increased completion intensity on every axis while working to turn the frac itse
   - *Impact:* Frac stages pumped in Argentina rose from about 6,300 in 2019 to about 22,500 in 2025, a 3.6x increase,
     while the number of wells fractured rose only about 1.4x. Forecasts point to about 28,000 stages in 2026 and
     about 39,000 in 2027 ([El Economista](https://eleconomista.com.ar/energia/fucello-vaca-muerta-ya-demostro-recurso-ahora-debe-demostrar-escala-n98006)).
+
+{% include energy-chart.html
+     kind="bars"
+     id="iapgh-frac-stages"
+     data="/data/processed/iapgh2026_frac_stages.json"
+     title="Vaca Muerta frac stages per year, with projections"
+     height="440px"
+     source_name="Fundación Contactos Energéticos (fracstages.com), as shown at IAPG Houston's Shale in Argentina 2026"
+     source_url="#about-the-data"
+     note="Re-plotted from the conference slide; values as printed on it. 2026: 16,968 stages to July plus the annualized estimate." %}
 
 {% include line-race.html
      id="fractura-lateral-line-race"
@@ -479,6 +529,16 @@ markets.
     significant LNG supply sources by the early 2030s. The milestones are still ahead, and execution risk on
     financing, offtake and construction remains material.
 
+{% include energy-chart.html
+     kind="bars"
+     id="iapgh-lng-capacity"
+     data="/data/processed/iapgh2026_lng_capacity.json"
+     title="Argentina's announced LNG export capacity"
+     height="360px"
+     source_name="McKinsey Energy Insights, as shown at IAPG Houston's Shale in Argentina 2026"
+     source_url="#about-the-data"
+     note="Re-plotted from the conference slide; values as printed on it." %}
+
 ## The path forward
 
 S&P Global Energy summarized Vaca Muerta's progress as a sequence of de-risking milestones: the geology and the
@@ -512,7 +572,11 @@ in this post are refreshed monthly so that progress can be tracked as it happens
   there (YPF's keynote, S&P Global Energy and the IAPG/IAPG Houston context slides, which cite the IAPG reports,
   Pickering Energy Partners, Fundación Contactos Energéticos, the Secretaría de Energía, USGS and JP Morgan) and
   from the author's session notes, which are paraphrased. Values read from charts are approximate, and the figures
-  are as presented, not independently verified. The resource estimate is from the IAPG Comisión de
+  are as presented, not independently verified. Five charts re-plot data from reference material rather than
+  open data, without reproducing the original slides: the size-of-the-prize comparison (IAPG reports and Pickering
+  Energy Partners), oil production against evacuation capacity (TGS), frac stages with projections (Fundación
+  Contactos Energéticos), announced LNG capacity (McKinsey Energy Insights) and MPD flat time (Nabors case study).
+  Their values are in `script/reference_chart_data.py`, with each source and which values were read off a chart. The resource estimate is from the IAPG Comisión de
   Exploración y Desarrollo de Hidrocarburos, *Estimación de los Recursos Remanentes Técnicamente Recuperables de
   Petróleo de la Fm. Vaca Muerta disponibles al 31 de diciembre de 2024* (July 2026), best estimate (Pmean).
 - **Method.** Data is processed in Python with pandas (`script/`) and drawn with

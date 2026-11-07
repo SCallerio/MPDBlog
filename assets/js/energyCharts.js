@@ -20,6 +20,8 @@
 //                                                               (process_produccion.py)
 //   'vm-blocks'     {blocks, contracts, ...} + opts.geoUrl = [provinces, neuquen-areas]
 //                                                               (process_neuquen_areas.py)
+//   'bars'          {panels:[{categories, series, unit, title}], subtitle, source, ...}
+//                                                               (reference_chart_data.py)
 
 (function () {
   const T = window.MPDChartTheme;
@@ -863,9 +865,125 @@
     },
   };
 
+  // ------------------------------------------------- re-plotted slide charts
+  // Simple bar/line charts for data re-plotted from conference slides
+  // (script/reference_chart_data.py): one or more panels side by side, bars
+  // and lines, stacked bars with totals, horizontal bars, and a highlighted
+  // category drawn in the blog accent while the others stay neutral.
+  const SHADES = {
+    light: { hi: [BLOG_RAMP.light[2], BLOG_RAMP.light[4], BLOG_RAMP.light[6]], lo: ['#d4d3cf', '#A4A3A8', '#757575'] },
+    dark:  { hi: [BLOG_RAMP.dark[2], BLOG_RAMP.dark[4], BLOG_RAMP.dark[6]], lo: ['#3d3d44', '#757575', '#A4A3A8'] },
+  };
+  const bars = {
+    setup(chart, data, theme, opts, extra, el) {
+      const ink = INK[theme];
+      const B = BLOG[theme];
+      const role = r => ({
+        accent: B.accent, ink: B.ink, gray: B.gray, soft: B.soft,
+        accent2: BLOG_RAMP[theme][theme === 'dark' ? 3 : 2],
+        projection: BLOG_RAMP[theme][theme === 'dark' ? 2 : 1],
+      }[r] || B.accent);
+      const panels = data.panels;
+      // Labels show the value as given (no k-rounding, so close values stay distinct).
+      const num = v => (Math.abs(v) >= 1000 ? Math.round(v).toLocaleString('en-US') : String(v));
+      const n = panels.length;
+      const wide = el.clientWidth >= 700;
+      const side = n > 1 && wide;
+      // On narrow screens the title and subtitle wrap, so everything below moves down.
+      const narrow = el.clientWidth < 700;
+      const top = narrow ? 150 : 96;
+      const legendTop = narrow ? 104 : 52;
+      const grids = [], xAxes = [], yAxes = [], series = [];
+      const head0 = title(opts.title, data.subtitle + (data.approximate ? ' · values read from the slide, approximate' : ''), ink);
+      head0.textStyle = Object.assign({}, head0.textStyle, { width: el.clientWidth - 10, overflow: 'break' });
+      head0.subtextStyle = Object.assign({}, head0.subtextStyle, { width: el.clientWidth - 10, overflow: 'break' });
+      const titles = [Object.assign(head0, { left: 0 })];
+      // Panels sit side by side when there is room, otherwise one above the other.
+      const panelH = (el.clientHeight - top - 10) / n;
+      panels.forEach((pn, k) => {
+        const head = pn.title ? 28 : 0;
+        const g = side
+          ? { left: (k * 100 / n + 1) + '%', width: (100 / n - 6) + '%', top: top + head, bottom: 40, containLabel: true }
+          : { left: 0, right: data.horizontal ? 150 : 30, top: top + head + k * panelH, height: panelH - head - 40,
+              containLabel: true };
+        grids.push(g);
+        if (pn.title) {
+          titles.push({ text: pn.title + (pn.unit ? ' (' + pn.unit + ')' : ''),
+                        left: side ? (k * 100 / n + 1) + '%' : 0, top: g.top - 26,
+                        textStyle: { color: ink.text, fontSize: 13, fontWeight: 600, fontFamily: 'Poppins, sans-serif' } });
+        }
+        const cat = { type: 'category', data: pn.categories, gridIndex: k,
+                      axisLabel: { color: ink.text, fontSize: 11, interval: 0,
+                                   rotate: narrow && !data.horizontal && pn.categories.length > 6 ? 45 : 0 },
+                      axisLine: { lineStyle: { color: ink.grid } }, axisTick: { show: false } };
+        // The unit is in the panel title or the subtitle, so the axis carries none.
+        const val = { type: 'value', gridIndex: k,
+                      axisLabel: { color: ink.muted, formatter: v => fmtAxis(v) },
+                      splitLine: { lineStyle: { color: ink.grid } } };
+        if (data.horizontal) { xAxes.push(val); yAxes.push(Object.assign(cat, { inverse: true })); }
+        else { xAxes.push(cat); yAxes.push(val); }
+
+        // Stacked bars: the total goes on the topmost segment of each column.
+        const topOf = {};
+        pn.series.forEach((sr, j) => sr.data.forEach((v, i) => {
+          const val = v && typeof v === 'object' ? v.value : v;
+          if (sr.stack && val != null) topOf[i] = j;
+        }));
+        pn.series.forEach((sr, j) => {
+          const isLine = sr.type === 'line';
+          const base = data.shades ? SHADES[theme].lo[j % 3] : role(sr.role);
+          const items = sr.data.map((v, i) => {
+            const item = v && typeof v === 'object' ? Object.assign({}, v) : { value: v };
+            if (data.shades && pn.categories[i] === data.highlight) item.itemStyle = { color: SHADES[theme].hi[j % 3] };
+            if (item.role) item.itemStyle = { color: role(item.role) };
+            if (sr.role === 'projection') {
+              item.itemStyle = Object.assign({ color: base, borderColor: B.accent, borderType: 'dashed', borderWidth: 1 }, item.itemStyle || {});
+            }
+            return item;
+          });
+          series.push({
+            type: isLine ? 'line' : 'bar', name: sr.name, data: items, stack: sr.stack,
+            xAxisIndex: k, yAxisIndex: k,
+            itemStyle: { color: base, borderRadius: sr.stack ? 0 : (data.horizontal ? [0, 3, 3, 0] : [3, 3, 0, 0]) },
+            barMaxWidth: data.horizontal ? 26 : 34, barGap: '12%',
+            lineStyle: { color: base, width: 3 }, symbolSize: 8, symbol: 'circle', z: isLine ? 5 : 2,
+            label: {
+              show: true, color: ink.text, fontSize: 10,
+              position: data.horizontal ? 'right' : (isLine ? 'bottom' : 'top'),
+              distance: isLine ? 10 : 5,
+              fontWeight: isLine ? 600 : 400,
+              formatter: p => {
+                if (p.value == null) return '';
+                if (sr.stack) return topOf[p.dataIndex] === j ? fmtValue((pn.totals || [])[p.dataIndex] || p.value, '') : '';
+                const st = p.data && p.data.status && !narrow ? '  ' + p.data.status : '';
+                return num(p.value) + st;
+              },
+            },
+            animationDuration: 1400, animationEasing: 'cubicOut',
+            animationDelay: i => i * 60,
+          });
+        });
+      });
+      // Legend swatches for per-item roles (e.g. project status).
+      const legendData = data.legend ? data.legend.map(l => l.label) : null;
+      // (Empty line series, so they take no bar slot.)
+      if (data.legend) data.legend.forEach(l => series.push({ type: 'line', name: l.label, data: [],
+        xAxisIndex: 0, yAxisIndex: 0, itemStyle: { color: role(l.role) }, lineStyle: { color: role(l.role) } }));
+      chart.setOption({
+        backgroundColor: 'transparent',
+        title: titles,
+        legend: { top: legendTop, left: 0, icon: 'roundRect', textStyle: { color: ink.muted, fontSize: 11 },
+                  data: legendData || undefined, selectedMode: !data.legend },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' },
+                   valueFormatter: v => (v == null ? '–' : num(v)) },
+        grid: grids, xAxis: xAxes, yAxis: yAxes, series,
+      }, true);
+    },
+  };
+
   const KINDS = { 'bar-race': barRace, 'province-map': provinceMap, treemap, bubbles, candles,
                   radar, calendar, 'change-treemap': changeTree, sankey, 'wells-map': wellsMap,
-                  'vm-blocks': vmBlocks };
+                  'vm-blocks': vmBlocks, bars };
 
   // Candle data may come from several files: their indicators are concatenated.
   function load(dataUrl) {
@@ -894,11 +1012,13 @@
         };
         draw();
         let wide = el.clientWidth >= 860;
+        let barsWide = el.clientWidth >= 700;
         window.addEventListener('resize', () => {
           chart.resize();
           // Charts whose layout depends on the width (map beside or above the
           // bars) are redrawn when they cross the breakpoint.
           if (kind === 'wells-map' && (el.clientWidth >= 860) !== wide) { wide = !wide; draw(); }
+          if (kind === 'bars' && (el.clientWidth >= 700) !== barsWide) { barsWide = !barsWide; draw(); }
         });
         const replay = document.getElementById(containerId + '-replay');
         if (replay) replay.addEventListener('click', () => { opts._restart = true; draw(); opts._restart = false; });
